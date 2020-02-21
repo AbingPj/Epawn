@@ -1,0 +1,26 @@
+on the validity of item category
+('valid' field)
+1 = from super admin (for use)
+0 = request from user (pending)
+3 = declined by super admin (for not to use)
+
+on the status of the item 
+('status' field)
+0 = on bid 
+1 = pending (naka deal na sa appraisal price pero wala pa ang item)
+2 = pawned (same sa #1 pero na valdiate na ang item)
+3 = claimed (kani is na lukat na ang item sa naka saad na presyo sa item)
+4 = rejected 
+
+on user validation 
+('isValid' field)
+0 = user is in the process of validation (pending)
+1 = user is valid
+2 = user is not valid
+3 = user is expired
+
+
+
+nexmo accnt
+liverayam@gmail.com
+Jeremiah75931
