@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
+
 export default {
 	data() {
 		return {
@@ -89,9 +91,14 @@ export default {
 			await axios
 				.post("api/sendReport", this.report)
 				.then(res => {
-                    console.log("success");
                     $('#reportModal').modal('hide');
 					this.clear();
+					Swal.fire({
+						title: "User Reported",
+						toast: true,
+						timer: 3000,
+						position: "top-right"
+					});
 				})
 				.catch(err => {
 					console.error(err);

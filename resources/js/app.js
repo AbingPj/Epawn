@@ -26,6 +26,7 @@ import ProfileComponent2 from './components/NewComponents/ProfileComponent2.vue'
 Vue.component("modal-edit-pacakge", require("./components/Modal/ModalEditPacakge.vue").default);
 Vue.component("modal-add-pacakge", require("./components/Modal/ModalAddPacakge.vue").default);
 Vue.component("modal-report-user", require("./components/Modal/ModalReportUser.vue").default);
+Vue.component("reported-users", require("./components/NewComponents/SuperAdminReportedUsers.vue").default);
 ////////////////////////////////////////////
 
 const router = new VueRouter({

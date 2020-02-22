@@ -123,6 +123,6 @@ Route::post('/viewPawnshopCategories2','zPackageController@viewPawnshopCategorie
 Route::post('/addPackageToPawnshop','zPackageController@addPackageToPawnshop');;
 Route::post('/editPackageOfPawnshop','zPackageController@editPackageOfPawnshop');;
 
-Route::get('/reports', 'zUserReportsController@getReports' );;
+Route::get('/getReports', 'zUserReportsController@getReports' );;
 Route::post('/sendReport', 'zUserReportsController@sendReport' );;
 ////////////////////////////////////////////////////////////////////////////
