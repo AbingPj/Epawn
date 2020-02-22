@@ -21,6 +21,12 @@ import SuperAdminDashboard from './components/SuperAdminDashboard.vue';
 import AdminNotification from './components/AdminNotification.vue';
 import Signup from './components/Signup.vue';
 
+//////////////   Added By Abing    //////////
+import ProfileComponent2 from './components/NewComponents/ProfileComponent2.vue';
+Vue.component("modal-edit-pacakge", require("./components/Modal/ModalEditPacakge.vue").default);
+Vue.component("modal-add-pacakge", require("./components/Modal/ModalAddPacakge.vue").default);
+////////////////////////////////////////////
+
 const router = new VueRouter({
     mode: 'history',
     routes: [
@@ -60,7 +66,15 @@ const router = new VueRouter({
             path : '/Signup',
             name : 'signup',
             component : Signup
-        }
+        },
+
+        //////// New Routes Components Added By Abing
+        {
+            path: '/MyProfile2',
+            name: 'profile2',
+            component: ProfileComponent2
+        },
+        /////////////////////////////////////
     ],
 });
 

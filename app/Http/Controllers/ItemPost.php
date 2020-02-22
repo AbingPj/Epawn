@@ -20,11 +20,52 @@ class ItemPost extends Controller
             ->get();
     }
     public function getUserItem(Request $request){
-        return DB::table('tbl_user_itempost AS itemPost')
-        ->leftJoin('tbl_item_photo as itemPhoto','itemPhoto.item_id','=','itemPost.item_id')
-        ->where('itemPost.user_id', $request->userId)
-        ->select('itemPost.*','itemPhoto.*', 'itemID AS itemPost.item_id')
+        return DB::table('tbl_user_itempost')
+        ->where('user_id', $request->userId)
         ->get();
+    }
+    public function getUserItemPhotos(Request $request){
+        return DB::table('tbl_item_photo')
+        ->where('item_id', $request->itemId)
+        ->get();
+    }
+      public function allItemPhotos(){
+        return DB::table('tbl_item_photo')
+        ->get();
+    }
+    public function uploadPhotoData(Request $request){
+         $uploadDir = "images/";
+        DB::table('tbl_item_photo')->insert(
+        [
+            'item_id' => $request->itemId,
+            'item_photos' => $request->picture1
+        ]);
+          DB::table('tbl_item_photo')->insert(
+        [
+            'item_id' => $request->itemId,
+            'item_photos' => $request->picture2
+        ]);
+          DB::table('tbl_item_photo')->insert(
+        [
+            'item_id' => $request->itemId,
+            'item_photos' => $request->picture3
+        ]);
+          DB::table('tbl_item_photo')->insert(
+        [
+            'item_id' => $request->itemId,
+            'item_photos' => $request->picture4
+        ]);
+    }
+    public function uploadUserItemPhotos(Request $req){
+         $uploadDir = "images/";
+    
+        if($req->file('ionicfile') != null){
+            $mainPicture = $req->file('ionicfile');
+            $imageMainPictureSanitizedName = $mainPicture->getClientOriginalName();
+            $mainPicture->move($uploadDir, $imageMainPictureSanitizedName); 
+        }else{
+            $imageMainPictureSanitizedName = 'no-image.png';
+        } 
     }
     public function getSingleItem($id)
     {

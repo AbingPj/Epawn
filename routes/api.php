@@ -78,6 +78,9 @@ Route::get('/mobile/getItemCategories','PackageController@getItemCategories');;
 Route::post('/mobile/uploadItem','ItemPost@addItemPost');;
 Route::post('/mobile/getItems','ItemPost@getUserItem');;
 Route::post('/mobile/addItemPostImage','ItemPost@addItemPostImage');;
+Route::post('/mobile/getUserItemPhotos','ItemPost@getUserItemPhotos');;
+Route::post('/mobile/uploadUserItemPhotos','ItemPost@uploadUserItemPhotos');;
+Route::post('/mobile/uploadPhotoData','ItemPost@uploadPhotoData');;
 
 
 Route::get('/mobile/getUserDetails/{userId}', 'UserController@getUserDetails');;
@@ -109,3 +112,17 @@ Route::post('/mobile/viewDurations','PackageController@viewDurations');;
 Route::post('/mobile/viewPawnshopCategories','PackageController@viewPawnshopCategories');
 
 Route::post('/mobile/getPawnshopsOnBid','BidController@getPawnshopsOnBid');;
+
+
+
+
+
+///////////////////////routes added by abing////////////////////////////////
+Route::post('/getPawnshopPackages2','zPackageController@getPawnshopPackages2');;
+Route::post('/viewPawnshopCategories2','zPackageController@viewPawnshopCategories2');;
+Route::post('/addPackageToPawnshop','zPackageController@addPackageToPawnshop');;
+Route::post('/editPackageOfPawnshop','zPackageController@editPackageOfPawnshop');;
+
+Route::get('/reports', 'zUserReportsController@getReports' );;
+Route::post('/sendReport', 'zUserReportsController@sendReport' );;
+////////////////////////////////////////////////////////////////////////////
