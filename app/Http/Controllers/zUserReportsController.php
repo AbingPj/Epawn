@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\tbl_user_report;
 
-class UserReportsController extends Controller
+class zUserReportsController extends Controller
 {
     public function sendReport(Request $request){
         $report = new tbl_user_report;
