@@ -287,7 +287,54 @@
       <!-- Package trigger modal -->
       <modal-add-pacakge></modal-add-pacakge>
       <modal-edit-pacakge ref="modalEditPackageRef"></modal-edit-pacakge>
-      
+
+      <!-- Modal for category acceptance request -->
+
+      <div
+         class="modal fade"
+         id="requestModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true"
+      >
+         <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                     <i class="fa fa-archive" aria-hidden="true"></i> Request an item category
+                  </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body row">
+                  <div class="col-12">
+                     <small style="color: #f57224;">Category Name</small>
+                     <br />
+                     <input
+                        type="text"
+                        v-model="categoryRequest.category_name"
+                        class="form-control"
+                     />
+                  </div>
+                  <div class="col-12">
+                     <small style="color: #f57224;">Category Description</small>
+                     <br />
+                     <textarea class="form-control" v-model="categoryRequest.category_description"></textarea>
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button
+                     type="button"
+                     class="btn btn-primary"
+                     @click="sendCategoryRequest()"
+                  >Send Request</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
    </div>
 </template>
 <style scoped>
@@ -426,7 +473,7 @@ export default {
             profile: "",
             permit: ""
          },
-         singlePack:[],
+         singlePack: []
       };
    },
    created() {
@@ -437,12 +484,11 @@ export default {
       this.viewPawnshopCategories();
    },
    methods: {
-
       launchPackageModal() {
          $("#addPackageModal").modal("show");
       },
 
-      editSinglePackage(data){
+      editSinglePackage(data) {
          let spreadedData = { ...data };
          this.$refs.modalEditPackageRef.setPackage(spreadedData);
          $("#editPackageModal").modal("show");
@@ -499,7 +545,6 @@ export default {
          });
       },
 
-
       isValidToBeSaved() {
          if (this.profile.username.trim().length == 0) {
             return true;
@@ -521,7 +566,6 @@ export default {
          this.$router.push({ path: "/" });
       },
 
-
       removePackage(index) {
          this.pack = { ...this.packages[index] };
          this.pack.package_id = parseInt(this.pack.package_id || false);
@@ -537,7 +581,6 @@ export default {
             confirmButtonText: "Yes, delete it!"
          }).then(result => {
             if (result.value) {
-
                Swal.fire("Deleted!", "Your file has been deleted.", "success");
 
                PackageService.methods.removePackage(_this.pack).then(res => {
@@ -590,7 +633,7 @@ export default {
             this.durations = [...res];
          });
       },
-    
+
       launchItemModal() {
          $("#itemModal").modal("show");
       },
@@ -684,8 +727,7 @@ export default {
             }
          };
          reader.readAsDataURL(file);
-      },
-
+      }
    }
 };
 </script>
