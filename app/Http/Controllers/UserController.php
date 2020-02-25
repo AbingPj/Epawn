@@ -47,7 +47,7 @@ class UserController extends Controller
             'business_permit' => $imagePermitSanitizedName,
             'contact' => $request->contact,
             'image' => $imageProfileSanitizedName,
-            'monthConfescation' =>  $request->confiscated
+            'monthCofescation' =>  $request->confiscated
         ]);
     }
 

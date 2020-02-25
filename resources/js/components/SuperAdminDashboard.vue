@@ -134,7 +134,9 @@
             <div class="alert alert-danger text-center" v-if="pendingUsers.length == 0"> 
                There are no {{pawnshopTab}} pawnshops yet
             </div>
-            <div v-else> 
+            <div v-else>
+              
+
              <div
               class="row alert alert-primary"
               :class="pawnshopTab == 'pending' ? 'alert-warning' : pawnshopTab == 'accepted' ? 'alert-success' : pawnshopTab == 'rejected' ? 'alert-danger' : ''" 
@@ -148,25 +150,41 @@
                 <small> <b> Report Count: </b>{{user.flag}}</small>
               </div>
               <div class="col">
+
                 <img
                   style="height: 45px;"
                   title="click to zoom"
                   :src="(user.business_permit) ?  `../../images/${user.business_permit}` : `../../images/no-image.png`"
                   @click="maximize(user.business_permit)"
                 />
+
+
                 Control #: {{ (user.control_num) ? user.control_num : 'None' }}
                 <button class="btn  float-right" 
                 :class="pawnshopTab == 'pending' ? 'btn-warning' : pawnshopTab == 'accepted' ? 'btn-success' : pawnshopTab == 'rejected' ? 'btn-danger' : ''" 
 
                 @click="manageUser(user)">  
+
                   {{ (pawnshopTab == 'rejected') ? 'Unblock' : 'Manage' }}
                 </button>
               </div>
+
+
+
+
             </div>
+
+
             </div>
           </div>
+
+
+          
         </div>
       </div>
+
+      <reported-users></reported-users>
+
       <div class="card">
         <div class="card-header" id="headingThree">
           <h5 class="mb-0">

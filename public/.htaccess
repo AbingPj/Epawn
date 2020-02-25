@@ -13,6 +13,9 @@
 
 
     # Handle Authorization Header
+    #RewriteCond %{HTTP:Authorization} .
+    #RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
     RewriteCond %{REQUEST_METHOD} OPTIONS .
     RewriteRule .* / [R=200,L]
 
@@ -28,4 +31,16 @@
 
 
 
-</IfModule>
+#</IfModule>
+#<Limit GET PUT POST DELETE> 
+#Allow from all 
+#</Limit>
+#<IfModule mod_rewrite.c> 
+#    Options -Multiviews
+#    Options +FollowSymLinks
+#    RewriteEngine On
+#    RewriteBase /
+#    RewriteCond %{REQUEST_FILENAME} !-f
+#    RewriteCond %{REQUEST_FILENAME} !-d
+#    RewriteRule . /index.php [L]
+#</IfModule>

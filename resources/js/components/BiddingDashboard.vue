@@ -60,7 +60,16 @@
               @click="pawned(item)"
               style="float: right; color: white;"
             >Manage</button>
+           
           </div>
+          <div class="col"  style="line-height: 55px;">
+              <button
+                    class="btn btn-danger"
+                    v-if="item.status == 1"
+                    @click="report(item)"
+            > <i class="fa fa-exclamation-circle" aria-hidden="true"></i> </button>
+          </div>
+         
         </div>
         </div>
         <div class="alert alert-danger text-center" v-if="items.length == 0"> No Pending Items as of the moment </div>
@@ -403,6 +412,11 @@
         </div>
       </div>
     </div>
+
+    <!-- ReportModal -->
+    <modal-report-user ref="reportModal"></modal-report-user>
+
+
   </div>
 </template>
 <style scoped>
@@ -446,6 +460,7 @@ import PackageService from "../services/Package.controller";
 import PawnService from "../services/Pawning.controller";
 import Swal from "sweetalert2";
 
+
 export default {
   data: () => {
     return {
@@ -484,6 +499,13 @@ export default {
   },
   computed: {},
   methods: {
+
+    report(data){
+      //let spreadedData = { ...data };
+        this.$refs.reportModal.data = data;
+        $('#reportModal').modal("show");
+    },
+
     pushPayment() {
       PawnService.methods
         .payPawn({
