@@ -23,11 +23,12 @@ import Signup from './components/Signup.vue';
 
 //////////////   Added By Abing    //////////
 import ProfileComponent2 from './components/NewComponents/ProfileComponent2.vue';
+import SingleItem2 from './components/NewComponents/SingleItem2.vue';
 Vue.component("modal-edit-pacakge", require("./components/Modal/ModalEditPacakge.vue").default);
 Vue.component("modal-add-pacakge", require("./components/Modal/ModalAddPacakge.vue").default);
 Vue.component("modal-report-user", require("./components/Modal/ModalReportUser.vue").default);
 Vue.component("reported-users", require("./components/NewComponents/SuperAdminReportedUsers.vue").default);
-Vue.component("single-item2", require("./components/NewComponents/SingleItem2.vue").default);
+Vue.component("single-item-pictures", require("./components/NewComponents/SingleItemPictures.vue").default);
 ////////////////////////////////////////////
 
 const router = new VueRouter({
@@ -50,7 +51,7 @@ const router = new VueRouter({
             name: 'profile2',
             component: ProfileComponent
         },{
-            path: '/Singleitem/:itemId',
+            path: '/Singleitem2/:itemId',
             name: 'item',
             component: SingleItem
         },{
@@ -76,6 +77,11 @@ const router = new VueRouter({
             path: '/MyProfile',
             name: 'profile',
             component: ProfileComponent2
+        },
+        {
+            path: '/Singleitem/:itemId',
+            name: 'item2',
+            component: SingleItem2
         },
         /////////////////////////////////////
     ],
