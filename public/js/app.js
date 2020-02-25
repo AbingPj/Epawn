@@ -4975,6 +4975,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
 
 
 
@@ -4982,6 +4984,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  computed: {
+    getLatestCustomerChat: function getLatestCustomerChat() {
+      var last = false;
+      this.placements.map(function (data, index) {
+        if (data.isFromPawnshop == 0) {
+          last = data.id;
+        }
+      });
+      return last;
+    }
+  },
   data: function data() {
     return {
       itemDetails: [],
@@ -4991,7 +5004,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         from: "",
         to: ""
       },
-      picked: "exact"
+      picked: "range",
+      timer: Object
     };
   },
   created: function created() {
@@ -5004,10 +5018,25 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     });
     this.getItemInfo().then(function (res) {
       _this.displayBidPlacement();
+
+      _this.timerStart();
     });
     console.info(this.$route.query.itemId);
   },
+  destroyed: function destroyed() {
+    this.timerClose();
+  },
   methods: {
+    timerStart: function timerStart() {
+      var _this2 = this;
+
+      this.timer = setInterval(function () {
+        _this2.displayBidPlacement();
+      }, 25000);
+    },
+    timerClose: function timerClose() {
+      clearInterval(this.timer);
+    },
     // getTitle(placement) {
     //   let data;
     //   UserService.methods.getUserDetails(placement.user_id).then(res => {
@@ -5022,17 +5051,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     //       }`;
     // },
     getItemInfo: function getItemInfo() {
-      var _this2 = this;
+      var _this3 = this;
 
       return new Promise(function (resolve, reject) {
-        _services_PostItem_controller__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getSingleItem(_this2.$route.query.itemId).then(function (res) {
-          _this2.itemDetails = _toConsumableArray(res);
-          resolve(_this2.itemDetails);
+        _services_PostItem_controller__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getSingleItem(_this3.$route.query.itemId).then(function (res) {
+          _this3.itemDetails = _toConsumableArray(res);
+          resolve(_this3.itemDetails);
         });
       });
     },
     closeDeal: function closeDeal(placement) {
-      var _this3 = this;
+      var _this4 = this;
 
       if (placement.bid_price == 0 || placement.bid_price == null) {
         if (placement.bidprice !== null) {
@@ -5064,7 +5093,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           cancelButtonText: "No"
         }).then(function (r) {
           if (r.value) {
-            _this3.agreeDeal(placement);
+            _this4.agreeDeal(placement);
           }
         });
       } else {
@@ -5076,7 +5105,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
     },
     sendBid: function sendBid() {
-      var _this4 = this;
+      var _this5 = this;
 
       var data = {
         itemId: this.$route.query.itemId,
@@ -5089,15 +5118,15 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       };
       _services_Bid_controller__WEBPACK_IMPORTED_MODULE_3__["default"].methods.placeBid(data).then(function (res) {
         console.info(res);
-        _this4.bidamount = "";
+        _this5.bidamount = "";
         _services_User_controller__WEBPACK_IMPORTED_MODULE_2__["default"].methods.getUserDetails(_services_auth__WEBPACK_IMPORTED_MODULE_0__["default"].methods.getUid()).then(function (res) {
           var smsData = {
             pawnshop_name: res[0].fname,
             bidamount: data.bidamount,
-            isRange: _this4.bid_range.to.trim().length == 0 ? true : false,
-            bid_from: _this4.bid_range.from,
-            bid_to: _this4.bid_range.to,
-            itemName: _this4.itemDetails[0].item_name
+            isRange: _this5.bid_range.to.trim().length == 0 ? true : false,
+            bid_from: _this5.bid_range.from,
+            bid_to: _this5.bid_range.to,
+            itemName: _this5.itemDetails[0].item_name
           };
           console.info("sns sms", smsData);
           _services_SMS_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.sendSMS(smsData);
@@ -5108,11 +5137,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           });
         });
 
-        _this4.displayBidPlacement();
+        _this5.displayBidPlacement();
       });
     },
     displayBidPlacement: function displayBidPlacement() {
-      var _this5 = this;
+      var _this6 = this;
 
       console.info("bid details", this.itemDetails);
       var data = {
@@ -5121,7 +5150,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         pawnshopId: _services_auth__WEBPACK_IMPORTED_MODULE_0__["default"].methods.getUid()
       };
       _services_Bid_controller__WEBPACK_IMPORTED_MODULE_3__["default"].methods.displayBidDetails(data).then(function (res) {
-        _this5.placements = _toConsumableArray(res);
+        _this6.placements = _toConsumableArray(res);
       });
     },
     changeSelection: function changeSelection() {
@@ -52391,7 +52420,7 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                      "\n\t\t\t\t\t\t\t\t\t\t" +
                                         _vm._s(
                                           (placement.bid_price != 0.0 ||
                                             placement.bid_price != null) &&
@@ -52404,7 +52433,7 @@ var render = function() {
                                                 placement.bid_from +
                                                 " "
                                         ) +
-                                        "\n\n\t\t\t\t\t\t\t\t\t\t\t"
+                                        "\n\n\t\t\t\t\t\t\t\t\t\t"
                                     ),
                                     _c(
                                       "span",
@@ -52421,7 +52450,7 @@ var render = function() {
                                     ),
                                     _vm._v(" "),
                                     placement.isFromPawnshop == 0 &&
-                                    index == _vm.placements.length - 1
+                                    placement.id == _vm.getLatestCustomerChat
                                       ? _c(
                                           "button",
                                           {
@@ -52439,7 +52468,7 @@ var render = function() {
                                               attrs: { "aria-hidden": "true" }
                                             }),
                                             _vm._v(
-                                              "\n\t\t\t\t\t\t\t\t\t\t\t\tDeal\n\t\t\t\t\t\t\t\t\t\t\t"
+                                              "\n\t\t\t\t\t\t\t\t\t\t\tDeal\n\t\t\t\t\t\t\t\t\t\t"
                                             )
                                           ]
                                         )
@@ -52458,83 +52487,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "col-12 form" }, [
                 _c("div", { staticClass: "item-footer row " }, [
-                  _c("div", { staticClass: "col" }, [
-                    _c("div", { staticClass: "form-check" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.picked,
-                            expression: "picked"
-                          }
-                        ],
-                        staticClass: "form-check-input",
-                        attrs: {
-                          type: "radio",
-                          name: "exampleRadios",
-                          id: "exampleRadios1",
-                          value: "exact",
-                          checked: ""
-                        },
-                        domProps: { checked: _vm._q(_vm.picked, "exact") },
-                        on: {
-                          change: function($event) {
-                            _vm.picked = "exact"
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-check-label",
-                          attrs: { for: "exampleRadios1" }
-                        },
-                        [_vm._v("Exact Amount")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-check" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.picked,
-                            expression: "picked"
-                          }
-                        ],
-                        staticClass: "form-check-input",
-                        attrs: {
-                          type: "radio",
-                          name: "exampleRadios",
-                          id: "exampleRadios2",
-                          value: "range"
-                        },
-                        domProps: { checked: _vm._q(_vm.picked, "range") },
-                        on: {
-                          change: [
-                            function($event) {
-                              _vm.picked = "range"
-                            },
-                            function($event) {
-                              return _vm.changeSelection()
-                            }
-                          ]
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-check-label",
-                          attrs: { for: "exampleRadios2" }
-                        },
-                        [_vm._v("Range")]
-                      )
-                    ])
-                  ]),
+                  _c("div", { staticClass: "col" }),
                   _vm._v(" "),
                   _c("div", { staticClass: "col col-8" }, [
                     _vm.picked == "exact"
@@ -52645,7 +52598,7 @@ var render = function() {
                               staticClass: "fa fa-paper-plane",
                               attrs: { "aria-hidden": "true" }
                             }),
-                            _vm._v(" Appraise\n\t\t\t\t\t\t\t\t")
+                            _vm._v(" Appraise\n\t\t\t\t\t\t\t")
                           ]
                         )
                       : _vm._e(),
@@ -52674,7 +52627,7 @@ var render = function() {
                               staticClass: "fa fa-paper-plane",
                               attrs: { "aria-hidden": "true" }
                             }),
-                            _vm._v(" Appraise\n\t\t\t\t\t\t\t\t")
+                            _vm._v(" Appraise\n\t\t\t\t\t\t\t")
                           ]
                         )
                       : _vm._e()
@@ -52689,7 +52642,7 @@ var render = function() {
               { staticClass: "alert alert-warning", attrs: { role: "alert" } },
               [
                 _c("strong", [_vm._v(" Pending : ")]),
-                _vm._v(" Deal was closed with the price of\n\t\t\t\t\t"),
+                _vm._v(" Deal was closed with the price of\n\t\t\t\t"),
                 _c("b", [
                   _vm._v(
                     " ₱" +
@@ -52783,7 +52736,7 @@ var staticRenderFns = [
                     staticClass: "btn btn-secondary",
                     attrs: { type: "button", "data-dismiss": "modal" }
                   },
-                  [_vm._v("\n\t\t\t\t\t\t\tClose\n\t\t\t\t\t\t")]
+                  [_vm._v("\n\t\t\t\t\t\tClose\n\t\t\t\t\t")]
                 )
               ])
             ])

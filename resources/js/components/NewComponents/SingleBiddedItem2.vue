@@ -137,7 +137,9 @@
 												>{{ placement.bid_date }}</span
 											>
 											<button
-                        v-if="placement.isFromPawnshop == 0 && index == placements.length-1 "
+												v-if="
+													placement.isFromPawnshop == 0 && placement.id == getLatestCustomerChat
+												"
 												class="btn btn-sm btn-success"
 												@click="closeDeal(placement)"
 											>
@@ -154,7 +156,7 @@
 					<div class="col-12 form">
 						<div class="item-footer row ">
 							<div class="col">
-								<div class="form-check">
+								<!-- <div class="form-check">
 									<input
 										class="form-check-input"
 										type="radio"
@@ -167,8 +169,8 @@
 									<label class="form-check-label" for="exampleRadios1"
 										>Exact Amount</label
 									>
-								</div>
-								<div class="form-check">
+								</div> -->
+								<!-- <div class="form-check">
 									<input
 										class="form-check-input"
 										v-model="picked"
@@ -181,7 +183,7 @@
 									<label class="form-check-label" for="exampleRadios2"
 										>Range</label
 									>
-								</div>
+								</div> -->
 							</div>
 							<div class="col col-8">
 								<input
@@ -297,6 +299,18 @@ import SMS from "../../services/SMS.controller";
 import Swal from "sweetalert2";
 
 export default {
+
+	computed: {
+		getLatestCustomerChat(){
+			let last = false
+			this.placements.map(function(data, index){
+				if(data.isFromPawnshop == 0){
+					last = data.id;
+				}
+			});
+			return last;
+		}
+	},
 	data: () => {
 		return {
 			itemDetails: [],
@@ -306,9 +320,11 @@ export default {
 				from: "",
 				to: ""
 			},
-			picked: "exact"
+			picked: "range",
+			timer : Object
 		};
 	},
+	
 	created() {
 		AuthService.methods
 			.isLogedIn()
@@ -316,13 +332,32 @@ export default {
 			.catch(e => {
 				this.$router.push({ path: "/Login" });
 			});
+
 		this.getItemInfo().then(res => {
 			this.displayBidPlacement();
+			this.timerStart();
 		});
 
 		console.info(this.$route.query.itemId);
 	},
+
+	destroyed() {
+		this.timerClose();
+	},
+
+
 	methods: {
+		timerStart() {
+			this.timer = setInterval(() => {
+			 	this.displayBidPlacement();
+			}, 25000);
+		},
+		timerClose(){
+			clearInterval(this.timer);
+		},
+
+
+
 		// getTitle(placement) {
 		//   let data;
 		//   UserService.methods.getUserDetails(placement.user_id).then(res => {
