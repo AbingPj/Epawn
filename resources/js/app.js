@@ -27,6 +27,7 @@ Vue.component("modal-edit-pacakge", require("./components/Modal/ModalEditPacakge
 Vue.component("modal-add-pacakge", require("./components/Modal/ModalAddPacakge.vue").default);
 Vue.component("modal-report-user", require("./components/Modal/ModalReportUser.vue").default);
 Vue.component("reported-users", require("./components/NewComponents/SuperAdminReportedUsers.vue").default);
+Vue.component("single-item2", require("./components/NewComponents/SingleItem2.vue").default);
 ////////////////////////////////////////////
 
 const router = new VueRouter({
@@ -45,8 +46,8 @@ const router = new VueRouter({
             name: 'bidding',
             component: BiddingDashboard
         },{
-            path: '/MyProfile',
-            name: 'profile',
+            path: '/MyProfile2',
+            name: 'profile2',
             component: ProfileComponent
         },{
             path: '/Singleitem/:itemId',
@@ -72,8 +73,8 @@ const router = new VueRouter({
 
         //////// New Routes Components Added By Abing
         {
-            path: '/MyProfile2',
-            name: 'profile2',
+            path: '/MyProfile',
+            name: 'profile',
             component: ProfileComponent2
         },
         /////////////////////////////////////
