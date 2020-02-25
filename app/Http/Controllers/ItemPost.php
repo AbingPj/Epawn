@@ -21,6 +21,8 @@ class ItemPost extends Controller
     }
     public function getUserItem(Request $request){
         return DB::table('tbl_user_itempost')
+        ->join('tbl_item_category','tbl_item_category.category_id','=','tbl_user_itempost.category_id')
+        
         ->where('user_id', $request->userId)
         ->get();
     }
@@ -90,7 +92,11 @@ class ItemPost extends Controller
             'item_description' => $req->description,
             'category_id' => $req->category,
             'user_id' => $req->userId,
-            'item_photo' =>$req->imageName
+            'item_photo' =>$req->imageName,
+            'photo_1' =>$req->picture1,
+            'photo_2' =>$req->picture2,
+            'photo_3' =>$req->picture3,
+            'photo_4' =>$req->picture4,
         ]);
         
     /*     DB::table('tbl_user_itempost')

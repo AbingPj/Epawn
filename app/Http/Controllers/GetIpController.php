@@ -11,6 +11,7 @@ class GetIpController extends Controller
       $ip = Request::ip();
       dd($ip);
 
+      
       // Route::get('/getIp','GetIpController@getIp');;
    }
 }

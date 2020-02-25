@@ -17,6 +17,10 @@ use App\Http\Middleware\Cors;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//getIP
+Route::get('/getIp','GetIpController@getIp');;
+
 //Item
 Route::post('/getItems','ItemPost@getItemPosts');;
 Route::get('/getSingleitem/{itemId}','ItemPost@getSingleItem');;
@@ -112,6 +116,7 @@ Route::post('/mobile/viewDurations','PackageController@viewDurations');;
 Route::post('/mobile/viewPawnshopCategories','PackageController@viewPawnshopCategories');
 
 Route::post('/mobile/getPawnshopsOnBid','BidController@getPawnshopsOnBid');;
+
 
 
 
