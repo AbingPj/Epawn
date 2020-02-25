@@ -118,7 +118,8 @@ Route::post('/mobile/viewPawnshopCategories','PackageController@viewPawnshopCate
 Route::post('/mobile/getPawnshopsOnBid','BidController@getPawnshopsOnBid');;
 
 
-<<<<<<< HEAD
+
+
 
 
 
@@ -132,5 +133,3 @@ Route::post('/editPackageOfPawnshop','zPackageController@editPackageOfPawnshop')
 Route::get('/getReports', 'zUserReportsController@getReports' );;
 Route::post('/sendReport', 'zUserReportsController@sendReport' );;
 ////////////////////////////////////////////////////////////////////////////
-=======
->>>>>>> lim_development

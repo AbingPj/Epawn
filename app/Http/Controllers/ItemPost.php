@@ -22,12 +22,10 @@ class ItemPost extends Controller
     public function getUserItem(Request $request){
         return DB::table('tbl_user_itempost')
         ->join('tbl_item_category','tbl_item_category.category_id','=','tbl_user_itempost.category_id')
-<<<<<<< HEAD
-        
-=======
->>>>>>> lim_development
         ->where('user_id', $request->userId)
         ->get();
+
+        
     }
     public function getUserItemPhotos(Request $request){
         return DB::table('tbl_item_photo')
