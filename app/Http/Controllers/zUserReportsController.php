@@ -23,9 +23,19 @@ class zUserReportsController extends Controller
        }else{
 
        }
+    }
 
+     public function sendReport2($userId,$pawnshopId,$situation,$isFromPawnshop){
+        dd($userId);
+        $report = new tbl_user_report;
+        $report->userId =  $userId;
+        $report->pawnshopId =  $pawnshopId;
+        $report->situation =   $situation;
+        $report->isFromPawnshop =  $isFromPawnshop;
+        $report->save();
 
-
+       $number_of_reports = tbl_user_report::all()->where('userId', $userId)->count();
+      return response()->json($report);
     }
 
     public function getReports(){
@@ -39,5 +49,10 @@ class zUserReportsController extends Controller
 
          return response()->json($reports);
     }
+
+    
+
+
+   
 
 }

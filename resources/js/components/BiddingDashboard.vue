@@ -502,7 +502,12 @@ export default {
 
     report(data){
       //let spreadedData = { ...data };
-        this.$refs.reportModal.data = data;
+        // this.$refs.reportModal.data = data;",
+        this.$refs.reportModal.username = data.username;
+        this.$refs.reportModal.item_name = data.item_name;
+        this.$refs.reportModal.report.userId = data.user_id;
+        this.$refs.reportModal.report.pawnshopId = data.pawnshop_id;
+      
         $('#reportModal').modal("show");
     },
 
