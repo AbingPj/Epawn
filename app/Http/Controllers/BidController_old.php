@@ -114,13 +114,13 @@ class BidController extends Controller
 
     public function getActiveBiddings(Request $request)
     {
-       return  DB::table('tbl_user_itempost')
+        return  DB::table('tbl_user_itempost')
             ->join('tbl_item_category', 'tbl_item_category.category_id', '=', 'tbl_user_itempost.category_id')
             ->join('tbl_bid_item', 'tbl_bid_item.item_id', '=', 'tbl_user_itempost.item_id')
-            ->leftJoin('tbl_users', 'tbl_users.user_id', '=', 'tbl_bid_item.pawnshop_id')
+            ->join('tbl_users', 'tbl_users.user_id', '=', 'tbl_bid_item.pawnshop_id')
             ->where('tbl_bid_item.user_id', $request->userId)
             ->where('tbl_user_itempost.status', $request->status)
-            ->groupBy('tbl_users.user_id')
+             ->groupBy('tbl_bid_item.item_id')
             ->get();
     }
 
@@ -136,16 +136,6 @@ class BidController extends Controller
             ->get();
     }
 
-//    public function getPawnshopsOnBid(Request $request)
-//    {
-//        return DB::table('tbl_bid_item')
-//        ->join('tbl_users','tbl_users.user_id','=','tbl_bid_item.pawnshop_id')
-//        ->where('tbl_bid_item.item_id',$request->itemId)
-//        ->where('tbl_bid_item.user_id', $request->userId)
-//        ->groupBy('tbl_users.fname')
-//        ->get();
-//    }
-    
     public function getPawnshopsOnBid(Request $request)
     {
         return DB::table('tbl_bid_item')
