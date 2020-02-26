@@ -6,5 +6,5 @@ use Illuminate\Http\Request;
 
 class itemCategoryController extends Controller
 {
-    public function uploadItem
+    public function uploadItem(){}
 }

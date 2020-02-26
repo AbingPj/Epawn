@@ -116,7 +116,7 @@ class PackageController extends Controller
         ->where('category_id','=',$request->category_id)
         ->update([
             'valid' => '3',
-            'reason' => $request->reason
+            'category_reason' => $request->reason
         ]);
     }
     public function removeItemCategory(Request $request){
