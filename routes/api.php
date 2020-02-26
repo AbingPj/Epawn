@@ -134,4 +134,6 @@ Route::get('/getReports', 'zUserReportsController@getReports' );;
 Route::post('/sendReport', 'zUserReportsController@sendReport' );;
 Route::get('/getUserInfo/{id}', 'zUserController@getUserInfo' );;
 
+Route::post('/acceptCategoryRequest', 'PackageController@acceptCategoryRequest' );;
+
 ////////////////////////////////////////////////////////////////////////////
