@@ -56,7 +56,7 @@ const router = new VueRouter({
             name: 'item',
             component: SingleItem
         }, {
-            path: '/Bidding/:itemId/bidderId/:bidderId',
+            path: '/Bidding2/:itemId/bidderId/:bidderId',
             name: 'singlebid',
             component: SingleBiddedItem
         }, {
@@ -85,8 +85,8 @@ const router = new VueRouter({
             component: SingleItem2
         }, 
         {
-            path: '/Bidding2/:itemId/bidderId/:bidderId',
-            name: 'singlebid',
+            path: '/Bidding/:itemId/bidderId/:bidderId',
+            name: 'singlebid2',
             component: SingleBiddedItem2
         },
         /////////////////////////////////////

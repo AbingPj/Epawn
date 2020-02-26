@@ -42,7 +42,7 @@
     </div>
 
     <div class="bider-card">
-      <div class="bider-card-header"> Bidder Information </div>
+      <div class="bider-card-header"> Pawner Information </div>
       <div class="bider-card-body"> 
         <div class="row">
           <div class="bider-photo col-md-5 col-lg-7 col-xl-3"> 
