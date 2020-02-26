@@ -143,6 +143,7 @@ class BidController extends Controller
         ->where('tbl_bid_item.item_id',$request->itemId)
         ->where('tbl_bid_item.user_id', $request->userId)
         ->groupBy('tbl_users.fname')
+        ->select('*', DB::raw('MAX(tbl_bid_item.bid_to) as bid_max_value'))
         ->get();
     }
 }
