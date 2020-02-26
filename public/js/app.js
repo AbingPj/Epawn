@@ -4670,13 +4670,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _services_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../services/auth */ "./resources/js/services/auth.js");
-/* harmony import */ var _services_PostItem_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/PostItem.controller */ "./resources/js/services/PostItem.controller.js");
-/* harmony import */ var _services_User_controller__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/User.controller */ "./resources/js/services/User.controller.js");
-/* harmony import */ var _services_Bid_controller__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/Bid.controller */ "./resources/js/services/Bid.controller.js");
-/* harmony import */ var _services_SMS_controller__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/SMS.controller */ "./resources/js/services/SMS.controller.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/auth */ "./resources/js/services/auth.js");
+/* harmony import */ var _services_PostItem_controller__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/PostItem.controller */ "./resources/js/services/PostItem.controller.js");
+/* harmony import */ var _services_User_controller__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/User.controller */ "./resources/js/services/User.controller.js");
+/* harmony import */ var _services_Bid_controller__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/Bid.controller */ "./resources/js/services/Bid.controller.js");
+/* harmony import */ var _services_SMS_controller__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/SMS.controller */ "./resources/js/services/SMS.controller.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_6__);
+
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -4685,12 +4689,6 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -5005,13 +5003,14 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         to: ""
       },
       picked: "range",
-      timer: Object
+      timer: Object,
+      user: {}
     };
   },
   created: function created() {
     var _this = this;
 
-    _services_auth__WEBPACK_IMPORTED_MODULE_0__["default"].methods.isLogedIn().then(function () {})["catch"](function (e) {
+    _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.isLogedIn().then(function () {})["catch"](function (e) {
       _this.$router.push({
         path: "/Login"
       });
@@ -5020,6 +5019,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       _this.displayBidPlacement();
 
       _this.timerStart();
+
+      _this.getUserInfo();
     });
     console.info(this.$route.query.itemId);
   },
@@ -5037,6 +5038,30 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     timerClose: function timerClose() {
       clearInterval(this.timer);
     },
+    getUserInfo: function getUserInfo() {
+      var _this3 = this;
+
+      var user_id;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function getUserInfo$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              user_id = this.itemDetails[0].user_id;
+              _context.next = 3;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get("/api/getUserInfo/" + user_id).then(function (res) {
+                console.log(res);
+                _this3.user = res.data;
+              })["catch"](function (err) {
+                console.error(err);
+              }));
+
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, null, this);
+    },
     // getTitle(placement) {
     //   let data;
     //   UserService.methods.getUserDetails(placement.user_id).then(res => {
@@ -5051,21 +5076,21 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     //       }`;
     // },
     getItemInfo: function getItemInfo() {
-      var _this3 = this;
+      var _this4 = this;
 
       return new Promise(function (resolve, reject) {
-        _services_PostItem_controller__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getSingleItem(_this3.$route.query.itemId).then(function (res) {
-          _this3.itemDetails = _toConsumableArray(res);
-          resolve(_this3.itemDetails);
+        _services_PostItem_controller__WEBPACK_IMPORTED_MODULE_2__["default"].methods.getSingleItem(_this4.$route.query.itemId).then(function (res) {
+          _this4.itemDetails = _toConsumableArray(res);
+          resolve(_this4.itemDetails);
         });
       });
     },
     closeDeal: function closeDeal(placement) {
-      var _this4 = this;
+      var _this5 = this;
 
       if (placement.bid_price == 0 || placement.bid_price == null) {
         if (placement.bidprice !== null) {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.fire({
+          sweetalert2__WEBPACK_IMPORTED_MODULE_6___default.a.fire({
             title: "Epawn Application",
             html: "Ranged amount cannot be use to close the deal",
             icon: "error",
@@ -5082,7 +5107,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var message = placement.isFromPawnshop == 0 ? "The owner of the item wants to have an amount of <b>\u20B1".concat(placement.bid_price, "</b>") : "Close the deal with the amount of <b>\u20B1".concat(placement.bid_price, " </b> ?");
 
       if (placement.bidprice !== null) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.fire({
+        sweetalert2__WEBPACK_IMPORTED_MODULE_6___default.a.fire({
           title: "Epawn Application",
           html: message,
           icon: "question",
@@ -5093,11 +5118,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           cancelButtonText: "No"
         }).then(function (r) {
           if (r.value) {
-            _this4.agreeDeal(placement);
+            _this5.agreeDeal(placement);
           }
         });
       } else {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.fire({
+        sweetalert2__WEBPACK_IMPORTED_MODULE_6___default.a.fire({
           title: "Amount range cannot be closed to deal",
           text: "Note : It Must be a specific amount",
           icon: "error"
@@ -5105,7 +5130,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
     },
     sendBid: function sendBid() {
-      var _this5 = this;
+      var _this6 = this;
 
       var data = {
         itemId: this.$route.query.itemId,
@@ -5113,44 +5138,44 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         bid_from: this.bid_range.from,
         bid_to: this.bid_range.to,
         userId: this.itemDetails[0].user_id,
-        pawnshopId: _services_auth__WEBPACK_IMPORTED_MODULE_0__["default"].methods.getUid(),
+        pawnshopId: _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid(),
         isFromPawnshop: 1
       };
-      _services_Bid_controller__WEBPACK_IMPORTED_MODULE_3__["default"].methods.placeBid(data).then(function (res) {
+      _services_Bid_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.placeBid(data).then(function (res) {
         console.info(res);
-        _this5.bidamount = "";
-        _services_User_controller__WEBPACK_IMPORTED_MODULE_2__["default"].methods.getUserDetails(_services_auth__WEBPACK_IMPORTED_MODULE_0__["default"].methods.getUid()).then(function (res) {
+        _this6.bidamount = "";
+        _services_User_controller__WEBPACK_IMPORTED_MODULE_3__["default"].methods.getUserDetails(_services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid()).then(function (res) {
           var smsData = {
             pawnshop_name: res[0].fname,
             bidamount: data.bidamount,
-            isRange: _this5.bid_range.to.trim().length == 0 ? true : false,
-            bid_from: _this5.bid_range.from,
-            bid_to: _this5.bid_range.to,
-            itemName: _this5.itemDetails[0].item_name
+            isRange: _this6.bid_range.to.trim().length == 0 ? true : false,
+            bid_from: _this6.bid_range.from,
+            bid_to: _this6.bid_range.to,
+            itemName: _this6.itemDetails[0].item_name
           };
           console.info("sns sms", smsData);
-          _services_SMS_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.sendSMS(smsData);
-          sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.fire({
+          _services_SMS_controller__WEBPACK_IMPORTED_MODULE_5__["default"].methods.sendSMS(smsData);
+          sweetalert2__WEBPACK_IMPORTED_MODULE_6___default.a.fire({
             title: "Epawn Application",
             text: "Bid sent succesfully with SMS ",
             icon: "success"
           });
         });
 
-        _this5.displayBidPlacement();
+        _this6.displayBidPlacement();
       });
     },
     displayBidPlacement: function displayBidPlacement() {
-      var _this6 = this;
+      var _this7 = this;
 
       console.info("bid details", this.itemDetails);
       var data = {
         itemId: this.$route.query.itemId,
         bidderId: this.itemDetails[0].user_id,
-        pawnshopId: _services_auth__WEBPACK_IMPORTED_MODULE_0__["default"].methods.getUid()
+        pawnshopId: _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid()
       };
-      _services_Bid_controller__WEBPACK_IMPORTED_MODULE_3__["default"].methods.displayBidDetails(data).then(function (res) {
-        _this6.placements = _toConsumableArray(res);
+      _services_Bid_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.displayBidDetails(data).then(function (res) {
+        _this7.placements = _toConsumableArray(res);
       });
     },
     changeSelection: function changeSelection() {
@@ -5159,8 +5184,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       this.bidamount = "";
     },
     agreeDeal: function agreeDeal(placement) {
-      _services_Bid_controller__WEBPACK_IMPORTED_MODULE_3__["default"].methods.closeDeal(placement).then(function (res) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.fire({
+      _services_Bid_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.closeDeal(placement).then(function (res) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_6___default.a.fire({
           html: "Deal succesfully closed with the amount of <b>\u20B1".concat(placement.bid_price, "</b>"),
           icon: "success"
         }).then(function (e) {
@@ -12822,7 +12847,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".parent-div[data-v-048c851d] {\n  padding: 30px 50px 0px 50px;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n          align-items: center;\n}\n.parent-div .container[data-v-048c851d] {\n  margin: 10px 10px 10px 10px;\n  padding: 30px 10px 10px 30px;\n}\n.parent-div .container .details[data-v-048c851d] {\n  padding-bottom: 30px;\n  border-bottom: 2px solid #eff0f5;\n  margin-bottom: 30px;\n}\n.parent-div .container .details .item-image[data-v-048c851d] {\n  text-align: right;\n}\n.parent-div .container .details .item-image img[data-v-048c851d] {\n  height: 180px;\n  width: 180px;\n  border: #f57224 3px solid;\n  margin-left: 20px;\n}\n.parent-div .container .details .item-desc[data-v-048c851d] {\n  text-align: left;\n}\n.parent-div .container .details .item-desc .item-name[data-v-048c851d] {\n  display: inline;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.parent-div .container .chat .messages[data-v-048c851d] {\n  padding: 0px 50px 30px 50px;\n  border-bottom: 3px solid #eff0f5;\n  margin-bottom: 30px;\n}\n.parent-div .container .chat .messages .placement-bid[data-v-048c851d] {\n  padding: 3px 20px;\n  border-radius: 7px;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  margin-top: 3px;\n  font-weight: bold;\n  display: -webkit-box;\n  display: flex;\n  cursor: pointer;\n  /* float: right; */\n}\n.parent-div .container .chat .messages .placement-bid .btn[data-v-048c851d] {\n  margin-left: 30px;\n}\n.parent-div .container .chat .messages .from-bidder[data-v-048c851d] {\n  color: #f57224;\n  background-color: white;\n  border: 1px #f57224 solid;\n}\n.parent-div .container .chat .messages .from-pawnshop[data-v-048c851d] {\n  color: white;\n  background-color: #f57224;\n}\n.parent-div .container .chat .form[data-v-048c851d] {\n  padding: 0px 50px 30px 50px;\n  border-bottom: 3px solid #eff0f5;\n}", ""]);
+exports.push([module.i, ".parent-div[data-v-048c851d] {\n  padding: 30px 50px 0px 50px;\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n          align-items: center;\n}\n.parent-div .container[data-v-048c851d] {\n  margin: 10px 10px 10px 10px;\n  padding: 30px 10px 10px 30px;\n}\n.parent-div .container .details[data-v-048c851d] {\n  padding-bottom: 30px;\n  border-bottom: 2px solid #eff0f5;\n  margin-bottom: 30px;\n}\n.parent-div .container .details .item-image[data-v-048c851d] {\n  text-align: right;\n}\n.parent-div .container .details .item-image img[data-v-048c851d] {\n  height: 180px;\n  width: 180px;\n  border: #f57224 3px solid;\n  margin-left: 20px;\n}\n.parent-div .container .details .item-desc[data-v-048c851d] {\n  text-align: left;\n}\n.parent-div .container .details .item-desc .item-name[data-v-048c851d] {\n  display: inline;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.parent-div .container .details .item-desc .item-description[data-v-048c851d] {\n  font-size: 15px;\n  height: 170px;\n  width: 100%;\n  overflow-y: scroll;\n}\n.parent-div .container .chat .messages[data-v-048c851d] {\n  padding: 0px 50px 30px 50px;\n  border-bottom: 3px solid #eff0f5;\n  margin-bottom: 30px;\n}\n.parent-div .container .chat .messages .placement-bid[data-v-048c851d] {\n  padding: 3px 20px;\n  border-radius: 7px;\n  width: -webkit-max-content;\n  width: -moz-max-content;\n  width: max-content;\n  margin-top: 3px;\n  font-weight: bold;\n  display: -webkit-box;\n  display: flex;\n  cursor: pointer;\n  /* float: right; */\n}\n.parent-div .container .chat .messages .placement-bid .btn[data-v-048c851d] {\n  margin-left: 30px;\n}\n.parent-div .container .chat .messages .from-bidder[data-v-048c851d] {\n  color: #f57224;\n  background-color: white;\n  border: 1px #f57224 solid;\n}\n.parent-div .container .chat .messages .from-pawnshop[data-v-048c851d] {\n  color: white;\n  background-color: #f57224;\n}\n.parent-div .container .chat .form[data-v-048c851d] {\n  padding: 0px 50px 30px 50px;\n  border-bottom: 3px solid #eff0f5;\n}", ""]);
 
 // exports
 
@@ -52377,14 +52402,16 @@ var render = function() {
             _c("h2", [_vm._v(_vm._s(_vm.itemDetails[0].item_name))])
           ]),
           _vm._v(" "),
-          _c("h6", [
-            _vm._v(
-              "Item Description: " + _vm._s(_vm.itemDetails[0].item_description)
-            )
-          ]),
+          _c("h4", [_vm._v("Pawner: " + _vm._s(_vm.user.username))]),
           _vm._v(" "),
           _c("h6", [
             _vm._v("Category: " + _vm._s(_vm.itemDetails[0].category_name))
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "item-description" }, [
+            _vm._v(
+              "Item Description: " + _vm._s(_vm.itemDetails[0].item_description)
+            )
           ])
         ])
       ]),
@@ -52420,7 +52447,7 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "\n\t\t\t\t\t\t\t\t\t\t" +
+                                      "\n                                 " +
                                         _vm._s(
                                           (placement.bid_price != 0.0 ||
                                             placement.bid_price != null) &&
@@ -52433,7 +52460,7 @@ var render = function() {
                                                 placement.bid_from +
                                                 " "
                                         ) +
-                                        "\n\n\t\t\t\t\t\t\t\t\t\t"
+                                        "\n                                 "
                                     ),
                                     _c(
                                       "span",
@@ -52468,7 +52495,7 @@ var render = function() {
                                               attrs: { "aria-hidden": "true" }
                                             }),
                                             _vm._v(
-                                              "\n\t\t\t\t\t\t\t\t\t\t\tDeal\n\t\t\t\t\t\t\t\t\t\t"
+                                              "\n                                    Deal\n                                 "
                                             )
                                           ]
                                         )
@@ -52486,7 +52513,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-12 form" }, [
-                _c("div", { staticClass: "item-footer row " }, [
+                _c("div", { staticClass: "item-footer row" }, [
                   _c("div", { staticClass: "col" }),
                   _vm._v(" "),
                   _c("div", { staticClass: "col col-8" }, [
@@ -52598,7 +52625,7 @@ var render = function() {
                               staticClass: "fa fa-paper-plane",
                               attrs: { "aria-hidden": "true" }
                             }),
-                            _vm._v(" Appraise\n\t\t\t\t\t\t\t")
+                            _vm._v(" Appraise\n                        ")
                           ]
                         )
                       : _vm._e(),
@@ -52627,7 +52654,7 @@ var render = function() {
                               staticClass: "fa fa-paper-plane",
                               attrs: { "aria-hidden": "true" }
                             }),
-                            _vm._v(" Appraise\n\t\t\t\t\t\t\t")
+                            _vm._v(" Appraise\n                        ")
                           ]
                         )
                       : _vm._e()
@@ -52641,16 +52668,15 @@ var render = function() {
               "div",
               { staticClass: "alert alert-warning", attrs: { role: "alert" } },
               [
-                _c("strong", [_vm._v(" Pending : ")]),
-                _vm._v(" Deal was closed with the price of\n\t\t\t\t"),
+                _c("strong", [_vm._v("Pending :")]),
+                _vm._v(" Deal was closed with the price of\n               "),
                 _c("b", [
                   _vm._v(
-                    " ₱" +
+                    "₱" +
                       _vm._s(
                         _vm.itemDetails[_vm.itemDetails.length - 1]
                           .initial_amount
-                      ) +
-                      " "
+                      )
                   )
                 ])
               ]
@@ -52736,7 +52762,7 @@ var staticRenderFns = [
                     staticClass: "btn btn-secondary",
                     attrs: { type: "button", "data-dismiss": "modal" }
                   },
-                  [_vm._v("\n\t\t\t\t\t\tClose\n\t\t\t\t\t")]
+                  [_vm._v("Close")]
                 )
               ])
             ])
@@ -52840,7 +52866,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "bider-card" }, [
       _c("div", { staticClass: "bider-card-header" }, [
-        _vm._v(" Bidder Information ")
+        _vm._v(" Pawner Information ")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "bider-card-body" }, [
@@ -52944,19 +52970,6 @@ var render = function() {
           }
         },
         [_c("img", { attrs: { src: "../../images/" + _vm.newData.photo_3 } })]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "picture",
-          on: {
-            click: function($event) {
-              return _vm.showModal()
-            }
-          }
-        },
-        [_c("img", { attrs: { src: "../../images/" + _vm.newData.photo_4 } })]
       )
     ]),
     _vm._v(" "),
@@ -52992,12 +53005,6 @@ var render = function() {
                     _c("img", {
                       attrs: { src: "../../images/" + _vm.newData.photo_3 }
                     })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "carousel-item" }, [
-                    _c("img", {
-                      attrs: { src: "../../images/" + _vm.newData.photo_4 }
-                    })
                   ])
                 ]),
                 _vm._v(" "),
@@ -53024,7 +53031,7 @@ var staticRenderFns = [
           staticClass: "close",
           attrs: { type: "button", "data-dismiss": "modal" }
         },
-        [_vm._v("\n\t\t\t\t\t\t\t×\n\t\t\t\t\t\t")]
+        [_vm._v("\n\t\t\t\t\t\t×\n\t\t\t\t\t")]
       )
     ])
   },
@@ -53040,9 +53047,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("li", { attrs: { "data-target": "#demo", "data-slide-to": "1" } }),
       _vm._v(" "),
-      _c("li", { attrs: { "data-target": "#demo", "data-slide-to": "2" } }),
-      _vm._v(" "),
-      _c("li", { attrs: { "data-target": "#demo", "data-slide-to": "3" } })
+      _c("li", { attrs: { "data-target": "#demo", "data-slide-to": "2" } })
     ])
   },
   function() {

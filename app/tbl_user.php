@@ -8,7 +8,6 @@ class tbl_user extends Model
 {
     protected $guarded = [];
     public $timestamps = false;
-
-
+    public $primaryKey  = 'user_id';
 
 }
