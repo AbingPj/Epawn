@@ -234,15 +234,18 @@
                       <b style="color: #f57224;">{{duration.duration_to}}</b>
                     </div>
                     <div class="col">
-                      <b style="color: #f57224;">{{ (duration.duration_to + 1) - duration.duration_from }}</b> Days
+                      <b style="color: #f57224;">{{ ((parseInt(duration.duration_to) + 1) - parseInt(duration.duration_from)) }}</b> Days
                     </div>
                     <div class="col">
                       <b style="color: #f57224;">{{ duration.interestRate }}</b>%
                     </div>
                     <div class="col">
-                      <b
+                      <!-- <b
                         style="color: #f57224;"
-                      >₱{{ ( parseFloat(item.initial_amount) * parseFloat((String("0."+duration.interestRate))) / ( parseFloat((duration.duration_to + 1)) - parseFloat(duration.duration_from))).toFixed(2) }}</b>
+                      >₱{{ ( parseFloat(item.initial_amount) * parseFloat((String("0."+duration.interestRate))) / ( parseFloat((duration.duration_to + 1)) - parseFloat(duration.duration_from))).toFixed(2) }}</b> -->
+                         <b
+                        style="color: #f57224;"
+                      >₱{{getInterestRate(item.initial_amount,duration.interestRate)}}</b>
                     </div>
                   </div>
                 </div>
@@ -419,39 +422,7 @@
 
   </div>
 </template>
-<style scoped>
-.row {
-  margin: initial !important;
-  padding: 10px 0px;
-}
-.tab-body {
-  width: 100%;
-  padding: 10px;
-  background-color: white;
-  border: #f57224 solid 2px;
-}
-.parent-div {
-  margin: 3% 10%;
-}
-.navbar-item {
-  text-align: center;
-  padding: 10px 0px;
-  border: #f57224 solid 2px;
-  color: #f57224;
-  cursor: pointer;
-  font-size: 20px;
-  height: 100%;
-  font-weight: 600;
-}
-.active {
-  color: white;
-  background-color: #f57224;
-}
-.normal {
-  color: #f57224;
-  background-color: white;
-}
-</style>
+
 <script>
 import BidService from "../services/Bid.controller";
 import AuthService from "../services/auth";
@@ -500,9 +471,21 @@ export default {
   computed: {},
   methods: {
 
+    getInterestRate(amt,intrst){
+      let amount = parseFloat(amt);
+      let interest = parseInt(intrst)/100;
+
+      return (amount * interest);
+    },
+
     report(data){
       //let spreadedData = { ...data };
-        this.$refs.reportModal.data = data;
+        // this.$refs.reportModal.data = data;",
+        this.$refs.reportModal.username = data.username;
+        this.$refs.reportModal.item_name = data.item_name;
+        this.$refs.reportModal.report.userId = data.user_id;
+        this.$refs.reportModal.report.pawnshopId = data.pawnshop_id;
+      
         $('#reportModal').modal("show");
     },
 
@@ -643,3 +626,38 @@ export default {
   }
 };
 </script>
+
+
+<style scoped>
+.row {
+  margin: initial !important;
+  padding: 10px 0px;
+}
+.tab-body {
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  border: #f57224 solid 2px;
+}
+.parent-div {
+  margin: 3% 10%;
+}
+.navbar-item {
+  text-align: center;
+  padding: 10px 0px;
+  border: #f57224 solid 2px;
+  color: #f57224;
+  cursor: pointer;
+  font-size: 20px;
+  height: 100%;
+  font-weight: 600;
+}
+.active {
+  color: white;
+  background-color: #f57224;
+}
+.normal {
+  color: #f57224;
+  background-color: white;
+}
+</style>

@@ -17,10 +17,10 @@
 					</div>
 					<div class="modal-body">
 						<div class="row ml-5 mr-5 text-center">
-							<h5>User: {{ data.username }}</h5>
+							<h5>User: {{ username }}</h5>
 						</div>
 						<div class="row  mb-4 ml-5 mr-5 text-center">
-							<h6>Item: {{ data.item_name }}</h6>
+							<h6>Item: {{ item_name }}</h6>
 						</div>
 						<div class="row mb-5">
 							<div class="col-12 ">
@@ -40,7 +40,7 @@
 								<button
 									type="button"
 									class="btn btn-danger btn-block"
-									@click="sendReport(data)"
+									@click="sendReport()"
 								>
 									Send Report
 								</button>
@@ -74,6 +74,9 @@ export default {
 	data() {
 		return {
 			data: [],
+			data2:[],
+			username:"",
+			item_name:"",
 			report: {
 				userId: null,
 				pawnshopId: null,
@@ -86,10 +89,12 @@ export default {
 	methods: {
 		async sendReport(data) {
 			console.log("sendreport");
-			this.report.userId = this.data.user_id;
-			this.report.pawnshopId = this.data.pawnshop_id;
+			// this.report.userId = this.data.user_id;
+			// this.report.pawnshopId = this.data.pawnshop_id;
+			// http://127.0.0.1:8000/api/sendReport/
+			// http://epawn.online/api/sendReport/
 			await axios
-				.post("api/sendReport", this.report)
+				.post("http://epawn.online/api/sendReport/", this.report)
 				.then(res => {
                     $('#reportModal').modal('hide');
 					this.clear();
