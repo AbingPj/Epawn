@@ -26,11 +26,15 @@ import ProfileComponent2 from './components/NewComponents/ProfileComponent2.vue'
 import SingleItem2 from './components/NewComponents/SingleItem2.vue';
 import SingleBiddedItem2 from './components/NewComponents/SingleBiddedItem2.vue';
 import DashboardComponent2 from './components/NewComponents/DashboardComponent2.vue';
+import BiddingDashboard2 from './components/NewComponents/BiddingDashboard2.vue';
+
 Vue.component("modal-edit-pacakge", require("./components/Modal/ModalEditPacakge.vue").default);
 Vue.component("modal-add-pacakge", require("./components/Modal/ModalAddPacakge.vue").default);
+Vue.component("modal-add-pacakge-two", require("./components/Modal/ModalAddPackage2.vue").default);
 Vue.component("modal-report-user", require("./components/Modal/ModalReportUser.vue").default);
 Vue.component("reported-users", require("./components/NewComponents/SuperAdminReportedUsers.vue").default);
 Vue.component("single-item-pictures", require("./components/NewComponents/SingleItemPictures.vue").default);
+Vue.component("modal-pawning", require("./components/Modal/ModalPawning.vue").default);
 ////////////////////////////////////////////
 
 const router = new VueRouter({
@@ -45,7 +49,7 @@ const router = new VueRouter({
             name: 'dashboard',
             component: DashboardComponent
         }, {
-            path: '/MyBids',
+            path: '/MyBids2',
             name: 'bidding',
             component: BiddingDashboard
         }, {
@@ -94,6 +98,11 @@ const router = new VueRouter({
             path: '/',
             name: 'dashboard2',
             component: DashboardComponent2
+        },
+        {
+            path: '/MyBids',
+            name: 'bidding',
+            component: BiddingDashboard2
         },
 
         

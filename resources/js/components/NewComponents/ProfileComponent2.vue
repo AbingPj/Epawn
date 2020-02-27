@@ -131,6 +131,9 @@
                      style="float: right; cursor: pointer; font-size: 35px;"
                      aria-hidden="true"
                   ></i>
+                  <button @click="launchPackageModal2()"> add new </button>
+                  
+
                </div>
                <div class="information-body mt-2">
                   <div
@@ -288,6 +291,7 @@
       <!-- Package trigger modal -->
       <modal-add-pacakge></modal-add-pacakge>
       <modal-edit-pacakge ref="modalEditPackageRef"></modal-edit-pacakge>
+      <modal-add-pacakge-two></modal-add-pacakge-two>
 
       <!-- Modal for category acceptance request -->
 
@@ -487,6 +491,9 @@ export default {
    methods: {
       launchPackageModal() {
          $("#addPackageModal").modal("show");
+      },
+      launchPackageModal2() {
+         $("#modalAddPackage2").modal("show");
       },
 
       editSinglePackage(data) {
