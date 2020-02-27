@@ -139,4 +139,6 @@ Route::get('/sendReport2/{userId}/{pawnshopId}/{situation}/{isFromPawnshop}', 'z
 Route::get('/getUserInfo/{id}', 'zUserController@getUserInfo' );;
 Route::post('/acceptCategoryRequest', 'PackageController@acceptCategoryRequest' );;
 
+Route::get('/getCategoriesByPawnshop/{id}', 'zCategoriesController@getCategoriesByPawnshop' );;
+
 ////////////////////////////////////////////////////////////////////////////
