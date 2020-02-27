@@ -218,6 +218,7 @@
                   <div class="row">
                      <div class="col">
                         <select class="form-control" v-model="selectedCategory">
+                           <option :value="null" disabled>Select More Category</option>
                            <option
                               v-for="category in categories"
                               :value="category.category_id"
@@ -434,7 +435,7 @@ export default {
             contact: "",
             monthCofescation: ""
          },
-         selectedCategory: 1 || 0,
+         selectedCategory: null,
          timer: Object,
          temp: [],
          durations: [
@@ -605,28 +606,30 @@ export default {
       },
 
       addCategory() {
-         let category = {
-            pawnshop_id: AuthService.methods.getUid(),
-            category_id: this.selectedCategory
-         };
-         PackageService.methods.addItemCategory(category).then(
-            res => {
-               this.viewCategories();
-               Swal.fire({
-                  text: "Category succesfully added",
-                  timer: 3000,
-                  icon: "success"
-               });
-            },
-            err => {
-               Swal.fire({
-                  text: "Category already added",
-                  timer: 3000,
-                  icon: "error"
-               });
-            }
-         );
-         this.viewPawnshopCategories();
+         if (this.selectedCategory != null) {
+            let category = {
+               pawnshop_id: AuthService.methods.getUid(),
+               category_id: this.selectedCategory
+            };
+            PackageService.methods.addItemCategory(category).then(
+               res => {
+                  this.viewCategories();
+                  Swal.fire({
+                     text: "Category succesfully added",
+                     timer: 3000,
+                     icon: "success"
+                  });
+               },
+               err => {
+                  Swal.fire({
+                     text: "Category already added",
+                     timer: 3000,
+                     icon: "error"
+                  });
+               }
+            );
+            this.viewPawnshopCategories();
+         }
       },
       viewDurations() {
          PackageService.methods.viewDurations().then(res => {

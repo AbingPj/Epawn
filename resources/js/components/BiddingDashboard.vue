@@ -237,7 +237,8 @@
                       <b style="color: #f57224;">{{ ((parseInt(duration.duration_to) + 1) - parseInt(duration.duration_from)) }}</b> Days
                     </div>
                     <div class="col">
-                      <b style="color: #f57224;">{{ duration.interestRate }}</b>%
+                      <!-- <b style="color: #f57224;">{{ duration.interestRate }}</b>% -->
+                      <b style="color: #f57224;">{{ parseInt(duration.interestRate) }}</b>%
                     </div>
                     <div class="col">
                       <!-- <b
