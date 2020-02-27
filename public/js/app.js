@@ -4571,6 +4571,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -4585,7 +4586,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         contact: "",
         monthCofescation: ""
       },
-      selectedCategory: 1 || false,
+      selectedCategory: null,
       timer: Object,
       temp: [],
       durations: [{
@@ -4778,26 +4779,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     addCategory: function addCategory() {
       var _this6 = this;
 
-      var category = {
-        pawnshop_id: _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid(),
-        category_id: this.selectedCategory
-      };
-      _services_Package_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.addItemCategory(category).then(function (res) {
-        _this6.viewCategories();
+      if (this.selectedCategory != null) {
+        var category = {
+          pawnshop_id: _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid(),
+          category_id: this.selectedCategory
+        };
+        _services_Package_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.addItemCategory(category).then(function (res) {
+          _this6.viewCategories();
 
-        sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire({
-          text: "Category succesfully added",
-          timer: 3000,
-          icon: "success"
+          sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire({
+            text: "Category succesfully added",
+            timer: 3000,
+            icon: "success"
+          });
+        }, function (err) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire({
+            text: "Category already added",
+            timer: 3000,
+            icon: "error"
+          });
         });
-      }, function (err) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire({
-          text: "Category already added",
-          timer: 3000,
-          icon: "error"
-        });
-      });
-      this.viewPawnshopCategories();
+        this.viewPawnshopCategories();
+      }
     },
     viewDurations: function viewDurations() {
       var _this7 = this;
@@ -52515,17 +52518,28 @@ var render = function() {
                             }
                           }
                         },
-                        _vm._l(_vm.categories, function(category) {
-                          return _c(
+                        [
+                          _c(
                             "option",
                             {
-                              key: category.category_id,
-                              domProps: { value: category.category_id }
+                              attrs: { disabled: "" },
+                              domProps: { value: null }
                             },
-                            [_vm._v(_vm._s(category.category_name))]
-                          )
-                        }),
-                        0
+                            [_vm._v("Select More Category")]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.categories, function(category) {
+                            return _c(
+                              "option",
+                              {
+                                key: category.category_id,
+                                domProps: { value: category.category_id }
+                              },
+                              [_vm._v(_vm._s(category.category_name))]
+                            )
+                          })
+                        ],
+                        2
                       )
                     ]),
                     _vm._v(" "),
