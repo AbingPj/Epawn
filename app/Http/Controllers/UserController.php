@@ -18,25 +18,19 @@ class UserController extends Controller
         ->where('password','=', $request->password)
         ->get();
     }
-    public function changeProfile(Request $request){
-
-        $uploadDir = "images/";
-
-        if($request->file('permit') !== null){
-            $imagePermit = $request->file('permit');
-            $imagePermitSanitizedName = time(). $imagePermit->getClientOriginalName();
-            $imagePermit->move($uploadDir, $imagePermitSanitizedName); 
-        }else{
-            $imagePermitSanitizedName = 'no-image.png';
-        }
-
+    public function saveProfileImage(Request $request){
+         $uploadDir = "images/";
         if($request->file('profile') !== null){
             $imageProfile = $request->file('profile');
-            $imageProfileSanitizedName = time(). $imageProfile->getClientOriginalName();
+            $imageProfileSanitizedName =  $imageProfile->getClientOriginalName();
             $imageProfile->move($uploadDir, $imageProfileSanitizedName); 
         }else{
             $imageProfileSanitizedName = 'no-profile.png';
         }
+    }
+    public function changeProfile(Request $request){
+
+       
 
         return DB::table('tbl_users')
         ->where('user_id','=',$request->userId)
@@ -46,7 +40,7 @@ class UserController extends Controller
             'control_num' => $request->control_num,
             'business_permit' => $imagePermitSanitizedName,
             'contact' => $request->contact,
-            'image' => $imageProfileSanitizedName,
+            'image' => $request->profile,
             'monthCofescation' =>  $request->confiscated
         ]);
     }
@@ -70,16 +64,17 @@ class UserController extends Controller
             'address' => $request->address,
             'email' => $request->email,
             'contact' => $request->contact,
-            'image' => $imagePorifleSanitizedName
+            'image' => $request->profile
         ]);
     }
 
     public function addUser(Request $request){
         DB::table('tbl_users')->insert([
-            'fname' => $request->email,
+            'fname' => $request->username,
             'password' => $request->password,
             'email' => $request->email,
-            'contact' => $request->email,
+            'address' => $request->address,
+            'contact' => $request->contact,
             'username' => $request->email,
             'latitude' => $request->lat,
             'longtitude' => $request->long,

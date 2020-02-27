@@ -94,6 +94,7 @@ Route::post('/mobile/changeUserPassword', 'UserController@changePassword');;
 Route::post('/mobile/changeProfile','UserController@changeUserProfile');;
 Route::post('/mobile/loginUser','UserController@loginUser');;
 Route::post('/mobile/addUser','UserController@addUser');;
+Route::post('/mobile/saveProfileImage','UserController@saveProfileImage');;
 
 Route::post('/mobile/getPawnshopsBid','PawnshopController@getPawnshops');;
 Route::get('/mobile/getAllPawnshops','PawnshopController@getAllPawnshops');;
@@ -112,10 +113,11 @@ Route::post('/mobile/userSendBid','BidController@placeBid');;
 
 Route::post('/mobile/getPawnshopPackages','PackageController@getPawnshopPackages');;
 Route::post('/mobile/viewDurations','PackageController@viewDurations');;
-Route::post('/mobile/viewDurations','PackageController@viewDurations');;
+Route::post('/mobile/getDuration','PackageController@getDuration');;
 Route::post('/mobile/viewPawnshopCategories','PackageController@viewPawnshopCategories');
 
 Route::post('/mobile/getPawnshopsOnBid','BidController@getPawnshopsOnBid');;
+
 
 
 
@@ -131,5 +133,12 @@ Route::post('/addPackageToPawnshop','zPackageController@addPackageToPawnshop');;
 Route::post('/editPackageOfPawnshop','zPackageController@editPackageOfPawnshop');;
 
 Route::get('/getReports', 'zUserReportsController@getReports' );;
+Route::get('/getReports2', 'zUserReportsController@getReports2' );;
 Route::post('/sendReport', 'zUserReportsController@sendReport' );;
+Route::get('/sendReport2/{userId}/{pawnshopId}/{situation}/{isFromPawnshop}', 'zUserReportsController@sendReport2' );;
+Route::get('/getUserInfo/{id}', 'zUserController@getUserInfo' );;
+Route::post('/acceptCategoryRequest', 'PackageController@acceptCategoryRequest' );;
+
+Route::get('/getCategoriesByPawnshop/{id}', 'zCategoriesController@getCategoriesByPawnshop' );;
+
 ////////////////////////////////////////////////////////////////////////////

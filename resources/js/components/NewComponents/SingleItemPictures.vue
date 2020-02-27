@@ -34,9 +34,9 @@
 			<div class="picture" @click="showModal()">
 				<img v-bind:src="`../../images/` + newData.photo_3" />
 			</div>
-			<div class="picture" @click="showModal()">
+			<!-- <div class="picture" @click="showModal()">
 				<img v-bind:src="`../../images/` + newData.photo_4" />
-			</div>
+			</div> -->
 		</div>
 
 		<!-- The Modal -->
@@ -57,7 +57,7 @@
 								<li data-target="#demo" data-slide-to="0" class="active"></li>
 								<li data-target="#demo" data-slide-to="1"></li>
 								<li data-target="#demo" data-slide-to="2"></li>
-								<li data-target="#demo" data-slide-to="3"></li>
+								<!-- <li data-target="#demo" data-slide-to="3"></li> -->
 							</ul>
 
 							<!-- The slideshow -->
@@ -71,9 +71,9 @@
 								<div class="carousel-item">
 									<img :src="`../../images/` + newData.photo_3" />
 								</div>
-                                <div class="carousel-item">
+								<!-- <div class="carousel-item">
 									<img :src="`../../images/` + newData.photo_4" />
-								</div>
+								</div> -->
 							</div>
 
 							<!-- Left and right controls -->

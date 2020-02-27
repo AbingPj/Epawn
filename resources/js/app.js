@@ -25,6 +25,7 @@ import Signup from './components/Signup.vue';
 import ProfileComponent2 from './components/NewComponents/ProfileComponent2.vue';
 import SingleItem2 from './components/NewComponents/SingleItem2.vue';
 import SingleBiddedItem2 from './components/NewComponents/SingleBiddedItem2.vue';
+import DashboardComponent2 from './components/NewComponents/DashboardComponent2.vue';
 Vue.component("modal-edit-pacakge", require("./components/Modal/ModalEditPacakge.vue").default);
 Vue.component("modal-add-pacakge", require("./components/Modal/ModalAddPacakge.vue").default);
 Vue.component("modal-report-user", require("./components/Modal/ModalReportUser.vue").default);
@@ -40,7 +41,7 @@ const router = new VueRouter({
             name: 'login',
             component: LoginComponent
         }, {
-            path: '/',
+            path: '/2',
             name: 'dashboard',
             component: DashboardComponent
         }, {
@@ -89,6 +90,13 @@ const router = new VueRouter({
             name: 'singlebid2',
             component: SingleBiddedItem2
         },
+        {
+            path: '/',
+            name: 'dashboard2',
+            component: DashboardComponent2
+        },
+
+        
         /////////////////////////////////////
     ],
 });
