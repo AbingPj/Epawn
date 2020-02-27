@@ -2543,35 +2543,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2616,6 +2587,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   },
   computed: {},
   methods: {
+    getInterestRate: function getInterestRate(amt, intrst) {
+      var amount = parseFloat(amt);
+      var interest = parseInt(intrst) / 100;
+      return amount * interest;
+    },
     report: function report(data) {
       //let spreadedData = { ...data };
       // this.$refs.reportModal.data = data;",
@@ -3839,6 +3815,8 @@ __webpack_require__.r(__webpack_exports__);
             case 0:
               console.log("sendreport"); // this.report.userId = this.data.user_id;
               // this.report.pawnshopId = this.data.pawnshop_id;
+              // http://127.0.0.1:8000/api/sendReport/
+              // http://epawn.online/api/sendReport/
 
               _context.next = 3;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.post("http://epawn.online/api/sendReport/", this.report).then(function (res) {
@@ -5788,6 +5766,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5806,7 +5804,7 @@ __webpack_require__.r(__webpack_exports__);
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get("/api/getReports").then(function (res) {
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get("/api/getReports2").then(function (res) {
                 _this.reportedUsers = res.data;
               })["catch"](function (err) {
                 console.error(err);
@@ -49750,9 +49748,9 @@ var render = function() {
                                         [
                                           _vm._v(
                                             _vm._s(
-                                              duration.duration_to +
+                                              parseInt(duration.duration_to) +
                                                 1 -
-                                                duration.duration_from
+                                                parseInt(duration.duration_from)
                                             )
                                           )
                                         ]
@@ -49777,23 +49775,10 @@ var render = function() {
                                           _vm._v(
                                             "₱" +
                                               _vm._s(
-                                                (
-                                                  (parseFloat(
-                                                    _vm.item.initial_amount
-                                                  ) *
-                                                    parseFloat(
-                                                      String(
-                                                        "0." +
-                                                          duration.interestRate
-                                                      )
-                                                    )) /
-                                                  (parseFloat(
-                                                    duration.duration_to + 1
-                                                  ) -
-                                                    parseFloat(
-                                                      duration.duration_from
-                                                    ))
-                                                ).toFixed(2)
+                                                _vm.getInterestRate(
+                                                  _vm.item.initial_amount,
+                                                  duration.interestRate
+                                                )
                                               )
                                           )
                                         ]
@@ -53550,7 +53535,7 @@ var render = function() {
           [
             _vm._m(1),
             _vm._v(" "),
-            _vm._l(_vm.reportedUsers, function(report, index) {
+            _vm._l(_vm.reportedUsers, function(user, index) {
               return _c(
                 "div",
                 {
@@ -53563,31 +53548,80 @@ var render = function() {
                     _c("b", [_vm._v("Users Name:")]),
                     _vm._v(" "),
                     _c("br"),
-                    _vm._v("  " + _vm._s(report.user.username) + "\n\t\t\t\t")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col" }, [
-                    _c("b", [_vm._v("Reported By Pawnshop:")]),
-                    _vm._v(" "),
-                    _c("br"),
                     _vm._v(
-                      "  " + _vm._s(report.pawnshop.username) + "\n\t\t\t\t"
+                      "\n               " +
+                        _vm._s(user.username) +
+                        "\n            "
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col" }, [
-                    _c("b", [_vm._v("Situation:")]),
+                  _c("div", { staticClass: "col text-center" }, [
+                    _c("b", [_vm._v("Total Reports:")]),
                     _vm._v(" "),
                     _c("br"),
-                    _vm._v(" " + _vm._s(report.situation) + "\n\t\t\t\t")
+                    _vm._v(" "),
+                    _c("h6", [_vm._v(_vm._s(user.number_of_reports))])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col" }, [
-                    _c("b", [_vm._v("Date Reported")]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" " + _vm._s(report.dateReported) + "\n\t\t\t\t")
-                  ]),
+                  _c(
+                    "div",
+                    { staticClass: "col" },
+                    [
+                      _c("b", [_vm._v("Reported By:")]),
+                      _vm._v(" "),
+                      _vm._l(user.reports_by, function(report) {
+                        return _c("div", { key: report.id }, [
+                          _c("br"),
+                          _vm._v(
+                            "\n                  - " +
+                              _vm._s(report.pawnshop_name) +
+                              "\n               "
+                          )
+                        ])
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col" },
+                    [
+                      _c("b", [_vm._v("Situation:")]),
+                      _vm._v(" "),
+                      _vm._l(user.reports_by, function(report) {
+                        return _c("div", { key: report.id }, [
+                          _c("br"),
+                          _vm._v(
+                            "\n                  - " +
+                              _vm._s(report.situation) +
+                              "\n               "
+                          )
+                        ])
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col" },
+                    [
+                      _c("b", [_vm._v("Date Reported")]),
+                      _vm._v(" "),
+                      _vm._l(user.reports_by, function(report) {
+                        return _c("div", { key: report.id }, [
+                          _c("br"),
+                          _vm._v(
+                            "\n                  - " +
+                              _vm._s(report.dateReported) +
+                              "\n               "
+                          )
+                        ])
+                      })
+                    ],
+                    2
+                  ),
                   _vm._v(" "),
                   _vm._m(2, true)
                 ]
@@ -53621,7 +53655,7 @@ var staticRenderFns = [
                 "aria-controls": "collapseReport"
               }
             },
-            [_vm._v("\n\t\t\t\tReported Users\n\t\t\t")]
+            [_vm._v("Reported Users")]
           )
         ])
       ]
@@ -53651,8 +53685,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col" }, [
       _c("b"),
+      _vm._v(" "),
       _c("button", { staticClass: "btn btn-dark float-right" }, [
-        _vm._v(" BLOCK ")
+        _vm._v("BLOCK")
       ])
     ])
   }
