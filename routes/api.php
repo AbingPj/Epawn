@@ -131,6 +131,7 @@ Route::post('/addPackageToPawnshop','zPackageController@addPackageToPawnshop');;
 Route::post('/editPackageOfPawnshop','zPackageController@editPackageOfPawnshop');;
 
 Route::get('/getReports', 'zUserReportsController@getReports' );;
+Route::get('/getReports2', 'zUserReportsController@getReports2' );;
 Route::post('/sendReport', 'zUserReportsController@sendReport' );;
 Route::get('/sendReport2/{userId}/{pawnshopId}/{situation}/{isFromPawnshop}', 'zUserReportsController@sendReport2' );;
 Route::get('/getUserInfo/{id}', 'zUserController@getUserInfo' );;

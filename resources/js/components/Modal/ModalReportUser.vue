@@ -91,6 +91,8 @@ export default {
 			console.log("sendreport");
 			// this.report.userId = this.data.user_id;
 			// this.report.pawnshopId = this.data.pawnshop_id;
+			// http://127.0.0.1:8000/api/sendReport/
+			// http://epawn.online/api/sendReport/
 			await axios
 				.post("http://epawn.online/api/sendReport/", this.report)
 				.then(res => {

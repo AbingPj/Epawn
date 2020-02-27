@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\tbl_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\tbl_user_report;
@@ -33,7 +34,6 @@ class zUserReportsController extends Controller
         $report->situation =   $situation;
         $report->isFromPawnshop =  $isFromPawnshop;
         $report->save();
-
        $number_of_reports = tbl_user_report::all()->where('userId', $userId)->count();
       return response()->json($report);
     }
@@ -49,6 +49,24 @@ class zUserReportsController extends Controller
 
          return response()->json($reports);
     }
+
+
+    public function getReports2(){
+
+        // // $reports = tbl_user_report::all()->where('userId', 19)->where('isFromPawnshop', 1)->count();
+        // $reports = tbl_user_report::all()->where('isFromPawnshop', 1)->groupBy('userId');
+        $users = tbl_user::all()->where('role_id',3);
+        foreach ($users as $key => $user) {
+           $user->number_of_reports = $user->reports->where('isFromPawnshop', 1)->count();
+           $user->reports_by = $user->reports->where('isFromPawnshop', 1);
+           $user->reports_by->map(function($row){
+               $row->pawnshop_name  = $row->pawnshop->username;
+           });
+        }
+
+        return response()->json($users);
+    }
+
 
     
 
