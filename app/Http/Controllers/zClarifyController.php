@@ -172,6 +172,9 @@ class zClarifyController extends Controller
     public function getPawnedItemPaymentDetails($package_id, $amount, $date)
     {
         $dt = Carbon::parse($date);
+        $datePawned = Carbon::parse($date);
+        // $dateNow = Carbon::now('Asia/Manila');
+        
         // $dt = Carbon::now('Asia/Manila');
         $package = zPackage::find($package_id);
         $durations = $package->durations;
@@ -180,7 +183,13 @@ class zClarifyController extends Controller
         $data = [];
         $dt->subDays(1);
 
+        $dateNow = Carbon::now('Asia/Manila');
+        // $dateNow = Carbon::parse('2020-02-10 14:50:11');
+        $stop = false;
+        $currentPayment = 0;
 
+
+    
         if ($package->if_has_special_offer == 1) {
             foreach ($durations as $key => $duration) {
                 $dt->addDays(1);
@@ -188,6 +197,7 @@ class zClarifyController extends Controller
                 $from = $dateFrom->format('M.d,Y');
                 $number_of_days = (($duration->to) - $duration->from);
                 $dateTo = $dt->addDays($number_of_days);
+               
                 $to = $dateTo->format('M.d,Y');
                 $interest = $duration->interest / 100;
                 $renewal = ($amount * $interest);
@@ -201,6 +211,13 @@ class zClarifyController extends Controller
                  }else{
                     $redemption = $claim_without_advance_interest;
                  }
+
+                if($dateNow <= $dateTo &&  $stop == false){
+                    $currentPayment = $redemption;
+                    $stop = true;
+                }
+               
+
                 $obj = array(
                     'index' => $key,
                     'from' => $from,
@@ -246,6 +263,11 @@ class zClarifyController extends Controller
                 $redemption = $claim_without_advance_interest;
             }
 
+            if($dateNow <= $month &&  $stop == false){
+                $currentPayment = $redemption;
+                $stop = true;
+            }
+
             $obj = array(
                 'index' => $i,
                 'month' => $month->format('M.d,Y'),
@@ -263,9 +285,12 @@ class zClarifyController extends Controller
             array_push($monthly, $obj);
         }
         $obj = array(
-            'package' => $package,
+            'date_now' => $dateNow,
+            'current_payment' => $currentPayment,
             'specials' => $specials,
             'monthly' => $monthly,
+            'package' => $package,
+           
         );
         array_push($data, $obj);
         return response()->json($data);
