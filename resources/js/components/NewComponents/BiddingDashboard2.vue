@@ -430,7 +430,7 @@
 
     <!-- ReportModal -->
     <modal-report-user ref="reportModal"></modal-report-user>
-    <modal-pawning></modal-pawning>
+    <modal-pawning ref="modalPawning"></modal-pawning>
 
 
   </div>
@@ -485,6 +485,7 @@ export default {
   methods: {
 
      modalPawningShow(item){
+      this.$refs.modalPawning.item = item;
        $('#modalPawning').modal('show');
      },
 
