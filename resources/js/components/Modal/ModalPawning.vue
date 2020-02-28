@@ -18,7 +18,7 @@
                            class="input-group-text"
                         ># of days to notify before it hits the deadline</span>
                      </div>
-                     <input type="text" class="form-control" />
+                     <input v-model="days_deadline" type="text" class="form-control" />
                      <div class="input-group-append">
                         <span class="input-group-text">Days</span>
                      </div>
@@ -140,37 +140,43 @@
                      </div>
                   </div>
 
-                  <!-- <div class="row">
-              <div class="col">
-                <button
-                  class="btn btn-success btn-block"
-                  @click="pawnItem()"
-                  :disabled="declineActive || (pawning_info.notif_days.trim().length == 0 || pawning_info.package == 0)"
-                >Accept</button>
-              </div>
-              <div class="col">
-                <button
-                  class="btn btn-danger btn-block"
-                  v-if="declineActive == false"
-                  @click="declineActive = !declineActive"
-                >Decline</button>
-                <div class="row" v-if="declineActive == true" style="padding: 0px !important;">
-                  <div class="col">
-                    <button
-                      class="btn btn-success btn-block"
-                      @click="declineItem()"
-                      :disabled="pawning_info.reason.trim().length == 0"
-                    >Confirm</button>
+                  <div class="row">
+                     <div class="col">
+                        <!-- <button
+                           class="btn btn-success btn-block"
+                           @click="pawnItem()"
+                           :disabled="declineActive || (pawning_info.notif_days.trim().length == 0 || pawning_info.package == 0)"
+                        >Accept</button>-->
+                        <button class="btn btn-success btn-block" @click="savePawnedItem()" >Accept</button>
+                     </div>
+                     <div class="col">
+                        <button
+                           class="btn btn-danger btn-block"
+                           v-if="declineActive == false"
+                           @click="declineActive = !declineActive"
+                        >Decline</button>
+                        <div
+                           class="row"
+                           v-if="declineActive == true"
+                           style="padding: 0px !important;"
+                        >
+                           <div class="col">
+                              <!-- <button
+                                 class="btn btn-success btn-block"
+                                 @click="declineItem()"
+                                 :disabled="pawning_info.reason.trim().length == 0"
+                              >Confirm</button>-->
+                              <button class="btn btn-success btn-block">Confirm</button>
+                           </div>
+                           <div class="col">
+                              <button
+                                 class="btn btn-danger btn-block"
+                                 @click="declineActive = !declineActive"
+                              >Cancel</button>
+                           </div>
+                        </div>
+                     </div>
                   </div>
-                  <div class="col">
-                    <button
-                      class="btn btn-danger btn-block"
-                      @click="declineActive = !declineActive"
-                    >Cancel</button>
-                  </div>
-                </div>
-              </div>
-                  </div>-->
                </div>
             </div>
          </div>
@@ -185,10 +191,12 @@ export default {
    data() {
       return {
          item: {},
+         days_deadline: "",
          pawnshop_id: AuthService.methods.getUid(),
          packages: [],
          selectedPackage: null,
          bidAmountEditable: true,
+         declineActive: false,
          calculations: [],
          specials: [],
          monthly: []
@@ -198,6 +206,25 @@ export default {
       this.getPackages();
    },
    methods: {
+      async savePawnedItem() {
+         let data = {
+            item_id: this.item.item_id,
+            pawnshop_id: this.pawnshop_id,
+            customer_id: this.item.user_id,
+            package_id: this.selectedPackage,
+            pawn_amount: this.item.initial_amount,
+            days_deadline: this.days_deadline
+         };
+
+         await axios
+            .post("api/zSavePawnedItem", data)
+            .then(res => {
+               console.log(res);
+            })
+            .catch(err => {
+               console.error(err);
+            });
+      },
       toFormat(num) {
          return Number(parseFloat(num).toFixed(2)).toLocaleString("en", {
             minimumFractionDigits: 2

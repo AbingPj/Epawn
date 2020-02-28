@@ -143,5 +143,7 @@ Route::get('/getCategoriesByPawnshop/{id}', 'zCategoriesController@getCategories
 Route::post('/zSavePackage', 'zClarifyController@zSavePackage' );;
 Route::get('/zGetPackages/{pawnshop_id}', 'zClarifyController@zGetPackages' );;
 Route::get('/getPawnedItemCalculations/{package_id}/{amount}', 'zClarifyController@getPawnedItemCalculations' );;
+Route::get('/getPawnedItemPaymentDetails/{package_id}/{amount}/{date}', 'zClarifyController@getPawnedItemPaymentDetails' );;
+Route::post('/zSavePawnedItem', 'zClarifyController@zSavePawnedItem' );;
 
 ////////////////////////////////////////////////////////////////////////////
