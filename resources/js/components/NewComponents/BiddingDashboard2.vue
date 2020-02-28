@@ -143,6 +143,10 @@
 
         <div class="alert alert-danger text-center" v-if="records.length == 0">Records Empty as of the moment</div>
       </div>
+
+
+    
+     
     </div>
 
     <!-- Pawning the item modal  -->
@@ -432,6 +436,8 @@
     <modal-report-user ref="reportModal"></modal-report-user>
     <modal-pawning ref="modalPawning"></modal-pawning>
 
+
+   <list-of-pawned-items>  </list-of-pawned-items>
 
   </div>
 </template>

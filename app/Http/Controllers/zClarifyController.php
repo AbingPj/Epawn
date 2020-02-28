@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\tbl_user_itempost;
 use Illuminate\Http\Request;
 use App\zPackage;
 use App\zPackageDuration;
 use App\zPawnedItem;
+use App\zPayments;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -43,7 +45,6 @@ class zClarifyController extends Controller
 
     public function zSavePawnedItem(Request $request)
     {
-
         DB::transaction(function () use ($request) {
             $pawned = new zPawnedItem;
             $pawned->item_id = $request->item_id;
@@ -58,6 +59,51 @@ class zClarifyController extends Controller
             $pawned->is_claimed = 0;
             $pawned->is_confiscated = 0;
             $pawned->save();
+            // $item = tbl_user_itempost::find($request->item_id);
+            // $item->status = 2;
+            // $item->save();
+        });
+    }
+
+
+    public function zRenewItemPayment(Request $request)
+    {
+        DB::transaction(function () use ($request) {
+            $id = $request->pawned_item_id;
+            $pawned = zPawnedItem::find($id);
+            $pawned->date_renew =  Carbon::now('Asia/Manila');
+            $pawned->save();
+
+            $payment = new zPayments;
+            $payment->item_id = $pawned->item_id;
+            $payment->pawned_item_id = $pawned->id;
+            // 1 is claimed, 2 is renew
+            $payment->payment_type = 2;  
+            $payment->payment_type_desc = 'renew';
+            $payment->amount = $request->payment_amount;
+            $payment->save();
+          
+        });
+    }
+
+    public function zClaimItemPayment(Request $request)
+    {
+        DB::transaction(function () use ($request) {
+            $id = $request->pawned_item_id;
+            $pawned = zPawnedItem::find($id);
+            $pawned->date_claimed =  Carbon::now('Asia/Manila');
+            $pawned->is_claimed = 1;
+            $pawned->save();
+
+            $payment = new zPayments;
+            $payment->item_id = $pawned->item_id;
+            $payment->pawned_item_id = $pawned->id;
+            // 1 is claim, 2 is renew
+            $payment->payment_type = 1;  
+            $payment->payment_type_desc = 'claim';
+            $payment->amount = $request->payment_amount;
+            $payment->save();
+           
         });
     }
 
@@ -69,6 +115,15 @@ class zClarifyController extends Controller
             $pack->durations = $pack->durations;
         }
         return $packages;
+    }
+
+    public function zGetPawnedItemsByPawnshop($pawnshop_id){
+        $items = zPawnedItem::all()->where('pawnshop_id', $pawnshop_id);
+        foreach ($items as $key => $item) {
+            $item->customer_name = $item->customer->username;
+            $item->item_name = $item->item->item_name;
+        }
+        return response()->json($items);
     }
 
     public function getPawnedItemCalculations($package_id, $amount)
@@ -187,6 +242,7 @@ class zClarifyController extends Controller
         // $dateNow = Carbon::parse('2020-02-10 14:50:11');
         $stop = false;
         $currentPayment = 0;
+        $currentRenewal = 0;
 
 
     
@@ -214,8 +270,11 @@ class zClarifyController extends Controller
 
                 if($dateNow <= $dateTo &&  $stop == false){
                     $currentPayment = $redemption;
+                    $currentRenewal = $renewal;
                     $stop = true;
                 }
+
+
                
 
                 $obj = array(
@@ -265,6 +324,7 @@ class zClarifyController extends Controller
 
             if($dateNow <= $month &&  $stop == false){
                 $currentPayment = $redemption;
+                $currentRenewal = $renewal;
                 $stop = true;
             }
 
@@ -285,7 +345,8 @@ class zClarifyController extends Controller
             array_push($monthly, $obj);
         }
         $obj = array(
-            'date_now' => $dateNow,
+            'date_now' => $dateNow->format('M d, Y'),
+            'current_renewal' => $currentRenewal,
             'current_payment' => $currentPayment,
             'specials' => $specials,
             'monthly' => $monthly,
