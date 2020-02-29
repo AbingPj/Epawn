@@ -126,12 +126,12 @@
                <div class="information-header">
                   Packages
                   <i
-                     v-on:click="launchPackageModal()"
+                     v-on:click="launchPackageModal2()"
                      class="fa fa-plus-square mr-1"
                      style="float: right; cursor: pointer; font-size: 35px;"
                      aria-hidden="true"
                   ></i>
-                  <button @click="launchPackageModal2()"> add new </button>
+                  <!-- <button @click="launchPackageModal2()"> add new </button> -->
                   
 
                </div>
@@ -163,41 +163,76 @@
                            </button>
                         </div>
                      </div>
-                     <div class="row">
+                     <div class="row mb-5">
                         <div class="col-6">
                            <small style="margin-left: 10px; color:  #f57224;">Package Description</small>
                            <br />
-                           <span style="margin-left: 10px;">{{single_pack.package_description}}</span>
+                           <span style="margin-left: 10px;">{{single_pack.package_desc}}</span>
+                        </div>
+                        <div class="col-6">
+                           <small style="margin-left: 10px; color:  #f57224;">Interest Payment Term</small>
+                           <br />
+                           <span style="margin-left: 10px;">{{single_pack.if_advance_interest == 1 ? 'With Advance Interest' : 'Without Advance Interest'}}</span>
                         </div>
                      </div>
-                     <div v-for="duration in single_pack.package_durations" :key="duration.id">
-                        <div class="row" v-if="duration.package_id == single_pack.package_id">
+                     <div class="row mb-5">
+                        <div class="col-3">
+                           <small style="margin-left: 10px; color:  #f57224;">
+                            No. of months</small>
+                           <br />
+                           <span style="margin-left: 10px;">{{single_pack.number_of_month}}</span>
+                        </div>
+                        <div class="col-3">
+                           <small style="margin-left: 10px; color:  #f57224;">
+                            No. of months</small>
+                           <br />
+                           <span style="margin-left: 10px;">{{single_pack.number_of_month}}</span>
+                        </div>
+                         <div class="col-3">
+                           <small style="margin-left: 10px; color:  #f57224;">
+                            Interest per month</small>
+                           <br />
+                           <span style="margin-left: 10px;">{{single_pack.interest_per_month}}</span>
+                        </div>
+                         <div class="col-3">
+                           <small style="margin-left: 10px; color:  #f57224;">
+                            Penalty per month</small>
+                           <br />
+                           <span style="margin-left: 10px;">{{single_pack.pinalty_per_month}}</span>
+                        </div>
+                     </div>
+
+                     <h4 class="text-center">Durations</h4>
+                     <div v-for="duration in single_pack.durations" :key="duration.id">
+                        <div class="row" v-if="duration.package_id == single_pack.id">
                            <div class="col-4">
                               <small style="margin-left: 10px;  color:  #f57224;">From</small>
                               <br />
                               <span style="margin-left: 10px;">
-                                 {{duration.duration_from}}
-                                 <small>Day</small>
+                                  <small>Day</small>
+                                 {{duration.from}}
                               </span>
                            </div>
                            <div class="col-4">
                               <small style="margin-left: 10px;  color:  #f57224;">To</small>
                               <br />
                               <span style="margin-left: 10px;">
-                                 {{duration.duration_to}}
-                                 <small>Day</small>
+                                   <small>Day</small>
+                                 {{duration.to}}
+                               
                               </span>
                            </div>
                            <div class="col-4">
                               <small style="margin-left: 10px;  color:  #f57224;">Interest Rate</small>
                               <br />
                               <span style="margin-left: 10px;">
-                                 {{duration.interestRate}}
+                                 {{duration.interest}}
                                  <small>%</small>
                               </span>
                            </div>
                         </div>
                      </div>
+                     <br><br>
                   </div>
                   <div
                      :class="packages.length == 0 ? '' : 'd-none'"
@@ -503,10 +538,12 @@ export default {
       },
 
       async viewPackages() {
+         // /zGetPackages/{pawnshop_id}
          await axios
-            .post("api/getPawnshopPackages2", {
-               pawnshopId: AuthService.methods.getUid()
-            })
+            // .post("api/getPawnshopPackages2", {
+               // pawnshopId: AuthService.methods.getUid()
+            // })
+            .get("api/zGetPackages/"+AuthService.methods.getUid())
             .then(res => {
                this.packages = res.data;
             })
@@ -574,37 +611,37 @@ export default {
          this.$router.push({ path: "/" });
       },
 
-      removePackage(index) {
-         this.pack = { ...this.packages[index] };
-         this.pack.package_id = parseInt(this.pack.package_id || false);
-         let _this = this;
+      // removePackage(index) {
+      //    this.pack = { ...this.packages[index] };
+      //    this.pack.package_id = parseInt(this.pack.package_id || false);
+      //    let _this = this;
 
-         Swal.fire({
-            title: "Are you sure to remove this Package?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-         }).then(result => {
-            if (result.value) {
-               Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      //    Swal.fire({
+      //       title: "Are you sure to remove this Package?",
+      //       text: "You won't be able to revert this!",
+      //       icon: "warning",
+      //       showCancelButton: true,
+      //       confirmButtonColor: "#3085d6",
+      //       cancelButtonColor: "#d33",
+      //       confirmButtonText: "Yes, delete it!"
+      //    }).then(result => {
+      //       if (result.value) {
+      //          Swal.fire("Deleted!", "Your file has been deleted.", "success");
 
-               PackageService.methods.removePackage(_this.pack).then(res => {
-                  console.info(res);
-                  _this.viewPackages();
-                  _this.pack = {
-                     pawnshop_id: AuthService.methods.getUid(),
-                     package_interest: "",
-                     package_days: "",
-                     package_description: "",
-                     package_name: ""
-                  };
-               });
-            }
-         });
-      },
+      //          PackageService.methods.removePackage(_this.pack).then(res => {
+      //             console.info(res);
+      //             _this.viewPackages();
+      //             _this.pack = {
+      //                pawnshop_id: AuthService.methods.getUid(),
+      //                package_interest: "",
+      //                package_days: "",
+      //                package_description: "",
+      //                package_name: ""
+      //             };
+      //          });
+      //       }
+      //    });
+      // },
 
       viewCategories() {
          PackageService.methods.getItemCategories().then(res => {
@@ -638,12 +675,7 @@ export default {
             this.viewPawnshopCategories();
          }
       },
-      viewDurations() {
-         PackageService.methods.viewDurations().then(res => {
-            this.durations = [...res];
-         });
-      },
-
+    
       launchItemModal() {
          $("#itemModal").modal("show");
       },

@@ -59,7 +59,7 @@
 							/>
 						</div>
 						<div class="col">
-							<label for="">Pinalty</label>
+							<label for="">Penalty</label>
 							<input
 								v-model="pinalty_per_month"
 								type="text"
@@ -68,22 +68,23 @@
 						</div>
 						<div class="col">
 							<label for="">Interest Payment Term</label>
-							<input
-								v-model="if_advance_interest"
-								type="text"
-								class="form-control"
-							/>
+							<select class="form-control" v-model="if_advance_interest" >
+								<option value="1">With Advance Interest</option>
+								<option value="0">No Advance Interest</option>
+							</select>
+
+						
 						</div>
 					</div>
 					<br />
 					<br />
 					<div class="row">
-						<div class="col"></div>
 						<div class="col">
 							<button class="btn btn-dark" @click="addDuration">
 								Add Duration
 							</button>
 						</div>
+						<div class="col"></div>
 						<div class="col"></div>
 					</div>
 					<br />
@@ -117,11 +118,7 @@
 								/>
 							</div>
 							<div class="col-1">
-								<div
-									:class="
-									   index != durations.length - 1 ? 'd-none' : ''
-									"
-								>
+								<div :class="index != durations.length - 1 ? 'd-none' : ''">
 									<small>remove &nbsp; </small>
 									<button
 										@click="removeDuration()"
@@ -160,7 +157,7 @@ export default {
 			number_of_month: "",
 			interest_per_month: "",
 			pinalty_per_month: "",
-			if_advance_interest: 0,
+			if_advance_interest: 1,
 			durations: []
 		};
 	},
@@ -180,17 +177,30 @@ export default {
 			axios
 				.post("/api/zSavePackage", data)
 				.then(res => {
-					console.log(res);
+					Swal.fire({
+						title: "Package Added Succesfully",
+						toast: true,
+						timer: 3000,
+						position: "top-right"
+					});
+					$("#modalAddPackage2").modal("hide");
+					this.$parent.viewPackages();
+					this.clear();
+				
 				})
 				.catch(err => {
 					console.error(err);
 				});
 		},
 		updateTo(index) {
-			if (
-				Number(this.durations[index].to) <= Number(this.durations[index].from)
-			) {
-				this.durations[index].to = Number(this.durations[index].from) + 1;
+			if (Number(this.durations[index].to) > 35) {
+				this.durations[index].to = 0;
+			} else {
+				if (
+					Number(this.durations[index].to) <= Number(this.durations[index].from)
+				) {
+					this.durations[index].to = Number(this.durations[index].from) + 1;
+				}
 			}
 		},
 		removeDuration() {

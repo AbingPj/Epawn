@@ -16,9 +16,9 @@ class CreateZPackageDurationsTable extends Migration
         Schema::create('z_package_durations', function (Blueprint $table) {
             $table->bigIncrements('id');
             // $table->bigInteger('pawnshop_id')->nullable();
-            $table->bigInteger('package_id')->nullable();
-            $table->bigInteger('from')->nullable();
-            $table->bigInteger('to')->nullable();
+            $table->integer('package_id')->nullable();
+            $table->integer('from')->nullable();
+            $table->integer('to')->nullable();
             $table->double('interest',10,2)->nullable()->default(0.00);
             $table->timestamps();
         });

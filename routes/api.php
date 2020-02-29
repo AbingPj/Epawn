@@ -127,24 +127,34 @@ Route::post('/mobile/getPawnshopsOnBid','BidController@getPawnshopsOnBid');;
 
 
 ///////////////////////routes added by abing////////////////////////////////
-Route::post('/getPawnshopPackages2','zPackageController@getPawnshopPackages2');;
+// Route::post('/getPawnshopPackages2','zPackageController@getPawnshopPackages2');;
 Route::post('/viewPawnshopCategories2','zPackageController@viewPawnshopCategories2');;
+
+
+// to save package and durations
+Route::post('/zSavePackage', 'zPackageController@zSavePackage' );;
+// to get packages by pawnshop id  with durations
+Route::get('/zGetPackages/{pawnshop_id}', 'zPackageController@zGetPackages' );;
+
 Route::post('/addPackageToPawnshop','zPackageController@addPackageToPawnshop');;
 Route::post('/editPackageOfPawnshop','zPackageController@editPackageOfPawnshop');;
+Route::post('/acceptCategoryRequest', 'PackageController@acceptCategoryRequest' );;
 
 Route::get('/getReports', 'zUserReportsController@getReports' );;
 Route::get('/getReports2', 'zUserReportsController@getReports2' );;
 Route::post('/sendReport', 'zUserReportsController@sendReport' );;
 Route::get('/sendReport2/{userId}/{pawnshopId}/{situation}/{isFromPawnshop}', 'zUserReportsController@sendReport2' );;
 Route::get('/getUserInfo/{id}', 'zUserController@getUserInfo' );;
-Route::post('/acceptCategoryRequest', 'PackageController@acceptCategoryRequest' );;
-
 Route::get('/getCategoriesByPawnshop/{id}', 'zCategoriesController@getCategoriesByPawnshop' );;
-Route::post('/zSavePackage', 'zClarifyController@zSavePackage' );;
-Route::get('/zGetPackages/{pawnshop_id}', 'zClarifyController@zGetPackages' );;
-Route::get('/getPawnedItemCalculations/{package_id}/{amount}', 'zClarifyController@getPawnedItemCalculations' );;
-Route::get('/getPawnedItemPaymentDetails/{package_id}/{amount}/{date}', 'zClarifyController@getPawnedItemPaymentDetails' );;
-Route::post('/zSavePawnedItem', 'zClarifyController@zSavePawnedItem' );;
-Route::get('/zGetPawnedItemsByPawnshop/{pawnshop_id}', 'zClarifyController@zGetPawnedItemsByPawnshop' );;
 
+
+////////////////////////////////////////////////
+//get the the calculations
+Route::get('/getPawnedItemCalculations/{package_id}/{amount}', 'zClarifyController@getPawnedItemCalculations' );;
+// get the current renewal or claim payments and calculations
+Route::get('/getPawnedItemPaymentDetails/{package_id}/{amount}/{date}', 'zClarifyController@getPawnedItemPaymentDetails' );;
+// to save pawned item
+Route::post('/zSavePawnedItem', 'zClarifyController@zSavePawnedItem' );;
+// to get the pawned items by pawnshop id   with item details and customer details
+Route::get('/zGetPawnedItemsByPawnshop/{pawnshop_id}', 'zClarifyController@zGetPawnedItemsByPawnshop' );;
 ////////////////////////////////////////////////////////////////////////////

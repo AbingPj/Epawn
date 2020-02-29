@@ -3595,9 +3595,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3609,12 +3606,14 @@ __webpack_require__.r(__webpack_exports__);
       number_of_month: "",
       interest_per_month: "",
       pinalty_per_month: "",
-      if_advance_interest: 0,
+      if_advance_interest: 1,
       durations: []
     };
   },
   methods: {
     addPackage: function addPackage() {
+      var _this = this;
+
       var data = {
         pawnshop_id: this.pawnshop_id,
         package_name: this.package_name,
@@ -3626,14 +3625,28 @@ __webpack_require__.r(__webpack_exports__);
         durations: this.durations
       };
       axios.post("/api/zSavePackage", data).then(function (res) {
-        console.log(res);
+        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire({
+          title: "Package Added Succesfully",
+          toast: true,
+          timer: 3000,
+          position: "top-right"
+        });
+        $("#modalAddPackage2").modal("hide");
+
+        _this.$parent.viewPackages();
+
+        _this.clear();
       })["catch"](function (err) {
         console.error(err);
       });
     },
     updateTo: function updateTo(index) {
-      if (Number(this.durations[index].to) <= Number(this.durations[index].from)) {
-        this.durations[index].to = Number(this.durations[index].from) + 1;
+      if (Number(this.durations[index].to) > 35) {
+        this.durations[index].to = 0;
+      } else {
+        if (Number(this.durations[index].to) <= Number(this.durations[index].from)) {
+          this.durations[index].to = Number(this.durations[index].from) + 1;
+        }
       }
     },
     removeDuration: function removeDuration() {
@@ -6044,6 +6057,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6115,17 +6163,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       $("#editPackageModal").modal("show");
     },
     viewPackages: function viewPackages() {
-      var _this2 = this;
+      var _this = this;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function viewPackages$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.post("api/getPawnshopPackages2", {
-                pawnshopId: _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid()
-              }).then(function (res) {
-                _this2.packages = res.data;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios // .post("api/getPawnshopPackages2", {
+              // pawnshopId: AuthService.methods.getUid()
+              // })
+              .get("api/zGetPackages/" + _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid()).then(function (res) {
+                _this.packages = res.data;
               })["catch"](function (err) {
                 console.error(err);
               }));
@@ -6138,7 +6187,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     viewPawnshopCategories: function viewPawnshopCategories() {
-      var _this3 = this;
+      var _this2 = this;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function viewPawnshopCategories$(_context2) {
         while (1) {
@@ -6148,7 +6197,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.post("api/viewPawnshopCategories2", {
                 pawnshop_id: _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid()
               }).then(function (res) {
-                _this3.pawnshop_categories = res.data;
+                _this2.pawnshop_categories = res.data;
               })["catch"](function (err) {
                 console.error(err);
               }));
@@ -6161,7 +6210,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     removeItemCategory: function removeItemCategory(category) {
-      var _this4 = this;
+      var _this3 = this;
 
       console.info("sample sacaasdsad", category);
       sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire({
@@ -6182,7 +6231,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               icon: "success"
             });
 
-            _this4.viewPawnshopCategories();
+            _this3.viewPawnshopCategories();
           });
         }
       });
@@ -6211,48 +6260,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         path: "/"
       });
     },
-    removePackage: function removePackage(index) {
-      this.pack = _objectSpread({}, this.packages[index]);
-      this.pack.package_id = parseInt(this.pack.package_id || false);
-
-      var _this = this;
-
-      sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire({
-        title: "Are you sure to remove this Package?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then(function (result) {
-        if (result.value) {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire("Deleted!", "Your file has been deleted.", "success");
-          _services_Package_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.removePackage(_this.pack).then(function (res) {
-            console.info(res);
-
-            _this.viewPackages();
-
-            _this.pack = {
-              pawnshop_id: _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid(),
-              package_interest: "",
-              package_days: "",
-              package_description: "",
-              package_name: ""
-            };
-          });
-        }
-      });
-    },
+    // removePackage(index) {
+    //    this.pack = { ...this.packages[index] };
+    //    this.pack.package_id = parseInt(this.pack.package_id || false);
+    //    let _this = this;
+    //    Swal.fire({
+    //       title: "Are you sure to remove this Package?",
+    //       text: "You won't be able to revert this!",
+    //       icon: "warning",
+    //       showCancelButton: true,
+    //       confirmButtonColor: "#3085d6",
+    //       cancelButtonColor: "#d33",
+    //       confirmButtonText: "Yes, delete it!"
+    //    }).then(result => {
+    //       if (result.value) {
+    //          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+    //          PackageService.methods.removePackage(_this.pack).then(res => {
+    //             console.info(res);
+    //             _this.viewPackages();
+    //             _this.pack = {
+    //                pawnshop_id: AuthService.methods.getUid(),
+    //                package_interest: "",
+    //                package_days: "",
+    //                package_description: "",
+    //                package_name: ""
+    //             };
+    //          });
+    //       }
+    //    });
+    // },
     viewCategories: function viewCategories() {
-      var _this5 = this;
+      var _this4 = this;
 
       _services_Package_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.getItemCategories().then(function (res) {
-        _this5.categories = _toConsumableArray(res);
+        _this4.categories = _toConsumableArray(res);
       });
     },
     addCategory: function addCategory() {
-      var _this6 = this;
+      var _this5 = this;
 
       if (this.selectedCategory != null) {
         var category = {
@@ -6260,7 +6305,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           category_id: this.selectedCategory
         };
         _services_Package_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.addItemCategory(category).then(function (res) {
-          _this6.viewCategories();
+          _this5.viewCategories();
 
           sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire({
             text: "Category succesfully added",
@@ -6277,29 +6322,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.viewPawnshopCategories();
       }
     },
-    viewDurations: function viewDurations() {
-      var _this7 = this;
-
-      _services_Package_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.viewDurations().then(function (res) {
-        _this7.durations = _toConsumableArray(res);
-      });
-    },
     launchItemModal: function launchItemModal() {
       $("#itemModal").modal("show");
     },
     getUserData: function getUserData() {
-      var _this8 = this;
+      var _this6 = this;
 
       _services_User_controller__WEBPACK_IMPORTED_MODULE_3__["default"].methods.getUserDetails(window.localStorage.getItem("userId")).then(function (res) {
-        _this8.profile = _objectSpread({}, res[0]);
-        console.info("profile data", _this8.profile);
+        _this6.profile = _objectSpread({}, res[0]);
+        console.info("profile data", _this6.profile);
       });
     },
     enableEditing: function enableEditing(value) {
       this.isEditable = !this.isEditable;
     },
     saveChanges: function saveChanges() {
-      var _this9 = this;
+      var _this7 = this;
 
       var user = {
         userId: _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid(),
@@ -6325,23 +6363,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           icon: "success"
         });
 
-        _this9.getUserData();
+        _this7.getUserData();
 
-        _this9.isEditable = !_this9.isEditable;
+        _this7.isEditable = !_this7.isEditable;
       });
     },
     launchRequestModal: function launchRequestModal() {
       $("#requestModal").modal("show");
     },
     sendCategoryRequest: function sendCategoryRequest() {
-      var _this10 = this;
+      var _this8 = this;
 
       _services_Package_controller__WEBPACK_IMPORTED_MODULE_4__["default"].methods.sendCategoryRequest(this.categoryRequest).then(function (e) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire({
           title: "Category Request Sent Succesfully",
           icon: "success"
         });
-        _this10.categoryRequest = {
+        _this8.categoryRequest = {
           category_name: "",
           category_description: "",
           category_user: _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid()
@@ -52771,7 +52809,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col" }, [
-                    _c("label", { attrs: { for: "" } }, [_vm._v("Pinalty")]),
+                    _c("label", { attrs: { for: "" } }, [_vm._v("Penalty")]),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -52801,27 +52839,44 @@ var render = function() {
                       _vm._v("Interest Payment Term")
                     ]),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.if_advance_interest,
-                          expression: "if_advance_interest"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.if_advance_interest },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.if_advance_interest,
+                            expression: "if_advance_interest"
                           }
-                          _vm.if_advance_interest = $event.target.value
+                        ],
+                        staticClass: "form-control",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.if_advance_interest = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
                         }
-                      }
-                    })
+                      },
+                      [
+                        _c("option", { attrs: { value: "1" } }, [
+                          _vm._v("With Advance Interest")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "0" } }, [
+                          _vm._v("No Advance Interest")
+                        ])
+                      ]
+                    )
                   ])
                 ]),
                 _vm._v(" "),
@@ -52830,8 +52885,6 @@ var render = function() {
                 _c("br"),
                 _vm._v(" "),
                 _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col" }),
-                  _vm._v(" "),
                   _c("div", { staticClass: "col" }, [
                     _c(
                       "button",
@@ -52842,6 +52895,8 @@ var render = function() {
                       [_vm._v("\n\t\t\t\t\t\t\tAdd Duration\n\t\t\t\t\t\t")]
                     )
                   ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col" }),
                   _vm._v(" "),
                   _c("div", { staticClass: "col" })
                 ]),
@@ -56165,22 +56220,10 @@ var render = function() {
                     attrs: { "aria-hidden": "true" },
                     on: {
                       click: function($event) {
-                        return _vm.launchPackageModal()
+                        return _vm.launchPackageModal2()
                       }
                     }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.launchPackageModal2()
-                        }
-                      }
-                    },
-                    [_vm._v(" add new ")]
-                  )
+                  })
                 ]),
                 _vm._v(" "),
                 _c(
@@ -56284,7 +56327,7 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "row mb-5" }, [
                             _c("div", { staticClass: "col-6" }, [
                               _c(
                                 "small",
@@ -56302,20 +56345,149 @@ var render = function() {
                               _c(
                                 "span",
                                 { staticStyle: { "margin-left": "10px" } },
+                                [_vm._v(_vm._s(single_pack.package_desc))]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-6" }, [
+                              _c(
+                                "small",
+                                {
+                                  staticStyle: {
+                                    "margin-left": "10px",
+                                    color: "#f57224"
+                                  }
+                                },
+                                [_vm._v("Interest Payment Term")]
+                              ),
+                              _vm._v(" "),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticStyle: { "margin-left": "10px" } },
                                 [
                                   _vm._v(
-                                    _vm._s(single_pack.package_description)
+                                    _vm._s(
+                                      single_pack.if_advance_interest == 1
+                                        ? "With Advance Interest"
+                                        : "Without Advance Interest"
+                                    )
                                   )
                                 ]
                               )
                             ])
                           ]),
                           _vm._v(" "),
-                          _vm._l(single_pack.package_durations, function(
-                            duration
-                          ) {
+                          _c("div", { staticClass: "row mb-5" }, [
+                            _c("div", { staticClass: "col-3" }, [
+                              _c(
+                                "small",
+                                {
+                                  staticStyle: {
+                                    "margin-left": "10px",
+                                    color: "#f57224"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                         No. of months"
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticStyle: { "margin-left": "10px" } },
+                                [_vm._v(_vm._s(single_pack.number_of_month))]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-3" }, [
+                              _c(
+                                "small",
+                                {
+                                  staticStyle: {
+                                    "margin-left": "10px",
+                                    color: "#f57224"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                         No. of months"
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticStyle: { "margin-left": "10px" } },
+                                [_vm._v(_vm._s(single_pack.number_of_month))]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-3" }, [
+                              _c(
+                                "small",
+                                {
+                                  staticStyle: {
+                                    "margin-left": "10px",
+                                    color: "#f57224"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                         Interest per month"
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticStyle: { "margin-left": "10px" } },
+                                [_vm._v(_vm._s(single_pack.interest_per_month))]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-3" }, [
+                              _c(
+                                "small",
+                                {
+                                  staticStyle: {
+                                    "margin-left": "10px",
+                                    color: "#f57224"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                         Penalty per month"
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticStyle: { "margin-left": "10px" } },
+                                [_vm._v(_vm._s(single_pack.pinalty_per_month))]
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("h4", { staticClass: "text-center" }, [
+                            _vm._v("Durations")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(single_pack.durations, function(duration) {
                             return _c("div", { key: duration.id }, [
-                              duration.package_id == single_pack.package_id
+                              duration.package_id == single_pack.id
                                 ? _c("div", { staticClass: "row" }, [
                                     _c("div", { staticClass: "col-4" }, [
                                       _c(
@@ -56337,12 +56509,12 @@ var render = function() {
                                           staticStyle: { "margin-left": "10px" }
                                         },
                                         [
+                                          _c("small", [_vm._v("Day")]),
                                           _vm._v(
                                             "\n                              " +
-                                              _vm._s(duration.duration_from) +
-                                              "\n                              "
-                                          ),
-                                          _c("small", [_vm._v("Day")])
+                                              _vm._s(duration.from) +
+                                              "\n                           "
+                                          )
                                         ]
                                       )
                                     ]),
@@ -56367,12 +56539,12 @@ var render = function() {
                                           staticStyle: { "margin-left": "10px" }
                                         },
                                         [
+                                          _c("small", [_vm._v("Day")]),
                                           _vm._v(
                                             "\n                              " +
-                                              _vm._s(duration.duration_to) +
-                                              "\n                              "
-                                          ),
-                                          _c("small", [_vm._v("Day")])
+                                              _vm._s(duration.to) +
+                                              "\n                            \n                           "
+                                          )
                                         ]
                                       )
                                     ]),
@@ -56399,7 +56571,7 @@ var render = function() {
                                         [
                                           _vm._v(
                                             "\n                              " +
-                                              _vm._s(duration.interestRate) +
+                                              _vm._s(duration.interest) +
                                               "\n                              "
                                           ),
                                           _c("small", [_vm._v("%")])
@@ -56409,7 +56581,10 @@ var render = function() {
                                   ])
                                 : _vm._e()
                             ])
-                          })
+                          }),
+                          _vm._v(" "),
+                          _c("br"),
+                          _c("br")
                         ],
                         2
                       )
