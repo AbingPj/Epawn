@@ -41,39 +41,42 @@
 							/>
 						</div>
 					</div>
+					<br />
 					<div class="row">
 						<div class="col">
 							<label for="">No. of Months</label>
 							<input
 								v-model="number_of_month"
-								type="text"
+								type="number"
 								class="form form-control"
+								disabled
 							/>
 						</div>
 						<div class="col">
 							<label for="">Interest Per Month</label>
 							<input
 								v-model="interest_per_month"
-								type="text"
+								type="number"
 								class="form form-control"
 							/>
 						</div>
 						<div class="col">
-							<label for="">Penalty</label>
+							<label for="">Penalty Per Month</label>
 							<input
 								v-model="pinalty_per_month"
-								type="text"
+								type="number"
 								class="form form-control"
 							/>
 						</div>
+					</div>
+					<br />
+					<div class="row">
 						<div class="col">
 							<label for="">Interest Payment Term</label>
-							<select class="form-control" v-model="if_advance_interest" >
+							<select class="form-control" v-model="if_advance_interest">
 								<option value="1">With Advance Interest</option>
 								<option value="0">No Advance Interest</option>
 							</select>
-
-						
 						</div>
 					</div>
 					<br />
@@ -154,7 +157,7 @@ export default {
 			pawnshop_id: AuthService.methods.getUid(),
 			package_name: "",
 			package_desc: "",
-			number_of_month: "",
+			number_of_month: 0,
 			interest_per_month: "",
 			pinalty_per_month: "",
 			if_advance_interest: 1,
@@ -186,7 +189,6 @@ export default {
 					$("#modalAddPackage2").modal("hide");
 					this.$parent.viewPackages();
 					this.clear();
-				
 				})
 				.catch(err => {
 					console.error(err);

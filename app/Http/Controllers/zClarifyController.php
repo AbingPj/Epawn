@@ -31,50 +31,27 @@ class zClarifyController extends Controller
             $pawned->is_claimed = 0;
             $pawned->is_confiscated = 0;
             $pawned->save();
-            // $item = tbl_user_itempost::find($request->item_id);
-            // $item->status = 2;
-            // $item->save();
+
+            $item = tbl_user_itempost::find($request->item_id);
+            $item->status = 2;
+            $item->save();
         });
     }
 
-
-    public function zRenewItemPayment(Request $request)
+    public function zRejectPendingItem(Request $request)
     {
         DB::transaction(function () use ($request) {
-            $id = $request->pawned_item_id;
-            $pawned = zPawnedItem::find($id);
-            $pawned->date_renew =  Carbon::now('Asia/Manila');
+            $pawned = new zPawnedItem;
+            $pawned->item_id = $request->item_id;
+            $pawned->pawnshop_id =  $request->pawnshop_id;
+            $pawned->customer_id =  $request->customer_id;
+            $pawned->is_rejected = 1;
+            // $pawned->reason = $request->reason;
             $pawned->save();
 
-            $payment = new zPayments;
-            $payment->item_id = $pawned->item_id;
-            $payment->pawned_item_id = $pawned->id;
-            // 1 is claimed, 2 is renew
-            $payment->payment_type = 2;  
-            $payment->payment_type_desc = 'renew';
-            $payment->amount = $request->payment_amount;
-            $payment->save();
-          
-        });
-    }
-    public function zClaimItemPayment(Request $request)
-    {
-        DB::transaction(function () use ($request) {
-            $id = $request->pawned_item_id;
-            $pawned = zPawnedItem::find($id);
-            $pawned->date_claimed =  Carbon::now('Asia/Manila');
-            $pawned->is_claimed = 1;
-            $pawned->save();
-
-            $payment = new zPayments;
-            $payment->item_id = $pawned->item_id;
-            $payment->pawned_item_id = $pawned->id;
-            // 1 is claim, 2 is renew
-            $payment->payment_type = 1;  
-            $payment->payment_type_desc = 'claim';
-            $payment->amount = $request->payment_amount;
-            $payment->save();
-           
+            $item = tbl_user_itempost::find($request->item_id);
+            $item->status = 4;
+            $item->save();
         });
     }
 
@@ -102,10 +79,10 @@ class zClarifyController extends Controller
                 $dt->addDays(1);
                 $dateFrom = $dt;
                 $from = $dateFrom->format('M.d,Y');
-                $number_of_days = (($duration->to) - $duration->from);
+                $number_of_days = (($duration->duration_to) - $duration->duration_from);
                 $dateTo = $dt->addDays($number_of_days);
                 $to = $dateTo->format('M.d,Y');
-                $interest = $duration->interest / 100;
+                $interest = $duration->interestRate / 100;
                 $renewal = ($amount * $interest);
                 $claim_without_advance_interest = ($amount + $renewal);
                 // if ($package->if_advance_interest == 1) {
@@ -122,7 +99,7 @@ class zClarifyController extends Controller
                     'from' => $from,
                     'to' => $to,
                     'number_of_days' => ($number_of_days + 1),
-                    'interest' => $duration->interest,
+                    'interest' => $duration->interestRate,
                     'renewal' => $renewal,
                     'claim_without_advance_interest' => $claim_without_advance_interest,
                     'claim_with_advance_interest' =>  $claim_with_advance_interest,
@@ -131,6 +108,11 @@ class zClarifyController extends Controller
                 array_push($specials, $obj);
             }
         }
+
+    
+
+        // For Monthly Calculation
+         
         $dt2 = Carbon::now('Asia/Manila');
         $number_of_month = $package->number_of_month;
 
@@ -212,11 +194,11 @@ class zClarifyController extends Controller
                 $dt->addDays(1);
                 $dateFrom = $dt;
                 $from = $dateFrom->format('M.d,Y');
-                $number_of_days = (($duration->to) - $duration->from);
+                $number_of_days = (($duration->duration_to) - $duration->duration_from);
                 $dateTo = $dt->addDays($number_of_days);
                
                 $to = $dateTo->format('M.d,Y');
-                $interest = $duration->interest / 100;
+                $interest = $duration->interestRate / 100;
                 $renewal = ($amount * $interest);
                 $claim_without_advance_interest = ($amount + $renewal);
                 // if ($package->if_advance_interest == 1) {
@@ -243,7 +225,7 @@ class zClarifyController extends Controller
                     'from' => $from,
                     'to' => $to,
                     'number_of_days' => ($number_of_days + 1),
-                    'interest' => $duration->interest,
+                    'interest' => $duration->interestRate,
                     'renewal' => $renewal,
                     'claim_without_advance_interest' => $claim_without_advance_interest,
                     'claim_with_advance_interest' =>  $claim_with_advance_interest,
@@ -252,6 +234,9 @@ class zClarifyController extends Controller
                 array_push($specials, $obj);
             }
         }
+
+
+        // FOR MONTHLY CALCULATION
 
         // $dt2 = Carbon::now('Asia/Manila');
         $dt2 = Carbon::parse($date);

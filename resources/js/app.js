@@ -36,7 +36,9 @@ Vue.component("reported-users", require("./components/NewComponents/SuperAdminRe
 Vue.component("single-item-pictures", require("./components/NewComponents/SingleItemPictures.vue").default);
 Vue.component("modal-pawning", require("./components/Modal/ModalPawning.vue").default);
 Vue.component("list-of-pawned-items", require("./components/NewComponents/ListOfPawnedItems.vue").default);
+Vue.component("list-of-pending-items", require("./components/NewComponents/ListOfPendingItems.vue").default);
 Vue.component("modal-payments", require("./components/Modal/ModalPayments.vue").default);
+Vue.component("modal-payment-history", require("./components/Modal/ModalPaymentHistory.vue").default);
 ////////////////////////////////////////////
 
 const router = new VueRouter({

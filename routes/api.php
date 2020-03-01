@@ -135,9 +135,10 @@ Route::post('/viewPawnshopCategories2','zPackageController@viewPawnshopCategorie
 Route::post('/zSavePackage', 'zPackageController@zSavePackage' );;
 // to get packages by pawnshop id  with durations
 Route::get('/zGetPackages/{pawnshop_id}', 'zPackageController@zGetPackages' );;
+Route::get('/package/{id}', 'zPackageController@package' );;
+Route::post('/updatePackage', 'zPackageController@updatePackage');;
+Route::get('/removePackage/{id}', 'zPackageController@removePackage');;
 
-Route::post('/addPackageToPawnshop','zPackageController@addPackageToPawnshop');;
-Route::post('/editPackageOfPawnshop','zPackageController@editPackageOfPawnshop');;
 Route::post('/acceptCategoryRequest', 'PackageController@acceptCategoryRequest' );;
 
 Route::get('/getReports', 'zUserReportsController@getReports' );;
@@ -149,12 +150,31 @@ Route::get('/getCategoriesByPawnshop/{id}', 'zCategoriesController@getCategories
 
 
 ////////////////////////////////////////////////
+
 //get the the calculations
 Route::get('/getPawnedItemCalculations/{package_id}/{amount}', 'zClarifyController@getPawnedItemCalculations' );;
+
 // get the current renewal or claim payments and calculations
 Route::get('/getPawnedItemPaymentDetails/{package_id}/{amount}/{date}', 'zClarifyController@getPawnedItemPaymentDetails' );;
+
 // to save pawned item
 Route::post('/zSavePawnedItem', 'zClarifyController@zSavePawnedItem' );;
-// to get the pawned items by pawnshop id   with item details and customer details
-Route::get('/zGetPawnedItemsByPawnshop/{pawnshop_id}', 'zClarifyController@zGetPawnedItemsByPawnshop' );;
+
+Route::post('/zRejectPendingItem', 'zClarifyController@zRejectPendingItem' );;
+
+//get Pending Items
+Route::get('/getPendingItems/{pawnshop_id}', 'zItemsController@getPendingItems');;
+
+//get Pawned Items
+Route::get('/getPawenedItems/{pawnshop_id}', 'zItemsController@getPawenedItems');;
+
+Route::post('/changeProfile2', 'zUserController@changeProfile2');;
+
+
+Route::post('/sendRenewPayment', 'zPaymentController@sendRenewPayment');;
+Route::post('/sendClaimPayment', 'zPaymentController@sendClaimPayment');;
+Route::get('/getPaymentHistory/{pawned_id}', 'zPaymentController@getPaymentHistory');;
+
+
+
 ////////////////////////////////////////////////////////////////////////////
