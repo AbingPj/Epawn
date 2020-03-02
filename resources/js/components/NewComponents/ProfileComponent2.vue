@@ -189,8 +189,8 @@
 									</button>
 								</div>
 							</div>
-							<div class="row mb-5">
-								<div class="col-6">
+							<div class="row mb-3 mt-4">
+								<div class="col-6  text-center">
 									<small style="margin-left: 10px; color:  #f57224;"
 										>Package Description</small
 									>
@@ -199,7 +199,7 @@
 										single_pack.package_description
 									}}</span>
 								</div>
-								<div class="col-6">
+								<div class="col-6  text-center">
 									<small style="margin-left: 10px; color:  #f57224;"
 										>Interest Payment Term</small
 									>
@@ -211,76 +211,72 @@
 									}}</span>
 								</div>
 							</div>
-							<div class="row mb-5">
-								<div class="col-3">
+							<div class="row mb-1">
+								<div class="col-4 text-center">
 									<small style="margin-left: 10px; color:  #f57224;">
-										No. of months</small
+										No. of months to confiscated</small
 									>
 									<br />
 									<span style="margin-left: 10px;">{{
 										single_pack.number_of_month
-									}}</span>
+									}} months</span>
 								</div>
-								<div class="col-3">
-									<small style="margin-left: 10px; color:  #f57224;">
-										No. of months</small
-									>
-									<br />
-									<span style="margin-left: 10px;">{{
-										single_pack.number_of_month
-									}}</span>
-								</div>
-								<div class="col-3">
+								<div class="col-4 text-center">
 									<small style="margin-left: 10px; color:  #f57224;">
 										Interest per month</small
 									>
 									<br />
 									<span style="margin-left: 10px;">{{
 										single_pack.interest_per_month
-									}}</span>
+									}} %</span>
 								</div>
-								<div class="col-3">
+								<div class="col-4 text-center">
 									<small style="margin-left: 10px; color:  #f57224;">
 										Penalty per month</small
 									>
 									<br />
 									<span style="margin-left: 10px;">{{
 										single_pack.pinalty_per_month
-									}}</span>
+									}} %</span>
 								</div>
 							</div>
 
-							<h4 class="text-center">Durations</h4>
-							<div v-for="duration in single_pack.durations" :key="duration.id">
-								<div class="row" v-if="duration.package_id == single_pack.id">
-									<div class="col-4">
+							<h6 v-if="single_pack.durations.length != 0" class="text-center mt-5" >1st Month Durations:</h6>
+							<div v-if="single_pack.durations.length != 0"  class="row mb-1">
+									<div class="col-4 text-center">
 										<small style="margin-left: 10px;  color:  #f57224;"
 											>From</small
 										>
-										<br />
+									</div>
+									<div class="col-4  text-center">
+										<small style="margin-left: 10px;  color:  #f57224;"
+											>To</small
+										>
+									</div>
+									<div class="col-4  text-center">
+										<small style="margin-left: 10px;  color:  #f57224;"
+											>Interest Rate</small
+										>
+									</div>
+								</div>
+							<div v-for="duration in single_pack.durations" :key="duration.id">
+								<div class="row mb-1" v-if="duration.package_id == single_pack.id">
+									<div class="col-4 text-center">
 										<span style="margin-left: 10px;">
 											<small>Day</small>
 											{{ duration.duration_from }}
 										</span>
 									</div>
-									<div class="col-4">
-										<small style="margin-left: 10px;  color:  #f57224;"
-											>To</small
-										>
-										<br />
+									<div class="col-4  text-center">
 										<span style="margin-left: 10px;">
 											<small>Day</small>
 											{{ duration.duration_to }}
 										</span>
 									</div>
-									<div class="col-4">
-										<small style="margin-left: 10px;  color:  #f57224;"
-											>Interest Rate</small
-										>
-										<br />
+									<div class="col-4  text-center">
 										<span style="margin-left: 10px;">
 											{{ duration.interestRate }}
-											<small>%</small>
+											<small> %</small>
 										</span>
 									</div>
 								</div>

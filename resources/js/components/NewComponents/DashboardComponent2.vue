@@ -68,6 +68,7 @@
                <div class="item-body">
                   <div class="item-name">{{item.item_name}} {{item.item_id}}</div>
                   <div class="item-description">{{item.item_description}}</div>
+                  <div class="item-category">{{toCategoryDesc(item.category_id)}}</div>
                   <div class="item-date">{{item.date}}</div>
                </div>
             </div>
@@ -142,7 +143,26 @@ export default {
          this.loadItems();
       }, 30000);
    },
+   destroyed() {
+      console.log('stop Timer');
+      this.timerClose();
+   },
    methods: {
+       timerClose() {
+         clearInterval(this.timer);
+      },
+      toCategoryDesc(category_id){
+         let category_name = "";
+         this.categories.forEach(element => {
+            if (element.category_id == category_id){
+               category_name = element.category_name;
+            }
+         });
+         return category_name;
+      },
+
+
+
       async getCategoriesByPawnshop() {
          let pawnshop_id = AuthService.methods.getUid();
          await axios
@@ -223,6 +243,13 @@ export default {
    white-space: nowrap;
    overflow: hidden;
    text-overflow: ellipsis;
+}
+.item-category {
+   font-size: 13px;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   color: #f57224;
 }
 .item-body {
    padding: 4px;

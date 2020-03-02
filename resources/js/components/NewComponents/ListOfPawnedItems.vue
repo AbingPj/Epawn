@@ -46,9 +46,14 @@
 										class="btn btn-success"
 										@click="showModal(item)"
 									>
-										Manage Payment
+
+									<span v-if="item.is_claimed == 1">Claimed</span>
+									<!-- <span v-else-if="is_rejected == 1">rejected</span> -->
+									<span v-else-if="item.is_confiscated == 1">Confiscated</span>
+									<span v-else > Manage </span>
+									
 									</button>
-									<button class="btn btn-success" @click="showModal(item)">
+									<button class="btn btn-success d-none" @click="showModal(item)">
 										Manage
 									</button>
 									<button class="btn btn-info" @click="showHistortModal(item)">

@@ -38,6 +38,23 @@ class zClarifyController extends Controller
         });
     }
 
+    
+
+    public function zConfiscateItem(Request $request)
+    {
+        DB::transaction(function () use ($request) {
+
+            $id = $request->pawned_item_id;
+            $pawned = zPawnedItem::find($id);
+            $pawned->is_confiscated = 1;
+            $pawned->save();
+
+            // $item = tbl_user_itempost::find($request->item_id);
+            // $item->status = 4;
+            // $item->save();
+        });
+    }
+
     public function zRejectPendingItem(Request $request)
     {
         DB::transaction(function () use ($request) {

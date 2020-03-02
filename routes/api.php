@@ -165,6 +165,7 @@ Route::get('/getPawnedItemPaymentDetails/{package_id}/{amount}/{date}', 'zClarif
 Route::post('/zSavePawnedItem', 'zClarifyController@zSavePawnedItem' );;
 
 Route::post('/zRejectPendingItem', 'zClarifyController@zRejectPendingItem' );;
+Route::post('/zConfiscateItem', 'zClarifyController@zConfiscateItem' );;
 
 //get Pending Items
 Route::get('/getPendingItems/{pawnshop_id}', 'zItemsController@getPendingItems');;
