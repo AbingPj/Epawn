@@ -1,5 +1,6 @@
 <template>
 	<div class="parent-div">
+		 <api-api-api></api-api-api>
 		<div class="row">
 			<div class="col-6">
 				<button

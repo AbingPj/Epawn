@@ -39,6 +39,10 @@ Vue.component("list-of-pawned-items", require("./components/NewComponents/ListOf
 Vue.component("list-of-pending-items", require("./components/NewComponents/ListOfPendingItems.vue").default);
 Vue.component("modal-payments", require("./components/Modal/ModalPayments.vue").default);
 Vue.component("modal-payment-history", require("./components/Modal/ModalPaymentHistory.vue").default);
+
+Vue.component("api-api-api", require("./components/NewComponents/api.vue").default);
+
+
 ////////////////////////////////////////////
 
 const router = new VueRouter({

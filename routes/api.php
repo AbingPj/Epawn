@@ -118,6 +118,10 @@ Route::post('/mobile/viewPawnshopCategories','PackageController@viewPawnshopCate
 
 Route::post('/mobile/getPawnshopsOnBid','BidController@getPawnshopsOnBid');;
 
+// added by abing
+Route::post('/mobile2/getUserBiddingRecords2', 'mobileApiController@getUserBiddingRecords2');;
+Route::post('/mobile2/getUserBiddings2', 'mobileApiController@getUserBiddings2');;
+///
 
 
 
