@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EpawnEvent;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -100,6 +101,9 @@ class ItemPost extends Controller
             'photo_4' =>$req->picture4,
         ]);
         
+
+        broadcast(new EpawnChannel('add-item'));
+
     /*     DB::table('tbl_user_itempost')
         ->insert([
             'item_name' => $req->name,
