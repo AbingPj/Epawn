@@ -102,7 +102,7 @@ class ItemPost extends Controller
         ]);
         
 
-        broadcast(new EpawnChannel('add-item'));
+        broadcast(new EpawnEvent('add-item'));
 
     /*     DB::table('tbl_user_itempost')
         ->insert([

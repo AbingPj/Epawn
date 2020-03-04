@@ -180,6 +180,9 @@ Route::post('/sendRenewPayment', 'zPaymentController@sendRenewPayment');;
 Route::post('/sendClaimPayment', 'zPaymentController@sendClaimPayment');;
 Route::get('/getPaymentHistory/{pawned_id}', 'zPaymentController@getPaymentHistory');;
 
+Route::post('/triggerPusher','zUserReportsController@triggerPusher');
+Route::get('/triggerPusher2','zUserReportsController@triggerPusher2');
+
 
 
 ////////////////////////////////////////////////////////////////////////////

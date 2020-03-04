@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EpawnEvent;
 use App\tbl_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -9,6 +10,25 @@ use App\tbl_user_report;
 
 class zUserReportsController extends Controller
 {
+
+    public function triggerPusher(Request $request){
+        // dd($request->message);
+        broadcast(new EpawnEvent($request->message));
+    }
+
+    public function triggerPusher2(){
+        broadcast(new EpawnEvent('add-item'));
+        $reports = tbl_user_report::all()->where('isFromPawnshop', 1);
+
+        foreach ($reports as $key => $report) {
+            $report->user = $report->user;
+            $report->pawnshop = $report->pawnshop;
+        }
+
+        return response()->json($reports);
+       
+    }
+
     public function sendReport(Request $request){
 
         $report = new tbl_user_report;

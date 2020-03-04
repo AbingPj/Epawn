@@ -28,12 +28,7 @@ class EpawnEvent implements ShouldBroadcast
     }
   
     public function broadcastOn(){
-        // $currentUserId = Auth::user()->id;
-        // $postId = $this->data;
-        // $postUserId = Post::find($postId)->user->id;
-        // if( $currentUserId == $postUserId){
-        //     return new Channel('UserPostChannel');
-        // }
+  
         return new Channel('EpawnChannel');
     }
 
