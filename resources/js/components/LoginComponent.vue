@@ -28,9 +28,8 @@
          </button>
       </div>
 
-      <div style="position: absolute; bottom: 0; width: 100%; text-align: center;">
+      <div style="position: absolute; bottom: 0; width: 100%; text-align: center;" @click="triggerPusher()">
          version 1.0
-         <button class="btn btn-sm btn-ligth d-none" @click="triggerPusher()">trigger pusher</button>
       </div>
    </div>
 </template>
@@ -148,11 +147,10 @@ export default {
       });
    },
    mounted() {
-      Echo.channel("EpawnChannel").listen("EpawnEvent", data => {
-         console.log(data);
-         alert(data);
-         // this.$refs.itemsVuetable.refreshVueTable();
-      });
+      // Echo.channel("EpawnChannel").listen("EpawnEvent", data => {
+      //    console.log(data.updateType);
+      //    // this.$refs.itemsVuetable.refreshVueTable();
+      // });
    },
    methods: {
       triggerPusher() {
@@ -163,10 +161,10 @@ export default {
 
          axios.post('/api/triggerPusher',data)
          .then(res => {
-           console.log(res)
+         //   console.log(res)
          })
          .catch(err => {
-           console.error(err);
+         //   console.error(err);
          })
 
         //  axios

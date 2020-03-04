@@ -100,10 +100,7 @@ class ItemPost extends Controller
             'photo_3' =>$req->picture3,
             'photo_4' =>$req->picture4,
         ]);
-        
-
-        broadcast(new EpawnEvent('add-item'));
-
+        broadcast(new EpawnEvent('getItems'));
     /*     DB::table('tbl_user_itempost')
         ->insert([
             'item_name' => $req->name,

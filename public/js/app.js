@@ -3099,7 +3099,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3119,21 +3118,18 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       _this.$router.push("/");
     });
   },
-  mounted: function mounted() {
-    Echo.channel("EpawnChannel").listen("EpawnEvent", function (data) {
-      console.log(data);
-      alert(data); // this.$refs.itemsVuetable.refreshVueTable();
-    });
+  mounted: function mounted() {// Echo.channel("EpawnChannel").listen("EpawnEvent", data => {
+    //    console.log(data.updateType);
+    //    // this.$refs.itemsVuetable.refreshVueTable();
+    // });
   },
   methods: {
     triggerPusher: function triggerPusher() {
       var data = {
         message: "trigger"
       };
-      axios.post('/api/triggerPusher', data).then(function (res) {
-        console.log(res);
-      })["catch"](function (err) {
-        console.error(err);
+      axios.post('/api/triggerPusher', data).then(function (res) {//   console.log(res)
+      })["catch"](function (err) {//   console.error(err);
       }); //  axios
       //     .get("/api/triggerPusher2")
       //     .then(res => {
@@ -5243,6 +5239,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -5275,13 +5275,24 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     };
   },
   mounted: function mounted() {
-    this.loadItems();
-  },
-  created: function created() {
     var _this2 = this;
 
+    this.loadItems();
+    Echo.channel("EpawnChannel").listen("EpawnEvent", function (data) {
+      console.log(data.updateType);
+
+      if (data.updateType == "getItems") {
+        setTimeout(function () {
+          _this2.loadItems();
+        }, 2000);
+      }
+    });
+  },
+  created: function created() {
+    var _this3 = this;
+
     _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.isLogedIn().then(function () {})["catch"](function (e) {
-      _this2.$router.push({
+      _this3.$router.push({
         path: "/Login"
       });
     });
@@ -5300,7 +5311,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         html: "Your registration was rejected due to\n             <small style='color: #f57224; font-weight: bold;'>\n            ".concat(window.localStorage.getItem("reason"), " </small>\n            "),
         icon: "error"
       }).then(function () {
-        _this2.$router.push({
+        _this3.$router.push({
           path: "/Login"
         });
       });
@@ -5310,15 +5321,13 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     } else if (window.localStorage.getItem("isUserValid") == 0) {
       "Super admin is still reviewing your registration, your actions are limited";
-    }
+    } // this.timer = setInterval(() => {
+    //    this.loadItems();
+    // }, 30000);
 
-    this.timer = setInterval(function () {
-      _this2.loadItems();
-    }, 30000);
   },
   destroyed: function destroyed() {
-    console.log('stop Timer');
-    this.timerClose();
+    console.log("stop Timer"); // this.timerClose();
   },
   methods: {
     timerClose: function timerClose() {
@@ -5334,7 +5343,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       return category_name;
     },
     getCategoriesByPawnshop: function getCategoriesByPawnshop() {
-      var _this3 = this;
+      var _this4 = this;
 
       var pawnshop_id;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function getCategoriesByPawnshop$(_context) {
@@ -5344,7 +5353,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
               pawnshop_id = _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid();
               _context.next = 3;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get("/api/getCategoriesByPawnshop/" + pawnshop_id).then(function (res) {
-                _this3.categories = res.data;
+                _this4.categories = res.data;
               })["catch"](function (err) {
                 console.error(err);
               }));
@@ -5369,12 +5378,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     loadItems: function loadItems() {
-      var _this4 = this;
+      var _this5 = this;
 
       _services_PostItem_controller__WEBPACK_IMPORTED_MODULE_2__["default"].methods.getAllItems({
         pawnshopId: _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUid()
       }).then(function (res) {
-        _this4.items = _toConsumableArray(res);
+        _this5.items = _toConsumableArray(res);
       });
     },
     gotoNotifications: function gotoNotifications() {
@@ -5393,12 +5402,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     logOut: function logOut() {
-      var _this5 = this;
+      var _this6 = this;
 
       clearInterval(this.timer);
       _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.Logout();
       setTimeout(function () {
-        _this5.$router.push({
+        _this6.$router.push({
           path: "/Login"
         });
 
@@ -7197,25 +7206,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
+  created: function created() {
     var _this = this;
 
     _services_auth__WEBPACK_IMPORTED_MODULE_0__["default"].methods.isLogedIn().then(function () {})["catch"](function (e) {
@@ -7224,78 +7219,50 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     });
     this.viewSingleItem();
-    this.viewItemPictures();
     setTimeout(function () {
       _this.getUserDetails();
-    }, 500);
-  },
-  created: function created() {
-    var _this2 = this;
-
-    _services_auth__WEBPACK_IMPORTED_MODULE_0__["default"].methods.isLogedIn().then(function () {})["catch"](function (e) {
-      _this2.$router.push({
-        path: "/Login"
-      });
-    });
-    this.viewSingleItem();
-    this.viewItemPictures();
-    setTimeout(function () {
-      _this2.getUserDetails();
     }, 1500);
   },
   data: function data() {
     return {
       data: [],
-      pictures: [],
-      profilePicture: "",
       userDetails: [],
-      customerID: ""
+      itemMainPicture: "",
+      userProfilePicture: ""
     };
   },
   methods: {
     report: function report() {
-      //let spreadedData = { ...data };
-      // this.$refs.reportModal.data = this.userDetails[0];
-      // this.$refs.reportModal.report.pawnshopId = AuthService.methods.getUid();
-      //  this.$refs.reportModal.report.userId = this.data.user_id;
-      this.$refs.reportModal.username = this.userDetails[0].username;
-      this.$refs.reportModal.item_name = this.data[0].item_name;
-      this.$refs.reportModal.report.userId = this.userDetails[0].user_id;
+      this.$refs.reportModal.username = this.userDetails.username;
+      this.$refs.reportModal.item_name = this.data.item_name;
+      this.$refs.reportModal.report.userId = this.userDetails.user_id;
       this.$refs.reportModal.report.pawnshopId = _services_auth__WEBPACK_IMPORTED_MODULE_0__["default"].methods.getUid();
       $("#reportModal").modal("show");
     },
     viewSingleItem: function viewSingleItem() {
-      var _this3 = this;
+      var _this2 = this;
 
       _services_PostItem_controller__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getSingleItem(this.$route.query.itemId).then(function (res) {
         console.info("value of res is", res);
-        _this3.data = _toConsumableArray(res);
-        _this3.profilePicture = _this3.data[0].item_photo || undefined;
-      });
-    },
-    viewItemPictures: function viewItemPictures() {
-      var _this4 = this;
 
-      _services_PostItem_controller__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getItemPictures(this.$route.query.itemId).then(function (res) {
-        _this4.pictures = _toConsumableArray(res);
+        var data = _toConsumableArray(res);
+
+        _this2.data = data[0];
       });
     },
     getUserDetails: function getUserDetails() {
-      var _this5 = this;
+      var _this3 = this;
 
-      console.info("pota", this.customerID);
-      _services_User_controller__WEBPACK_IMPORTED_MODULE_2__["default"].methods.getUserDetails(this.data[0].user_id).then(function (res) {
-        _this5.userDetails = _toConsumableArray(res);
-        console.info("sad", res);
+      _services_User_controller__WEBPACK_IMPORTED_MODULE_2__["default"].methods.getUserDetails(this.data.user_id).then(function (res) {
+        var data = _toConsumableArray(res);
+
+        _this3.userDetails = data[0];
       });
-    },
-    viewGalleryPhoto: function viewGalleryPhoto(photo) {
-      this.data[0].item_photo = photo;
     },
     placeBid: function placeBid() {
       var obj = {
         itemId: this.$route.query.itemId,
-        biderId: this.userDetails[0].user_id
+        biderId: this.userDetails.user_id
       };
       this.$router.push({
         path: "/Bidding/".concat(obj.itemId, "/bidderId/").concat(obj.biderId),
@@ -7316,6 +7283,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -16919,7 +16891,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.picture-frame[data-v-5ef22498] {\r\n\tborder-top: 2px solid #eff0f5;\r\n\tpadding-top: 10px;\r\n\tmargin-top: 10px;\n}\n.picture[data-v-5ef22498] {\r\n\twidth: 10%;\r\n\tborder: 2px #f57224 solid;\r\n\tmargin-left: 2px;\r\n\r\n\tcursor: pointer;\r\n\tdisplay: inline-block;\n}\n.picture img[data-v-5ef22498] {\r\n\theight: 80px;\r\n\twidth: 100%;\n}\n.carousel-item img[data-v-5ef22498] {\r\n\theight: 500px;\r\n\twidth: 100%;\n}\r\n", ""]);
+exports.push([module.i, "\n.picture-frame[data-v-5ef22498] {\r\n   border-top: 2px solid #eff0f5;\r\n   padding-top: 10px;\r\n   margin-top: 10px;\n}\n.picture[data-v-5ef22498] {\r\n   width: 10%;\r\n   border: 2px #f57224 solid;\r\n   margin-left: 2px;\r\n\r\n   cursor: pointer;\r\n   display: inline-block;\n}\n.picture img[data-v-5ef22498] {\r\n   height: 80px;\r\n   width: 100%;\n}\n.carousel-item img[data-v-5ef22498] {\r\n   height: 500px;\r\n   width: 100%;\n}\r\n", ""]);
 
 // exports
 
@@ -62403,23 +62375,14 @@ var render = function() {
             bottom: "0",
             width: "100%",
             "text-align": "center"
+          },
+          on: {
+            click: function($event) {
+              return _vm.triggerPusher()
+            }
           }
         },
-        [
-          _vm._v("\n      version 1.0\n      "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-sm btn-ligth d-none",
-              on: {
-                click: function($event) {
-                  return _vm.triggerPusher()
-                }
-              }
-            },
-            [_vm._v("trigger pusher")]
-          )
-        ]
+        [_vm._v("\n      version 1.0\n   ")]
       )
     ]
   )
@@ -67275,7 +67238,7 @@ var render = function() {
               { staticClass: "custom-card-image col-md-5 col-lg-7 col-xl-4" },
               [
                 _c("img", {
-                  attrs: { src: "../../images/" + _vm.data[0].item_photo }
+                  attrs: { src: "../../images/" + _vm.data.item_photo }
                 })
               ]
             ),
@@ -67287,23 +67250,23 @@ var render = function() {
                 _c("div", { staticClass: "custom-card-name" }, [
                   _vm._v(
                     "\n\t\t\t\t\t\t" +
-                      _vm._s(_vm.data[0].item_name) +
+                      _vm._s(_vm.data.item_name) +
                       "\n\t\t\t\t\t"
                   )
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "custom-card-category" }, [
-                  _vm._v(_vm._s(_vm.data[0].category_name))
+                  _vm._v(_vm._s(_vm.data.category_name))
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "custom-card-date" }, [
-                  _vm._v(_vm._s(_vm.data[0].date))
+                  _vm._v(_vm._s(_vm.data.date))
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "custom-card-description" }, [
                   _vm._v(
                     "\n\t\t\t\t\t\t" +
-                      _vm._s(_vm.data[0].item_description) +
+                      _vm._s(_vm.data.item_description) +
                       "\n\t\t\t\t\t"
                   )
                 ])
@@ -67311,7 +67274,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("single-item-pictures", { attrs: { data: _vm.data[0] } }),
+          _c("single-item-pictures", { attrs: { data: _vm.data } }),
           _vm._v(" "),
           _c("div", { staticClass: "row mt-3" }, [
             _c("div", { staticClass: "col-12" }, [
@@ -67351,7 +67314,7 @@ var render = function() {
               { staticClass: "bider-photo col-md-5 col-lg-7 col-xl-3" },
               [
                 _c("img", {
-                  attrs: { src: "../../images/" + _vm.userDetails[0].image }
+                  attrs: { src: "../../images/" + _vm.userDetails.image }
                 })
               ]
             ),
@@ -67368,7 +67331,7 @@ var render = function() {
                     }),
                     _vm._v(
                       "\n\t\t\t\t\t\t\t\t" +
-                        _vm._s(_vm.userDetails[0].fname) +
+                        _vm._s(_vm.userDetails.fname) +
                         "\n\t\t\t\t\t\t\t\t"
                     ),
                     _c(
@@ -67400,7 +67363,7 @@ var render = function() {
                     }),
                     _vm._v(
                       "\n\t\t\t\t\t\t\t\t" +
-                        _vm._s(_vm.userDetails[0].address) +
+                        _vm._s(_vm.userDetails.address) +
                         "\n\t\t\t\t\t\t\t"
                     )
                   ]),
@@ -67412,7 +67375,7 @@ var render = function() {
                     }),
                     _vm._v(
                       "\n\t\t\t\t\t\t\t\t" +
-                        _vm._s(_vm.userDetails[0].contact) +
+                        _vm._s(_vm.userDetails.contact) +
                         "\n\t\t\t\t\t\t\t"
                     )
                   ])
@@ -67462,7 +67425,7 @@ var render = function() {
             }
           }
         },
-        [_c("img", { attrs: { src: "../../images/" + _vm.newData.photo_1 } })]
+        [_c("img", { attrs: { src: "../../images/" + _vm.data.item_photo } })]
       ),
       _vm._v(" "),
       _c(
@@ -67475,7 +67438,7 @@ var render = function() {
             }
           }
         },
-        [_c("img", { attrs: { src: "../../images/" + _vm.newData.photo_2 } })]
+        [_c("img", { attrs: { src: "../../images/" + _vm.data.photo_1 } })]
       ),
       _vm._v(" "),
       _c(
@@ -67488,7 +67451,20 @@ var render = function() {
             }
           }
         },
-        [_c("img", { attrs: { src: "../../images/" + _vm.newData.photo_3 } })]
+        [_c("img", { attrs: { src: "../../images/" + _vm.data.photo_2 } })]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "picture",
+          on: {
+            click: function($event) {
+              return _vm.showModal()
+            }
+          }
+        },
+        [_c("img", { attrs: { src: "../../images/" + _vm.data.photo_3 } })]
       )
     ]),
     _vm._v(" "),
@@ -67510,19 +67486,25 @@ var render = function() {
                 _c("div", { staticClass: "carousel-inner" }, [
                   _c("div", { staticClass: "carousel-item active" }, [
                     _c("img", {
-                      attrs: { src: "../../images/" + _vm.newData.photo_1 }
+                      attrs: { src: "../../images/" + _vm.data.item_photo }
                     })
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "carousel-item" }, [
                     _c("img", {
-                      attrs: { src: "../../images/" + _vm.newData.photo_2 }
+                      attrs: { src: "../../images/" + _vm.data.photo_1 }
                     })
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "carousel-item" }, [
                     _c("img", {
-                      attrs: { src: "../../images/" + _vm.newData.photo_3 }
+                      attrs: { src: "../../images/" + _vm.data.photo_2 }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "carousel-item" }, [
+                    _c("img", {
+                      attrs: { src: "../../images/" + _vm.data.photo_3 }
                     })
                   ])
                 ]),
@@ -67550,7 +67532,7 @@ var staticRenderFns = [
           staticClass: "close",
           attrs: { type: "button", "data-dismiss": "modal" }
         },
-        [_vm._v("\n\t\t\t\t\t\t×\n\t\t\t\t\t")]
+        [_vm._v("×")]
       )
     ])
   },
@@ -67566,7 +67548,9 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("li", { attrs: { "data-target": "#demo", "data-slide-to": "1" } }),
       _vm._v(" "),
-      _c("li", { attrs: { "data-target": "#demo", "data-slide-to": "2" } })
+      _c("li", { attrs: { "data-target": "#demo", "data-slide-to": "2" } }),
+      _vm._v(" "),
+      _c("li", { attrs: { "data-target": "#demo", "data-slide-to": "3" } })
     ])
   },
   function() {

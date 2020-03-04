@@ -46,7 +46,11 @@
                <div class="row">
                   <div class="col text-center">
                      <label for="categoryList">Category</label>
-                     <select v-model="selectedCategory" id="categoryList" style="border-color:orange;">
+                     <select
+                        v-model="selectedCategory"
+                        id="categoryList"
+                        style="border-color:orange;"
+                     >
                         <option :value="null">All</option>
                         <option
                            v-for="category in categories"
@@ -109,6 +113,14 @@ export default {
    },
    mounted() {
       this.loadItems();
+      Echo.channel("EpawnChannel").listen("EpawnEvent", data => {
+         console.log(data.updateType);
+         if (data.updateType == "getItems") {
+            setTimeout(() => {
+               this.loadItems();
+            }, 2000);
+         }
+      });
    },
    created() {
       AuthService.methods
@@ -139,29 +151,28 @@ export default {
       } else if (window.localStorage.getItem("isUserValid") == 0) {
          ("Super admin is still reviewing your registration, your actions are limited");
       }
-      this.timer = setInterval(() => {
-         this.loadItems();
-      }, 30000);
+
+      // this.timer = setInterval(() => {
+      //    this.loadItems();
+      // }, 30000);
    },
    destroyed() {
-      console.log('stop Timer');
-      this.timerClose();
+      console.log("stop Timer");
+      // this.timerClose();
    },
    methods: {
-       timerClose() {
+      timerClose() {
          clearInterval(this.timer);
       },
-      toCategoryDesc(category_id){
+      toCategoryDesc(category_id) {
          let category_name = "";
          this.categories.forEach(element => {
-            if (element.category_id == category_id){
+            if (element.category_id == category_id) {
                category_name = element.category_name;
             }
          });
          return category_name;
       },
-
-
 
       async getCategoriesByPawnshop() {
          let pawnshop_id = AuthService.methods.getUid();
