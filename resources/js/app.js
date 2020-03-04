@@ -6,6 +6,19 @@
 
 require('./bootstrap');
 
+
+
+
+import Echo from "laravel-echo";
+window.Pusher = require("pusher-js");
+window.Echo = new Echo({
+    broadcaster: "pusher",
+    key: "daac01c5e5a1237f4168",
+    cluster: "ap1",
+    forceTLS: true
+});
+
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
