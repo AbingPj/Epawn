@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //getIP
-Route::get('/getIp','GetIpController@getIp');;
+//Route::get('/getIp','GetIpController@getIp');;
 
 //Item
 Route::post('/getItems','ItemPost@getItemPosts');;
@@ -118,13 +118,12 @@ Route::post('/mobile/viewPawnshopCategories','PackageController@viewPawnshopCate
 
 Route::post('/mobile/getPawnshopsOnBid','BidController@getPawnshopsOnBid');;
 
+
+
 // added by abing
 Route::post('/mobile2/getUserBiddingRecords2', 'mobileApiController@getUserBiddingRecords2');;
 Route::post('/mobile2/getUserBiddings2', 'mobileApiController@getUserBiddings2');;
 ///
-
-
-
 
 
 
@@ -167,6 +166,7 @@ Route::post('/zSavePawnedItem', 'zClarifyController@zSavePawnedItem' );;
 Route::post('/zRejectPendingItem', 'zClarifyController@zRejectPendingItem' );;
 Route::post('/zConfiscateItem', 'zClarifyController@zConfiscateItem' );;
 
+
 //get Pending Items
 Route::get('/getPendingItems/{pawnshop_id}', 'zItemsController@getPendingItems');;
 
@@ -180,9 +180,13 @@ Route::post('/sendRenewPayment', 'zPaymentController@sendRenewPayment');;
 Route::post('/sendClaimPayment', 'zPaymentController@sendClaimPayment');;
 Route::get('/getPaymentHistory/{pawned_id}', 'zPaymentController@getPaymentHistory');;
 
+
 Route::post('/triggerPusher','zUserReportsController@triggerPusher');
 Route::get('/triggerPusher2','zUserReportsController@triggerPusher2');
 
+Route::get('/getIps','zGetIpController@getIp');;
+Route::get('/getClientIps','zGetIpController@getClientIps');;
+Route::get('/getClientIps2','zGetIpController@getClientIps2');;
 
 
 ////////////////////////////////////////////////////////////////////////////
