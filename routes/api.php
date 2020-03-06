@@ -189,4 +189,5 @@ Route::get('/getClientIps','zGetIpController@getClientIps');;
 Route::get('/getClientIps2','zGetIpController@getClientIps2');;
 
 
+Route::post('/sendBlockUser', 'zUserReportsController@sendBlockUser');;
 ////////////////////////////////////////////////////////////////////////////
