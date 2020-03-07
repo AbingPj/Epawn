@@ -7489,6 +7489,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -7516,6 +7518,33 @@ __webpack_require__.r(__webpack_exports__);
             case 2:
             case "end":
               return _context.stop();
+          }
+        }
+      });
+    },
+    sendBlockUser: function sendBlockUser(id) {
+      var _this2 = this;
+
+      var data;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function sendBlockUser$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              data = {
+                id: id
+              };
+              _context2.next = 3;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.post('/api/sendBlockUser', data).then(function (res) {
+                console.log(res);
+
+                _this2.getReports();
+              })["catch"](function (err) {
+                console.error(err);
+              }));
+
+            case 3:
+            case "end":
+              return _context2.stop();
           }
         }
       });
@@ -8727,10 +8756,96 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var apiGeolocationSuccess = function apiGeolocationSuccess(position) {
+      alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
+    };
+
+    var tryAPIGeolocation = function tryAPIGeolocation() {
+      jQuery.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCa1LUe1vOczX1hO_iGYgyo8p_jYuGOPU", function (success) {
+        apiGeolocationSuccess({
+          coords: {
+            latitude: success.location.lat,
+            longitude: success.location.lng
+          }
+        });
+      }).fail(function (err) {
+        alert("API Geolocation error! \n\n" + err);
+      });
+    };
+
+    tryAPIGeolocation(); // var browserGeolocationSuccess = function(position) {
+    // 	alert(
+    // 		"Browser geolocation success!\n\nlat = " +
+    // 			position.coords.latitude +
+    // 			"\nlng = " +
+    // 			position.coords.longitude
+    // 	);
+    // };
+    // var browserGeolocationFail = function(error) {
+    // 	switch (error.code) {
+    // 		case error.TIMEOUT:
+    // 			alert("Browser geolocation error !\n\nTimeout.");
+    // 			break;
+    // 		case error.PERMISSION_DENIED:
+    // 			if (error.message.indexOf("Only secure origins are allowed") == 0) {
+    // 				tryAPIGeolocation();
+    // 			}
+    // 			break;
+    // 		case error.POSITION_UNAVAILABLE:
+    // 			alert("Browser geolocation error !\n\nPosition unavailable.");
+    // 			break;
+    // 	}
+    // };
+    // var tryGeolocation = function() {
+    // 	if (navigator.geolocation) {
+    // 		navigator.geolocation.getCurrentPosition(
+    // 			browserGeolocationSuccess,
+    // 			browserGeolocationFail,
+    // 			{ maximumAge: 50000, timeout: 20000, enableHighAccuracy: true }
+    // 		);
+    // 	}
+    // };
+    // tryGeolocation();
+  },
   created: function created() {
     var _this = this;
 
@@ -8747,7 +8862,7 @@ __webpack_require__.r(__webpack_exports__);
         control_num: "",
         contact: "",
         confirm: "",
-        address: ''
+        address: ""
       },
       position: {
         lat: "",
@@ -8837,7 +8952,7 @@ __webpack_require__.r(__webpack_exports__);
         return true;
       }
 
-      if (this.imageFile == '') {
+      if (this.imageFile == "") {
         return true;
       }
 
@@ -16929,7 +17044,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.parent-div[data-v-5c0ed343]{\r\n   background: -webkit-gradient(\r\n        linear,\r\n        left top, left bottom,\r\n        from(#ffffff),\r\n        to(#f7af83)\r\n      );\r\n   background: linear-gradient(\r\n        to bottom,\r\n        #ffffff,\r\n        #f7af83\r\n      );\r\n      height: 100vh;\r\n  background-size: 100% 100%;\n}\n.overlay[data-v-5c0ed343] {\r\n  /* Height & width depends on how you want to reveal the overlay (see JS below) */\r\n  height: 100%;\r\n  width: 0;\r\n  position: fixed; /* Stay in place */\r\n  z-index: 1; /* Sit on top */\r\n  left: 0;\r\n  top: 0;\r\n  background-color: rgb(0, 0, 0); /* Black fallback color */\r\n  background-color: rgba(0, 0, 0, 0.9); /* Black w/opacity */\r\n  overflow-x: hidden; /* Disable horizontal scroll */\r\n  -webkit-transition: 0.5s;\r\n  transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */\n}\n.login-button[data-v-5c0ed343] {\r\n  border: #f57224 2px solid;\r\n  margin-top: 15px;\r\n  width: 35%;\r\n  height: 30px;\r\n  background-color: white;\r\n  color: #f57224;\n}\n.register-button[data-v-5c0ed343] {\r\n  border: none;\r\n  height: 30px;\r\n  width: 63%;\r\n  margin-top: 15px;\r\n  background-color: #f57224;\r\n  color: white;\r\n  margin-bottom: 20px;\n}\n.panel[data-v-5c0ed343] {\r\n  border-top: 2px white solid;\r\n  margin-top: 10%;\n}\n.panel-header[data-v-5c0ed343] {\r\n  margin-top: -12px;\r\n  font-size: 15px;\r\n  background-color: #f57224;\r\n  width: -webkit-max-content;\r\n  width: -moz-max-content;\r\n  width: max-content;\r\n  color: white;\r\n  padding-left: 10px;\r\n  padding-right: 10px;\r\n  margin-left: auto;\r\n  margin-right: auto;\r\n  display: block;\n}\n[data-v-5c0ed343]::-webkit-input-placeholder {\r\n  color: #7a7a78;\r\n  opacity: 0.7; /* Firefox */\n}\n[data-v-5c0ed343]::-moz-placeholder {\r\n  color: #7a7a78;\r\n  opacity: 0.7; /* Firefox */\n}\n[data-v-5c0ed343]:-ms-input-placeholder {\r\n  color: #7a7a78;\r\n  opacity: 0.7; /* Firefox */\n}\n[data-v-5c0ed343]::-ms-input-placeholder {\r\n  color: #7a7a78;\r\n  opacity: 0.7; /* Firefox */\n}\n[data-v-5c0ed343]::placeholder {\r\n  color: #7a7a78;\r\n  opacity: 0.7; /* Firefox */\n}\n.row[data-v-5c0ed343] {\r\n  width: 100vw;\r\n  background-color: #f57224;\n}\n.welcome-banner[data-v-5c0ed343] {\r\n  font-size: 35px;\n}\n.right-panel[data-v-5c0ed343] {\r\n  background-color: black;\r\n  height: 50vh;\n}\n.body-level[data-v-5c0ed343] {\r\n  margin-top: 10%;\n}\n.right-body[data-v-5c0ed343] {\r\n  color: white;\n}\n.custom-card[data-v-5c0ed343] {\r\n  color: #f57224;\r\n  width: 40%;\r\n  margin-top: 5%;\r\n  background-color: white;\r\n  padding: 0px 30px;\r\n  box-shadow: 3px 7px 16px 0px rgba(0, 0, 0, 0.75);\n}\n.custom-card-header[data-v-5c0ed343] {\r\n  background-color: white;\r\n  font-size: 30px;\r\n  text-align: center;\r\n  width: 50%;\r\n  margin-left: auto;\r\n  margin-right: auto;\r\n  display: block;\r\n  color: #f57224;\r\n  margin-bottom: 5%;\n}\n.custom-card-input[data-v-5c0ed343] {\r\n  background: transparent;\r\n  border: none;\r\n  margin-top: 2%;\r\n  width: 100%;\r\n  display: block;\r\n  color: #7a7a78;\r\n  padding: 5px 5px;\r\n  border-bottom: 2px #7a7a78 solid;\n}\n.custom-card-input[data-v-5c0ed343]:focus {\r\n  outline: none;\n}\r\n", ""]);
+exports.push([module.i, "\n.parent-div[data-v-5c0ed343] {\r\n\tbackground: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f7af83));\r\n\tbackground: linear-gradient(to bottom, #ffffff, #f7af83);\r\n\theight: 100vh;\r\n\tbackground-size: 100% 100%;\n}\n.overlay[data-v-5c0ed343] {\r\n\t/* Height & width depends on how you want to reveal the overlay (see JS below) */\r\n\theight: 100%;\r\n\twidth: 0;\r\n\tposition: fixed; /* Stay in place */\r\n\tz-index: 1; /* Sit on top */\r\n\tleft: 0;\r\n\ttop: 0;\r\n\tbackground-color: rgb(0, 0, 0); /* Black fallback color */\r\n\tbackground-color: rgba(0, 0, 0, 0.9); /* Black w/opacity */\r\n\toverflow-x: hidden; /* Disable horizontal scroll */\r\n\t-webkit-transition: 0.5s;\r\n\ttransition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */\n}\n.login-button[data-v-5c0ed343] {\r\n\tborder: #f57224 2px solid;\r\n\tmargin-top: 15px;\r\n\twidth: 35%;\r\n\theight: 30px;\r\n\tbackground-color: white;\r\n\tcolor: #f57224;\n}\n.register-button[data-v-5c0ed343] {\r\n\tborder: none;\r\n\theight: 30px;\r\n\twidth: 63%;\r\n\tmargin-top: 15px;\r\n\tbackground-color: #f57224;\r\n\tcolor: white;\r\n\tmargin-bottom: 20px;\n}\n.panel[data-v-5c0ed343] {\r\n\tborder-top: 2px white solid;\r\n\tmargin-top: 10%;\n}\n.panel-header[data-v-5c0ed343] {\r\n\tmargin-top: -12px;\r\n\tfont-size: 15px;\r\n\tbackground-color: #f57224;\r\n\twidth: -webkit-max-content;\r\n\twidth: -moz-max-content;\r\n\twidth: max-content;\r\n\tcolor: white;\r\n\tpadding-left: 10px;\r\n\tpadding-right: 10px;\r\n\tmargin-left: auto;\r\n\tmargin-right: auto;\r\n\tdisplay: block;\n}\n[data-v-5c0ed343]::-webkit-input-placeholder {\r\n\tcolor: #7a7a78;\r\n\topacity: 0.7; /* Firefox */\n}\n[data-v-5c0ed343]::-moz-placeholder {\r\n\tcolor: #7a7a78;\r\n\topacity: 0.7; /* Firefox */\n}\n[data-v-5c0ed343]:-ms-input-placeholder {\r\n\tcolor: #7a7a78;\r\n\topacity: 0.7; /* Firefox */\n}\n[data-v-5c0ed343]::-ms-input-placeholder {\r\n\tcolor: #7a7a78;\r\n\topacity: 0.7; /* Firefox */\n}\n[data-v-5c0ed343]::placeholder {\r\n\tcolor: #7a7a78;\r\n\topacity: 0.7; /* Firefox */\n}\n.row[data-v-5c0ed343] {\r\n\twidth: 100vw;\r\n\tbackground-color: #f57224;\n}\n.welcome-banner[data-v-5c0ed343] {\r\n\tfont-size: 35px;\n}\n.right-panel[data-v-5c0ed343] {\r\n\tbackground-color: black;\r\n\theight: 50vh;\n}\n.body-level[data-v-5c0ed343] {\r\n\tmargin-top: 10%;\n}\n.right-body[data-v-5c0ed343] {\r\n\tcolor: white;\n}\n.custom-card[data-v-5c0ed343] {\r\n\tcolor: #f57224;\r\n\twidth: 40%;\r\n\tmargin-top: 5%;\r\n\tbackground-color: white;\r\n\tpadding: 0px 30px;\r\n\tbox-shadow: 3px 7px 16px 0px rgba(0, 0, 0, 0.75);\n}\n.custom-card-header[data-v-5c0ed343] {\r\n\tbackground-color: white;\r\n\tfont-size: 30px;\r\n\ttext-align: center;\r\n\twidth: 50%;\r\n\tmargin-left: auto;\r\n\tmargin-right: auto;\r\n\tdisplay: block;\r\n\tcolor: #f57224;\r\n\tmargin-bottom: 5%;\n}\n.custom-card-input[data-v-5c0ed343] {\r\n\tbackground: transparent;\r\n\tborder: none;\r\n\tmargin-top: 2%;\r\n\twidth: 100%;\r\n\tdisplay: block;\r\n\tcolor: #7a7a78;\r\n\tpadding: 5px 5px;\r\n\tborder-bottom: 2px #7a7a78 solid;\n}\n.custom-card-input[data-v-5c0ed343]:focus {\r\n\toutline: none;\n}\r\n", ""]);
 
 // exports
 
@@ -67635,9 +67750,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("br"),
                     _vm._v(
-                      "\n               " +
-                        _vm._s(user.username) +
-                        "\n            "
+                      "\n\t\t\t\t\t" + _vm._s(user.username) + "\n\t\t\t\t"
                     )
                   ]),
                   _vm._v(" "),
@@ -67659,9 +67772,9 @@ var render = function() {
                         return _c("div", { key: report.id }, [
                           _c("br"),
                           _vm._v(
-                            "\n                  - " +
+                            "\n\t\t\t\t\t\t- " +
                               _vm._s(report.pawnshop_name) +
-                              "\n               "
+                              "\n\t\t\t\t\t"
                           )
                         ])
                       })
@@ -67679,9 +67792,9 @@ var render = function() {
                         return _c("div", { key: report.id }, [
                           _c("br"),
                           _vm._v(
-                            "\n                  - " +
+                            "\n\t\t\t\t\t\t- " +
                               _vm._s(report.situation) +
-                              "\n               "
+                              "\n\t\t\t\t\t"
                           )
                         ])
                       })
@@ -67699,9 +67812,9 @@ var render = function() {
                         return _c("div", { key: report.id }, [
                           _c("br"),
                           _vm._v(
-                            "\n                  - " +
+                            "\n\t\t\t\t\t\t- " +
                               _vm._s(report.dateReported) +
-                              "\n               "
+                              "\n\t\t\t\t\t"
                           )
                         ])
                       })
@@ -67709,7 +67822,22 @@ var render = function() {
                     2
                   ),
                   _vm._v(" "),
-                  _vm._m(2, true)
+                  _c("div", { staticClass: "col" }, [
+                    _c("b"),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-dark float-right",
+                        on: {
+                          click: function($event) {
+                            return _vm.sendBlockUser(user.user_id)
+                          }
+                        }
+                      },
+                      [_vm._v("BLOCK")]
+                    )
+                  ])
                 ]
               )
             })
@@ -67741,7 +67869,7 @@ var staticRenderFns = [
                 "aria-controls": "collapseReport"
               }
             },
-            [_vm._v("Reported Users")]
+            [_vm._v("\n\t\t\t\tReported Users\n\t\t\t")]
           )
         ])
       ]
@@ -67762,18 +67890,6 @@ var staticRenderFns = [
         _c("button", { staticClass: "btn btn-block btn-light" }, [
           _vm._v("Blocked Users")
         ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
-      _c("b"),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-dark float-right" }, [
-        _vm._v("BLOCK")
       ])
     ])
   }
@@ -69272,7 +69388,7 @@ var render = function() {
           },
           [
             _c("i", { staticClass: "fa fa-user-plus" }),
-            _vm._v(" Register\n    ")
+            _vm._v(" Register\n\t\t")
           ]
         ),
         _vm._v(" "),
@@ -69286,7 +69402,7 @@ var render = function() {
               }
             }
           },
-          [_c("i", { staticClass: "fa fa-sign-in" }), _vm._v(" Login\n    ")]
+          [_c("i", { staticClass: "fa fa-sign-in" }), _vm._v(" Login\n\t\t")]
         )
       ])
     ]
@@ -69302,7 +69418,7 @@ var staticRenderFns = [
         staticClass: "fa fa-user-plus mr-3",
         attrs: { "aria-hidden": "true" }
       }),
-      _vm._v(" Register\n    ")
+      _vm._v(" Register\n\t\t")
     ])
   }
 ]
