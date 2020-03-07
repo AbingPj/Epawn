@@ -1,12 +1,5 @@
 <template>
 	<div class="parent-div">
-		<div class="row mb-2">
-			<div class="col-6">
-				<button type="button" class="btn btn-outline-success" @click="goBack()">
-					<i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back
-				</button>
-			</div>
-		</div>
 		<div class="custom-row">
 			<div class="profile-col"></div>
 			<img
@@ -389,9 +382,7 @@
 
 		<!-- Package trigger modal -->
 		<modal-add-pacakge></modal-add-pacakge>
-		<modal-edit-pacakge ref="modalEditPackageRef"></modal-edit-pacakge>
 		<modal-add-pacakge-two ref="modalAddPackage2" ></modal-add-pacakge-two>
-
 		<!-- Modal for category acceptance request -->
 
 		<div
@@ -593,6 +584,9 @@ export default {
 			singlePack: []
 		};
 	},
+	mounted() {
+		this.$parent.selectedLi = "profile";
+	},
 	created() {
 		this.getUserData();
 		// this.viewDurations();
@@ -608,10 +602,6 @@ export default {
 		launchPackageModal2() {
           	this.$refs.modalAddPackage2.number_of_month = this.profile.monthCofescation;
 			$("#modalAddPackage2").modal("show");
-		},
-
-		editSinglePackage(id) {
-			this.$refs.modalEditPackageRef.setPackage(id);
 		},
 
 		async viewPackages() {
@@ -678,10 +668,6 @@ export default {
 				return true;
 			}
 			return false;
-		},
-
-		goBack() {
-			this.$router.push({ path: "/" });
 		},
 
 		async removePackage(id) {

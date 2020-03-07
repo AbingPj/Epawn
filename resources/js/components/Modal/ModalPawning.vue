@@ -71,9 +71,10 @@
 
 						<div class="card">
 							<div class="card-body">
-								<h5 class="card-title">Pawn Agreement Information</h5>
-								<small class="form-label" style="color: #f57224;"
-									>Bid Amount</small
+								<h5 class="text-center">Pawn Agreement Information</h5>
+								<br />
+								<label class="form-label" style="color: #f57224;"
+									>Bid Amount</label
 								>
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
@@ -104,13 +105,13 @@
 										<small>Date</small>
 									</div>
 									<div class="col">
-										<small>total interest</small>
+										<small>Total Interest</small>
 									</div>
 									<div class="col">
 										<small>Renewal Amount</small>
 									</div>
 									<div class="col">
-										<small>redemtion</small>
+										<small>Redemption</small>
 									</div>
 								</div>
 
@@ -248,15 +249,11 @@ export default {
 	},
 	methods: {
 		async reject(item) {
-		
-
 			let data = {
 				item_id: this.item.item_id,
 				pawnshop_id: this.pawnshop_id,
-				customer_id: this.item.user_id,
-         };
-         
-         
+				customer_id: this.item.user_id
+			};
 
 			await axios
 				.post("api/zRejectPendingItem", data)

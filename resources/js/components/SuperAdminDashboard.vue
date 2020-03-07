@@ -1,6 +1,6 @@
 <template>
   <div class="parent-div">
-    <i class="fa fa-sign-out logout-icon" title="Logout" @click="logout()" aria-hidden="true"></i>
+  
     <div id="accordion">
       <div class="card  mb-5">
         <div class="card-header" id="headingOne">

@@ -1,7 +1,7 @@
 <template>
    <div class="parent-div">
-      <div class="header row">
-         <div class="banner-container">
+      <div class="row justify-content-center" > 
+         <div class="col-3 ">
             <div class="banner" title="Online Bidding App">
                <img :src="`../icon.png`" style="height: 150px;" />
             </div>
@@ -12,26 +12,13 @@
                <i class="fa fa-search"></i>
             </button>
          </div>
-         <div class="col others">
-            <button class="others-button" title="My Biddings" v-on:click="gotoBiddings()">
-               <i class="fa fa-handshake-o"></i>
-            </button>
-            <button class="others-button" title="My Profile" v-on:click="gotoProfile()">
-               <i class="fa fa-user-circle"></i>
-            </button>
-            <button class="others-button" title="notification" @click="gotoNotifications()">
-               <i class="fa fa-bell" aria-hidden="true"></i>
-            </button>
-            <button class="others-button" title="Logout" v-on:click="logOut()">
-               <i class="fa fa-sign-out" aria-hidden="true"></i>
-            </button>
-         </div>
       </div>
       <div class="row alert alert-warning" role="alert">
          <small>
             <b>Note :</b> Items that are displayed below is only the item's category that you have offered. Want to offer more ?
             <a
                href="/MyProfile"
+               style="color:black;"
             >Click Here</a> to offer more category
          </small>
       </div>
@@ -112,6 +99,7 @@ export default {
       };
    },
    mounted() {
+      this.$parent.selectedLi = "items";
       this.loadItems();
       Echo.channel("EpawnChannel").listen("EpawnEvent", data => {
          console.log(data.updateType);
@@ -130,7 +118,7 @@ export default {
             this.$router.push({ path: "/Login" });
          });
       if (AuthService.methods.getUid() == 1) {
-         this.$router.push({ path: "/SuperAdmin/Board" });
+         this.$router.push({ path: "/SuperAdmin" });
       }
 
       this.getCategoriesByPawnshop();
@@ -187,11 +175,11 @@ export default {
       },
 
       gotoBiddings() {
-         clearInterval(this.timer);
+         // clearInterval(this.timer);
          this.$router.push({ path: "/MyBids" });
       },
       gotoProfile() {
-         clearInterval(this.timer);
+         // clearInterval(this.timer);
          this.$router.push({ path: "/MyProfile" });
       },
       loadItems() {
@@ -234,6 +222,14 @@ export default {
 };
 </script>
 <style scoped>
+.parent-div {
+   font-family: "Roboto";
+   margin: 0% 0%;
+   padding: 3% 5%;
+}
+.header {
+   margin-left: 0%;
+}
 .item-date {
    overflow: hidden;
    text-overflow: ellipsis;
@@ -242,6 +238,7 @@ export default {
    margin-top: 13px;
    font-size: 10px;
 }
+
 .item-name {
    white-space: nowrap;
    font-size: 15px;
@@ -282,25 +279,17 @@ export default {
    -moz-box-shadow: 3px 4px 23px -3px rgba(0, 0, 0, 0.75);
    box-shadow: 3px 4px 23px -3px rgba(0, 0, 0, 0.75);
 }
-.body {
-   width: 100%;
-   padding: 10px;
-   margin-top: 2%;
-   background-color: white;
-}
-.parent-div {
-   font-family: "Roboto";
-   margin: 3% 10%;
-}
-.header {
-   margin-top: 3%;
-   background-color: white;
-   /* background-color: red; */
+.banner-container {
+   text-align: center;
+   font-size: 40px;
+   float: right;
+   width: 20%;
 }
 .search-container {
    width: 100%;
    position: relative;
    display: flex;
+   float: left;
    align-items: center;
    justify-content: center;
 }
@@ -321,21 +310,18 @@ export default {
    height: 40px;
    width: 10%;
 }
-.banner-container {
-   text-align: center;
-   font-size: 40px;
-   float: right;
-   width: 20%;
+.body {
+   width: 100%;
+   padding: 10px;
+   margin-top: 2%;
+   background-color: white;
 }
-.banner {
-   width: max-content;
-   color: #f57224;
-   padding: 0px 10px;
-   float: right;
-}
+
+
 .others {
    text-align: center;
 }
+
 .others-button {
    font-size: 30px;
    height: 40px;
