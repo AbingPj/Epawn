@@ -151,10 +151,12 @@ export default {
     };
   },
   created() {
-    setInterval(()=>{
-      this.getCategoryRequestNotifications();
-      this.getSuperAdminNotifications();
-    },10000)
+    this.getCategoryRequestNotifications();
+    this.getSuperAdminNotifications();
+    // setInterval(()=>{
+    //   this.getCategoryRequestNotifications();
+    //   this.getSuperAdminNotifications();
+    // },10000)
   },
   methods: {
     selectSideItem(item) {},

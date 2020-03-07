@@ -204,7 +204,7 @@ export default {
                               icon: "success"
                            });
                         } else if (this.userDetails[0].role_id == 1) {
-                           this.$router.push({ path: "/SuperAdmin" });
+                           this.$router.push({ path: "/SuperAdmin/Categories" });
                            Swal.fire({
                               title: "Epawn Application",
                               text: "Welcome Back Super Admin",

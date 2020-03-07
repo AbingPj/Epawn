@@ -35,13 +35,20 @@
 				<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 					<div class="image">
 						<img
-							src="/images/adminlte/user2-160x160.jpg"
+							
 							class="img-circle elevation-2"
 							alt="User Image"
+							v-bind:src="
+								profile.image == '' || profile.image == undefined
+									? '/images/adminlte/avatar04.jpg'
+									: `../../images/${profile.image}`
+							"
+							
 						/>
+						<!-- src="/images/adminlte/user2-160x160.jpg" -->
 					</div>
 					<div class="info">
-						<a href="#" class="d-block">Alexander Pierce</a>
+						<a class="d-block">{{ profile.username }}</a>
 					</div>
 				</div>
 
@@ -166,11 +173,22 @@
 </template>
 <script>
 import AuthService from "../../services/auth";
+import UserService from "../../services/User.controller";
 import Swal from "sweetalert2";
 export default {
+	created() {
+		this.getUserData();
+	},
 	data() {
 		return {
-			selectedLi: "items"
+			selectedLi: "items",
+			profile: {
+				username: "",
+				address: "",
+				control_num: "",
+				contact: "",
+				monthCofescation: ""
+			}
 		};
 	},
 	methods: {
@@ -185,6 +203,14 @@ export default {
 				timerProgressBar: true,
 				showConfirmButton: false
 			});
+		},
+		getUserData() {
+			UserService.methods
+				.getUserDetails(window.localStorage.getItem("userId"))
+				.then(res => {
+					this.profile = { ...res[0] };
+					console.info("profile data", this.profile);
+				});
 		}
 	}
 };

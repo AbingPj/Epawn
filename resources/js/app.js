@@ -35,8 +35,9 @@ import SuperAdminDashboard from './components/ParentComponents/SuperAdminDashboa
 
 
 ////////////// ADMIN  PAGES /////////////
-import SuperAdminDashboardOld from './components/SuperAdminDashboard.vue';
-Vue.component("reported-users", require("./components/NewComponents/SuperAdminReportedUsers.vue").default);
+import SuperAdminDashboardOld from './components/SuperAdminDashboard.vue'; 
+import ReportedUsers from './components/AdminPages/ReportedUsers.vue'; 
+Vue.component("reported-users", require("./components/AdminPages/ReportedUsers.vue").default);
 Vue.component("api-api-api", require("./components/NewComponents/api.vue").default);
 /////////////////////////////////
 
@@ -90,11 +91,20 @@ const router = new VueRouter({
         {
             path: '/SuperAdmin',
             component: SuperAdminDashboard,
-            children: [{
-                path: '',
-                name: 'superadmindashboard',
-                component: SuperAdminDashboardOld
-            },
+            children: [
+                {
+                    path: '/SuperAdmin/Categories',
+                    name: 'superadmindashboard',
+                    component: SuperAdminDashboardOld
+                },
+                {
+                    path: '/SuperAdmin/ReportedUsers',
+                    name: 'reported-users',
+                    components: {
+                        helper: ReportedUsers
+                    }
+
+                },
             ]
         },
         {

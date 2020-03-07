@@ -47,12 +47,14 @@ class mobileApiController extends Controller
             ->where('customer_id', $useri_id)
             ->where('is_rejected', 0);
         foreach ($pawned_items as $key => $pawned_item) {
+            $pawnshop = $pawned_item->pawnshop;
             $customer = $pawned_item->user;
             $item = $pawned_item->item;
             $category = $pawned_item->item->category;
             $this->getPawnedItemPaymentDetails($pawned_item->package_id, $pawned_item->pawn_amount, $pawned_item->date_renew);
             $pawned_item->payment_claimed = $this->claim_payment;
             $pawned_item->payment_renew = $this->renew_payment;
+           
         }
         return response()->json($pawned_items);
     }

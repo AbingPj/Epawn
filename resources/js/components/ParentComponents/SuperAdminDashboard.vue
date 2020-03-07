@@ -1,8 +1,6 @@
 <template>
 	<div class="wrapper">
-		<nav
-			class="main-header navbar navbar-expand navbar-white navbar-light"
-		>
+		<nav class="main-header navbar navbar-expand navbar-white navbar-light">
 			<!-- Left navbar links -->
 			<ul class="navbar-nav">
 				<li class="nav-item">
@@ -34,7 +32,7 @@
 		<aside class="main-sidebar sidebar-light-primary elevation-4">
 			<!-- Brand Logo -->
 			<a href="index3.html" class="brand-link">
-				<img src="icon.png" style="height: 150px;" />
+				<img src="/icon.png" style="height: 150px;" />
 			</a>
 
 			<!-- Sidebar -->
@@ -46,6 +44,8 @@
 							src="/images/adminlte/user2-160x160.jpg"
 							class="img-circle elevation-2"
 							alt="User Image"
+							width="160px"
+							height="160px"
 						/>
 					</div>
 					<div class="info">
@@ -62,32 +62,36 @@
 						data-accordion="false"
 					>
 						<li class="nav-item">
-							<router-link to="/">
-								<a href="#" class="nav-link">
-									<i class="nav-icon fas fa-th"></i>
-									<p>
-										User Post Items
-									</p>
-								</a>
-							</router-link>
-						</li>
-						<li class="nav-item">
-							<router-link to="/MyBids">
-								<a href="#" class="nav-link">
-									<i class="nav-icon fa fa-handshake-o"></i>
-									<p>
-										My Biddings
-									</p>
-								</a>
-							</router-link>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link">
-								<i class="nav-icon fas fa-th"></i>
+							<router-link to="/SuperAdmin/Categories" class="nav-link">
+								<i class="nav-icon far fa-object-ungroup"></i>
 								<p>
-									Simple Link
+									Item Categories
 								</p>
-							</a>
+							</router-link>
+						</li>
+						<li class="nav-item">
+							<router-link to="/SuperAdmin/PawnShops" class="nav-link">
+								<i class="nav-icon fas fa-store"></i>
+								<p>
+									PawnShops
+								</p>
+							</router-link>
+						</li>
+						<li class="nav-item">
+							<router-link to="/SuperAdmin/ReportedUsers" class="nav-link">
+								<i class="nav-icon fa fa-flag"></i>
+								<p>
+									Reported Users
+								</p>
+							</router-link>
+						</li>
+						<li class="nav-item">
+							<router-link to="/SuperAdmin/ReportedPawnshops" class="nav-link">
+								<i class="nav-icon fa fa-flag-checkered"></i>
+								<p>
+									Reported Pawnshops
+								</p>
+							</router-link>
 						</li>
 					</ul>
 				</nav>
@@ -100,7 +104,7 @@
 			<!-- Main content -->
 			<div class="content">
 				<router-view />
-				<router-view name="helper" />
+				<router-view name="helper"/>
 			</div>
 		</div>
 
@@ -162,6 +166,19 @@ export default {
 .main-sidebar {
 	border-right-color: #f57224;
 	border-right-style: solid;
+}
+.active {
+	background-color: #f57224 !important ;
+	p {
+		color: #ffffff;
+		font-weight: bold;
+	}
+	.nav-icon {
+		color: #ffffff;
+	}
+}
+.nav-icon {
+	color: #f57224;
 }
 .brand-link {
 	border-bottom: 2px solid #f57224;
