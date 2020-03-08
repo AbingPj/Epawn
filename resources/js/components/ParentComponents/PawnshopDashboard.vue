@@ -181,6 +181,10 @@ export default {
 				this.$events.fire("getItemsEvent", data.updateType);
 			} else if (data.updateType == "bid") {
 				this.$events.fire("getChatEvent", data.updateType);
+			}else if (data.updateType == "catNotif") {
+				this.$events.fire("getCatNotif", data.updateType);
+			}else if (data.updateType == "adminNotif") {
+				this.$events.fire("getAdminNotif", data.updateType);
 			} else {
 				console.log("nothing to update");
 			}
