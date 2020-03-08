@@ -2,8 +2,11 @@
 	<div class="parent-div">
 		<div class="custom-card">
 			<div class="row">
-				<div class="custom-card-image col-md-5 col-lg-7 col-xl-4">
-					<img :src="`../../images/`+data.item_photo" />
+				<div class=" col-md-5 col-lg-7 col-xl-4">
+					<img
+						style="border: 2px solid #f57224 !important;  width: 265px; height: 265px; object-fit: cover;"
+						:src="'../../images/' + itemProfilePicture"
+					/>
 				</div>
 				<!-- {{data[0].user_id}} -->
 				<div class="custom-card-body col-md-7 col-lg-5 col-xl-8">
@@ -32,27 +35,35 @@
 
 		<div class="bider-card">
 			<div class="bider-card-header">Pawner Information</div>
+			<br>
 			<div class="bider-card-body">
 				<div class="row">
-					<div class="bider-photo col-md-5 col-lg-7 col-xl-3">
-						<img :src="`../../images/`+userDetails.image" />
+					<div class="col-md-5 col-lg-7 col-xl-3">
+						<img
+							style=" width: 200px; height: 200px; object-fit: cover; border-radius: 50%;"
+							:src="'../../images/' + userProfilePicture"
+						/>
 					</div>
-					<div class="bider-info col-md-7 col-lg-5 col-xl-9">
-						<div class="row">
+					<div class="col-md-7 col-lg-5 col-xl-9">
+						<div class="row ml-1" style="border-left: 2px solid #eff0f5;">
 							<div class="bider-name col-12">
-								<i class="fa fa-address-book mr-2" aria-hidden="true"></i>
-								{{ userDetails.fname }}
-								<button class="btn btn-danger float-right " @click="report()">
+								<i class="fa fa-address-book mr-3" aria-hidden="true"></i>
+								{{ userDetails.username }}
+								<button class="btn btn-sm btn-danger float-right " @click="report()">
 									<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                  report this user
+									report this user
 								</button>
 							</div>
 							<div class="bider-address col-12 mt-3">
-								<i class="fa fa-map-marker mr-2" aria-hidden="true"></i>
+								<i class="fa fa-map-marker mr-3" aria-hidden="true"></i>
 								{{ userDetails.address }}
 							</div>
 							<div class="col-12 mt-3">
-								<i class="fa fa-phone-square" aria-hidden="true"></i>
+								<i class="fa fa-envelope-o mr-3" aria-hidden="true"></i>
+								{{ userDetails.email }}
+							</div>
+							<div class="col-12 mt-3">
+								<i class="fa fa-phone-square mr-3" aria-hidden="true"></i>
 								{{ userDetails.contact }}
 							</div>
 						</div>
@@ -80,25 +91,26 @@ export default {
 				this.$router.push({ path: "/Login" });
 			});
 		this.viewSingleItem();
-		setTimeout(() => {
-      this.getUserDetails();
-		}, 1500);
+		// setTimeout(() => {
+		// 	this.getUserDetails();
+		// }, 1500);
 	},
 	data: () => {
 		return {
 			data: [],
 			userDetails: [],
-			itemMainPicture:"",
-			userProfilePicture:"",
+			itemMainPicture: "",
+			userProfilePicture: "",
+			itemProfilePicture: "",
+			userId: ""
 		};
 	},
 	methods: {
-
 		report() {
-        this.$refs.reportModal.username = this.userDetails.username;
-        this.$refs.reportModal.item_name = this.data.item_name;
-        this.$refs.reportModal.report.userId = this.userDetails.user_id;
-        this.$refs.reportModal.report.pawnshopId = AuthService.methods.getUid();
+			this.$refs.reportModal.username = this.userDetails.username;
+			this.$refs.reportModal.item_name = this.data.item_name;
+			this.$refs.reportModal.report.userId = this.userDetails.user_id;
+			this.$refs.reportModal.report.pawnshopId = AuthService.methods.getUid();
 			$("#reportModal").modal("show");
 		},
 
@@ -109,13 +121,17 @@ export default {
 					console.info("value of res is", res);
 					let data = [...res];
 					this.data = data[0];
+					this.userId = data[0].user_id;
+					this.itemProfilePicture = data[0].item_photo;
+					this.getUserDetails();
 				});
 		},
-	
+
 		getUserDetails() {
-			UserService.methods.getUserDetails(this.data.user_id).then(res => {			
+			UserService.methods.getUserDetails(this.userId).then(res => {
 				let data = [...res];
 				this.userDetails = data[0];
+				this.userProfilePicture = data[0].image;
 			});
 		},
 
@@ -136,9 +152,6 @@ export default {
 
 
 <style scoped>
-.bider-info {
-	border-left: 2px solid #eff0f5;
-}
 .bider-photo img {
 	border-radius: 50%;
 	height: 200px;

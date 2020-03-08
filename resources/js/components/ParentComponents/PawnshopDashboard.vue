@@ -26,7 +26,7 @@
 		<aside class="main-sidebar sidebar-light-primary elevation-4">
 			<!-- Brand Logo -->
 			<a class="brand-link">
-				<img src="icon.png" style="height: 150px;" />
+				<img src="/icon.png" style="height: 150px;" />
 			</a>
 
 			<!-- Sidebar -->

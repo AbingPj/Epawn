@@ -65,16 +65,16 @@
                      <!-- The slideshow -->
                      <div class="carousel-inner">
                         <div class="carousel-item active">
-                           <img :src="`../../images/` + data.item_photo" />
+                           <img :src="'../../images/' + data.item_photo" />
                         </div>
                         <div class="carousel-item">
-                           <img :src="`../../images/` + data.photo_1" />
+                           <img :src="'../../images/' + data.photo_1" />
                         </div>
                         <div class="carousel-item">
-                           <img :src="`../../images/` + data.photo_2" />
+                           <img :src="'../../images/' + data.photo_2" />
                         </div>
                         <div class="carousel-item">
-                           <img :src="`../../images/` + data.photo_3" />
+                           <img :src="'../../images/' + data.photo_3" />
                         </div>
                         <!-- <div class="carousel-item">
 									<img :src="`../../images/` + newData.photo_4" />
