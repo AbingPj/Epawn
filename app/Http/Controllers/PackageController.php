@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Events\EpawnEvent;
 
 class PackageController extends Controller
 {
@@ -110,6 +111,8 @@ class PackageController extends Controller
         ->update([
             'valid' => '1'
         ]);
+        broadcast(new EpawnEvent('catNotif'));
+
     }
     public function declineCategoryRequest(Request $request){
         DB::table('tbl_item_category')
@@ -118,6 +121,7 @@ class PackageController extends Controller
             'valid' => '3',
             'category_reason' => $request->reason
         ]);
+        broadcast(new EpawnEvent('catNotif'));
     }
     public function removeItemCategory(Request $request){
         DB::table('tbl_pawnshop_itemcategory')
