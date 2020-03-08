@@ -3,37 +3,23 @@
 		<div class="custom-card">
 			<div class="row">
 				<div class="custom-card-image col-md-5 col-lg-7 col-xl-4">
-					<img v-bind:src="`../../images/${data[0].item_photo}`" />
+					<img :src="`../../images/`+data.item_photo" />
 				</div>
 				<!-- {{data[0].user_id}} -->
 				<div class="custom-card-body col-md-7 col-lg-5 col-xl-8">
 					<div class="custom-card-name">
-						{{ data[0].item_name }}
+						{{ data.item_name }}
 					</div>
 
-					<div class="custom-card-category">{{ data[0].category_name }}</div>
-					<div class="custom-card-date">{{ data[0].date }}</div>
+					<div class="custom-card-category">{{ data.category_name }}</div>
+					<div class="custom-card-date">{{ data.date }}</div>
 					<div class="custom-card-description">
-						{{ data[0].item_description }}
+						{{ data.item_description }}
 					</div>
 				</div>
 			</div>
 
-			<single-item-pictures :data="data[0]"></single-item-pictures>
-
-			<!-- <div class="picture-frame">
-        <div class="picture" v-on:click="viewGalleryPhoto(profilePicture)">
-          <img v-bind:src="`../../images/${profilePicture}`" />
-        </div>
-        <div
-          class="picture"
-          v-for="picture in pictures"
-          v-bind:key="picture.item_id"
-          v-on:click="viewGalleryPhoto(picture.item_photos)"
-        >
-          <img v-bind:src="`../../images/${picture.item_photos}`" />
-        </div>
-      </div> -->
+			<single-item-pictures :data="data"></single-item-pictures>
 
 			<div class="row mt-3">
 				<div class="col-12">
@@ -49,13 +35,13 @@
 			<div class="bider-card-body">
 				<div class="row">
 					<div class="bider-photo col-md-5 col-lg-7 col-xl-3">
-						<img v-bind:src="`../../images/${userDetails[0].image}`" />
+						<img :src="`../../images/`+userDetails.image" />
 					</div>
 					<div class="bider-info col-md-7 col-lg-5 col-xl-9">
 						<div class="row">
 							<div class="bider-name col-12">
 								<i class="fa fa-address-book mr-2" aria-hidden="true"></i>
-								{{ userDetails[0].fname }}
+								{{ userDetails.fname }}
 								<button class="btn btn-danger float-right " @click="report()">
 									<i class="fa fa-exclamation-circle" aria-hidden="true"></i>
                   report this user
@@ -63,11 +49,11 @@
 							</div>
 							<div class="bider-address col-12 mt-3">
 								<i class="fa fa-map-marker mr-2" aria-hidden="true"></i>
-								{{ userDetails[0].address }}
+								{{ userDetails.address }}
 							</div>
 							<div class="col-12 mt-3">
 								<i class="fa fa-phone-square" aria-hidden="true"></i>
-								{{ userDetails[0].contact }}
+								{{ userDetails.contact }}
 							</div>
 						</div>
 					</div>
@@ -86,20 +72,6 @@ import PostItemService from "../../services/PostItem.controller";
 import UserService from "../../services/User.controller";
 
 export default {
-	mounted() {
-		AuthService.methods
-			.isLogedIn()
-			.then(() => {})
-			.catch(e => {
-				this.$router.push({ path: "/Login" });
-			});
-
-		this.viewSingleItem();
-		this.viewItemPictures();
-		setTimeout(() => {
-			this.getUserDetails();
-		}, 500);
-	},
 	created() {
 		AuthService.methods
 			.isLogedIn()
@@ -107,9 +79,7 @@ export default {
 			.catch(e => {
 				this.$router.push({ path: "/Login" });
 			});
-
 		this.viewSingleItem();
-		this.viewItemPictures();
 		setTimeout(() => {
       this.getUserDetails();
 		}, 1500);
@@ -117,27 +87,18 @@ export default {
 	data: () => {
 		return {
 			data: [],
-			pictures: [],
-			profilePicture: "",
 			userDetails: [],
-			customerID: ""
+			itemMainPicture:"",
+			userProfilePicture:"",
 		};
 	},
 	methods: {
 
 		report() {
-			//let spreadedData = { ...data };
-			// this.$refs.reportModal.data = this.userDetails[0];
-      // this.$refs.reportModal.report.pawnshopId = AuthService.methods.getUid();
-      //  this.$refs.reportModal.report.userId = this.data.user_id;
-
-        this.$refs.reportModal.username = this.userDetails[0].username;
-        this.$refs.reportModal.item_name = this.data[0].item_name;
-        this.$refs.reportModal.report.userId = this.userDetails[0].user_id;
+        this.$refs.reportModal.username = this.userDetails.username;
+        this.$refs.reportModal.item_name = this.data.item_name;
+        this.$refs.reportModal.report.userId = this.userDetails.user_id;
         this.$refs.reportModal.report.pawnshopId = AuthService.methods.getUid();
-
-
-      
 			$("#reportModal").modal("show");
 		},
 
@@ -146,31 +107,22 @@ export default {
 				.getSingleItem(this.$route.query.itemId)
 				.then(res => {
 					console.info("value of res is", res);
-					this.data = [...res];
-					this.profilePicture = this.data[0].item_photo || undefined;
+					let data = [...res];
+					this.data = data[0];
 				});
 		},
-		viewItemPictures() {
-			PostItemService.methods
-				.getItemPictures(this.$route.query.itemId)
-				.then(res => {
-					this.pictures = [...res];
-				});
-		},
+	
 		getUserDetails() {
-			console.info("pota", this.customerID);
-			UserService.methods.getUserDetails(this.data[0].user_id).then(res => {
-				this.userDetails = [...res];
-				console.info("sad", res);
+			UserService.methods.getUserDetails(this.data.user_id).then(res => {			
+				let data = [...res];
+				this.userDetails = data[0];
 			});
 		},
-		viewGalleryPhoto(photo) {
-			this.data[0].item_photo = photo;
-		},
+
 		placeBid() {
 			let obj = {
 				itemId: this.$route.query.itemId,
-				biderId: this.userDetails[0].user_id
+				biderId: this.userDetails.user_id
 			};
 			this.$router.push({
 				path: `/Bidding/${obj.itemId}/bidderId/${obj.biderId}`,

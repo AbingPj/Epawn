@@ -13,7 +13,7 @@ export default {
         },
         changeProfile(user){
             return new Promise((resolve, reject)=>{
-                axios.post(`/api/changeProfile`, user).then(res =>{
+                axios.post(`/api/changeProfile2`, user).then(res =>{
                     resolve(res.data);
                 }, err => reject(err))
             })

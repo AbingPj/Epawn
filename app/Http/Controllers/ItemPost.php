@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EpawnEvent;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -11,18 +12,18 @@ class ItemPost extends Controller
     public function getItemPosts(Request $request)
     {
         return DB::table('tbl_user_itempost')
-           
             ->join('tbl_pawnshop_itemcategory','tbl_pawnshop_itemcategory.category_id','=','tbl_user_itempost.category_id')
             ->where('tbl_user_itempost.isExpired','1')
-            ->where('tbl_pawnshop_itemcategory.pawnshop_id',
-             $request->pawnshopId)
+            ->where('tbl_pawnshop_itemcategory.pawnshop_id',$request->pawnshopId)
             ->where('tbl_user_itempost.status','0')
             ->get();
     }
     public function getUserItem(Request $request){
         return DB::table('tbl_user_itempost')
         ->join('tbl_item_category','tbl_item_category.category_id','=','tbl_user_itempost.category_id')
-        ->where('user_id', $request->userId)
+        ->leftJoin('tbl_bid_item','tbl_bid_item.item_id','=','tbl_user_itempost.item_id')
+        ->where('tbl_user_itempost.user_id', $request->userId)
+        ->groupBy('tbl_user_itempost.item_id')
         ->get();
 
         
@@ -99,7 +100,7 @@ class ItemPost extends Controller
             'photo_3' =>$req->picture3,
             'photo_4' =>$req->picture4,
         ]);
-        
+         broadcast(new EpawnEvent('getItems'));
     /*     DB::table('tbl_user_itempost')
         ->insert([
             'item_name' => $req->name,

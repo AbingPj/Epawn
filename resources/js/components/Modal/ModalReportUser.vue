@@ -94,7 +94,7 @@ export default {
 			// http://127.0.0.1:8000/api/sendReport/
 			// http://epawn.online/api/sendReport/
 			await axios
-				.post("http://epawn.online/api/sendReport/", this.report)
+				.post("/api/sendReport/", this.report)
 				.then(res => {
                     $('#reportModal').modal('hide');
 					this.clear();
