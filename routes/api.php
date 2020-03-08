@@ -192,4 +192,6 @@ Route::post('/sendBlockUser', 'zUserReportsController@sendBlockUser');;
 Route::get('/getAllPostedItems', 'zItemsController@getAllPostedItems');;
 Route::post('/getItems2', 'zItemsController@getItemPosts2');;
 
+Route::get('/test/email', 'zEmailController@test');;
+
 ////////////////////////////////////////////////////////////////////////////

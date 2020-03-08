@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Nexmo\Laravel\NexmoServiceProvider::class,
+        Snowfire\Beautymail\BeautymailServiceProvider::class,
         
         /*
          * Package Service Providers...
