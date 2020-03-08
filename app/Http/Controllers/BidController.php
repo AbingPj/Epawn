@@ -21,6 +21,7 @@ class BidController extends Controller
                 'bid_to' => $request->bid_to,
                 'isFromPawnshop' => $request->isFromPawnshop
             ]);
+        broadcast(new EpawnEvent('bid'));
     }
     public function getBidPlacements($itemId, $bidderId, $pawnshopId)
     {
