@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
+use App\tbl_user;
 
 use Illuminate\Http\Request;
 
@@ -68,19 +69,57 @@ class UserController extends Controller
         ]);
     }
 
-    public function addUser(Request $request){
-        DB::table('tbl_users')->insert([
-            'fname' => $request->username,
-            'password' => $request->password,
-            'email' => $request->email,
-            'address' => $request->address,
-            'contact' => $request->contact,
-            'username' => $request->email,
-            'latitude' => $request->lat,
-            'longtitude' => $request->long,
-            'role_id' => '3'
+    /// modified by abing (March 8, 2020)
+    public function addUser(Request $request)
+    {
+
+        // DB::table('tbl_users')->insert([
+        //     'fname' => $request->username,
+        //     'password' => $request->password,
+        //     'email' => $request->email,
+        //     'address' => $request->address,
+        //     'contact' => $request->contact,
+        //     'username' => $request->email,
+        //     'latitude' => $request->lat,
+        //     'longtitude' => $request->long,
+        //     'role_id' => '3'
+        // ]);
+
+        $this->validate($request, [
+            'email' => 'bail|required|email',
+            'username' => 'required'
         ]);
+
+        $digits = 5;
+        $confirmation_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
+
+        $user = new tbl_user;
+        $user->fname = $request->username;
+        $user->password = $request->password;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->contact = $request->contact;
+        $user->username = $request->username;
+        $user->latitude = $request->lat;
+        $user->longtitude = $request->long;
+        $user->role_id = 3;
+        $user->confirmation_code = $confirmation_code;
+        $user->is_email_verified = 0;
+        $user->save();
+
+        $beautymail = app()->make(\Snowfire\Beautymail\Beautymail::class);
+        $beautymail->send(
+            'emails.verification',
+            ['user' => $user],
+            function ($message) use ($user) {
+                $message
+                    ->from('epawn.online01@gmail.com', 'E-PAWN')
+                    ->to($user->email, $user->fname)
+                    ->subject('E-pawn Email Verification!');
+            }
+        );
     }
+
     public function addStore(Request $request){
 
             $uploadDir = "images/";
