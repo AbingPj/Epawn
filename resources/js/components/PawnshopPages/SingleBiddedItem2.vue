@@ -340,10 +340,17 @@ export default {
       // this.timerClose();
    },
 
+   events: {
+		getChatEvent(data) {
+			console.log("from SingleBidItem:" + data);
+			this.displayBidPlacement();
+		}
+	},
+
    methods: {
       timerStart() {
          this.timer = setInterval(() => {
-            this.displayBidPlacement();
+            // this.displayBidPlacement();
          }, 25000);
       },
       timerClose() {

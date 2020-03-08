@@ -20,9 +20,12 @@ window.Echo = new Echo({
 
 
 import Vue from 'vue'
-import VueRouter from 'vue-router'
 
+import VueRouter from 'vue-router'
 Vue.use(VueRouter)
+
+import VueEvents from "vue-events";
+Vue.use(VueEvents);
 
 import LoginComponent from './components/LoginComponent.vue';
 import Signup from './components/Signup.vue';

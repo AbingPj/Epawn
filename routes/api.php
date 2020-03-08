@@ -109,7 +109,7 @@ Route::post('/mobile/getActiveBiddings','BidController@getActiveBiddings');;
 Route::post('/mobile/getUserBiddingRecords','BidController@getUserBiddingRecords');;
 Route::post('/mobile/userSendBid','BidController@placeBid');;
 Route::get('/mobile/getBidPlacements/{itemId}/bidder/{bidderId}/pawnshop/{pawnshopId}', 'BidController@getBidPlacements');;
-Route::post('/mobile/userSendBid','BidController@placeBid');;
+// Route::post('/mobile/userSendBid','BidController@placeBid');;
 
 Route::post('/mobile/getPawnshopPackages','PackageController@getPawnshopPackages');;
 Route::post('/mobile/viewDurations','PackageController@viewDurations');;

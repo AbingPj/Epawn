@@ -35,7 +35,6 @@
 				<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 					<div class="image">
 						<img
-							
 							class="img-circle elevation-2"
 							alt="User Image"
 							v-bind:src="
@@ -43,7 +42,6 @@
 									? '/images/adminlte/avatar04.jpg'
 									: `../../images/${profile.image}`
 							"
-							
 						/>
 						<!-- src="/images/adminlte/user2-160x160.jpg" -->
 					</div>
@@ -180,7 +178,11 @@ export default {
 		Echo.channel("EpawnChannel").listen("EpawnEvent", data => {
 			console.log(data.updateType);
 			if (data.updateType == "getItems") {
-				
+				this.$events.fire("getItemsEvent", data.updateType);
+			} else if (data.updateType == "bid") {
+				this.$events.fire("getChatEvent", data.updateType);
+			} else {
+				console.log("nothing to update");
 			}
 		});
 	},
