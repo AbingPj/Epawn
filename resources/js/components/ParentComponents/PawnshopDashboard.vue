@@ -68,7 +68,7 @@
 							>
 								<i class="nav-icon fas fa-th"></i>
 								<p>
-									User Post Items
+									Users Post Items
 								</p>
 							</router-link>
 						</li>
@@ -176,6 +176,14 @@ import AuthService from "../../services/auth";
 import UserService from "../../services/User.controller";
 import Swal from "sweetalert2";
 export default {
+	mounted() {
+		Echo.channel("EpawnChannel").listen("EpawnEvent", data => {
+			console.log(data.updateType);
+			if (data.updateType == "getItems") {
+				
+			}
+		});
+	},
 	created() {
 		this.getUserData();
 	},

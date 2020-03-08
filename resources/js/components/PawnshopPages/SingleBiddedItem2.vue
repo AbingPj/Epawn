@@ -329,7 +329,7 @@ export default {
 
       this.getItemInfo().then(res => {
          this.displayBidPlacement();
-         this.timerStart();
+         // this.timerStart();
          this.getUserInfo();
       });
 
@@ -337,7 +337,7 @@ export default {
    },
 
    destroyed() {
-      this.timerClose();
+      // this.timerClose();
    },
 
    methods: {

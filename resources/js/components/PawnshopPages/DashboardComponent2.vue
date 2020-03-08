@@ -109,14 +109,14 @@ export default {
 	},
 	mounted() {
 		this.$parent.selectedLi = "items";
-		Echo.channel("EpawnChannel").listen("EpawnEvent", data => {
-			console.log(data.updateType);
-			if (data.updateType == "getItems") {
-				setTimeout(() => {
-					this.loadItems();
-				}, 2000);
-			}
-		});
+		// Echo.channel("EpawnChannel").listen("EpawnEvent", data => {
+		// 	console.log(data.updateType);
+		// 	if (data.updateType == "getItems") {
+		// 		setTimeout(() => {
+		// 			this.loadItems();
+		// 		}, 2000);
+		// 	}
+		// });
 	},
 	created() {
 		AuthService.methods
