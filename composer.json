@@ -15,7 +15,8 @@
         "nesbot/carbon": "^2.30",
         "nexmo/client": "^2.0",
         "nexmo/laravel": "^2.1",
-        "pusher/pusher-php-server": "^4.1"
+        "pusher/pusher-php-server": "^4.1",
+        "snowfire/beautymail": "^1.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
