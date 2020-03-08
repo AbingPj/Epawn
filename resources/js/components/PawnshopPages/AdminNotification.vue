@@ -1,10 +1,6 @@
 <template>
   <div class="parent-div">
-     <div class="row mb-2"> 
-      <div class="col-6"> 
-        <button type="button" class="btn btn-outline-success " @click="goBack()"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back</button>
-      </div>
-    </div>
+   
 
     <div class="row navbar">
       <div
@@ -139,11 +135,14 @@
 }
 </style>
 <script>
-import NotifService from "../services/notification.controller";
-import AuthService from "../services/auth";
+import NotifService from "../../services/notification.controller";
+import AuthService from "../../services/auth";
 import Swal from "sweetalert2";
 
 export default {
+  mounted() {
+		this.$parent.selectedLi = "notif";
+	},
   data: () => {
     return {
       activeTab: "category",
@@ -152,10 +151,12 @@ export default {
     };
   },
   created() {
-    setInterval(()=>{
-      this.getCategoryRequestNotifications();
-      this.getSuperAdminNotifications();
-    },10000)
+    this.getCategoryRequestNotifications();
+    this.getSuperAdminNotifications();
+    // setInterval(()=>{
+    //   this.getCategoryRequestNotifications();
+    //   this.getSuperAdminNotifications();
+    // },10000)
   },
   methods: {
     selectSideItem(item) {},
@@ -184,9 +185,7 @@ export default {
           this.superAdminNotifs = [...res];
         });
     },
-    goBack(){
-      this.$router.push({ path : '/'})
-    },
+
     deleteNotif(categoryId, type) {
       Swal.fire({
         title: "Are you sure to remove this notif",

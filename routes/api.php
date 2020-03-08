@@ -188,6 +188,8 @@ Route::get('/getIps','zGetIpController@getIp');;
 Route::get('/getClientIps','zGetIpController@getClientIps');;
 Route::get('/getClientIps2','zGetIpController@getClientIps2');;
 
-
 Route::post('/sendBlockUser', 'zUserReportsController@sendBlockUser');;
+Route::get('/getAllPostedItems', 'zItemsController@getAllPostedItems');;
+Route::post('/getItems2', 'zItemsController@getItemPosts2');;
+
 ////////////////////////////////////////////////////////////////////////////

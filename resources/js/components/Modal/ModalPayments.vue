@@ -12,23 +12,24 @@
                <div class="modal-body">
                   <div class="card">
                      <div class="card-body">
-                        <h4 class="card-title">Pawn Agreement Information</h4>
+                        <h4 class="text-center">Pawn Agreement Information</h4>
                         <h5
-                           class="form-label"
+                           class="text-center"
                            style="color: #f57224;"
                         >Bid Amount: ₱ {{ this.pawned_item.pawn_amount }}</h5>
+                        <br>
                         <div class="row text-center">
                            <div class="col">
                               <small>Date</small>
                            </div>
                            <div class="col">
-                              <small>total interest</small>
+                              <small>Total interest</small>
                            </div>
                            <div class="col">
                               <small>Renewal Amount</small>
                            </div>
                            <div class="col">
-                              <small>redemtion</small>
+                              <small>Redemption</small>
                            </div>
                         </div>
 

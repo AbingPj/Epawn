@@ -20,4 +20,9 @@ class zPawnedItem extends Model
     {
         return $this->belongsTo('App\tbl_user', 'customer_id', 'user_id');
     }
+
+    public function pawnshop()
+    {
+        return $this->belongsTo('App\tbl_user', 'pawnshop_id', 'user_id');
+    }
 }

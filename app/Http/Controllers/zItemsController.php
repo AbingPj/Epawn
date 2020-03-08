@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class zItemsController extends Controller
 {
-    
-    public function getAllItems(){
+
+    public function getAllItems()
+    {
         $items = tbl_user_itempost::all();
         foreach ($items as $key => $item) {
             $user = $item->user;
@@ -30,7 +31,8 @@ class zItemsController extends Controller
         return response()->json($items);
     }
 
-    public function getPendingItems($pawnshop_id){
+    public function getPendingItems($pawnshop_id)
+    {
 
         // return  DB::table('tbl_user_itempost')
         //     ->join('tbl_item_category', 'tbl_item_category.category_id', '=', 'tbl_user_itempost.category_id')
@@ -39,16 +41,17 @@ class zItemsController extends Controller
         //     ->where('status', 1)
         //     ->get();
 
-        $data = tbl_user_itempost::all()->where('pawnshop_id',$pawnshop_id)->where('status',1);
+        $data = tbl_user_itempost::all()->where('pawnshop_id', $pawnshop_id)->where('status', 1);
         foreach ($data as $key => $item) {
-           $item->user = $item->user;
-           $item->category = $item->category;
+            $item->user = $item->user;
+            $item->category = $item->category;
         }
         // array_push($data, $PendingItems);
         return response()->json($data);
     }
 
-    public function getPawenedItems($pawnshop_id){
+    public function getPawenedItems($pawnshop_id)
+    {
 
         $items = zPawnedItem::all()->where('pawnshop_id', $pawnshop_id);
         foreach ($items as $key => $item) {
@@ -57,8 +60,21 @@ class zItemsController extends Controller
             $category = $item->item->category;
         }
 
-       
+
         return response()->json($items);
     }
+    public function getItemPosts2(Request $request)
+    {
+        return DB::table('tbl_user_itempost')
 
+            ->join('tbl_pawnshop_itemcategory', 'tbl_pawnshop_itemcategory.category_id', '=', 'tbl_user_itempost.category_id')
+            ->join('tbl_item_category', 'tbl_item_category.category_id', '=', 'tbl_user_itempost.category_id')
+            ->where('tbl_user_itempost.isExpired', '1')
+            ->where(
+                'tbl_pawnshop_itemcategory.pawnshop_id',
+                $request->pawnshopId
+            )
+            ->where('tbl_user_itempost.status', '0')
+            ->get();
+    }
 }

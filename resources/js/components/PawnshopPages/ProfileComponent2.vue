@@ -1,12 +1,5 @@
 <template>
 	<div class="parent-div">
-		<div class="row mb-2">
-			<div class="col-6">
-				<button type="button" class="btn btn-outline-success" @click="goBack()">
-					<i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back
-				</button>
-			</div>
-		</div>
 		<div class="custom-row">
 			<div class="profile-col"></div>
 			<img
@@ -217,50 +210,56 @@
 										No. of months to confiscated</small
 									>
 									<br />
-									<span style="margin-left: 10px;">{{
-										single_pack.number_of_month
-									}} months</span>
+									<span style="margin-left: 10px;"
+										>{{ single_pack.number_of_month }} months</span
+									>
 								</div>
 								<div class="col-4 text-center">
 									<small style="margin-left: 10px; color:  #f57224;">
 										Interest per month</small
 									>
 									<br />
-									<span style="margin-left: 10px;">{{
-										single_pack.interest_per_month
-									}} %</span>
+									<span style="margin-left: 10px;"
+										>{{ single_pack.interest_per_month }} %</span
+									>
 								</div>
 								<div class="col-4 text-center">
 									<small style="margin-left: 10px; color:  #f57224;">
 										Penalty per month</small
 									>
 									<br />
-									<span style="margin-left: 10px;">{{
-										single_pack.pinalty_per_month
-									}} %</span>
+									<span style="margin-left: 10px;"
+										>{{ single_pack.pinalty_per_month }} %</span
+									>
 								</div>
 							</div>
 
-							<h6 v-if="single_pack.durations.length != 0" class="text-center mt-5" >1st Month Durations:</h6>
-							<div v-if="single_pack.durations.length != 0"  class="row mb-1">
-									<div class="col-4 text-center">
-										<small style="margin-left: 10px;  color:  #f57224;"
-											>From</small
-										>
-									</div>
-									<div class="col-4  text-center">
-										<small style="margin-left: 10px;  color:  #f57224;"
-											>To</small
-										>
-									</div>
-									<div class="col-4  text-center">
-										<small style="margin-left: 10px;  color:  #f57224;"
-											>Interest Rate</small
-										>
-									</div>
+							<h6
+								v-if="single_pack.durations.length != 0"
+								class="text-center mt-5"
+							>
+								1st Month Durations:
+							</h6>
+							<div v-if="single_pack.durations.length != 0" class="row mb-1">
+								<div class="col-4 text-center">
+									<small style="margin-left: 10px;  color:  #f57224;"
+										>From</small
+									>
 								</div>
+								<div class="col-4  text-center">
+									<small style="margin-left: 10px;  color:  #f57224;">To</small>
+								</div>
+								<div class="col-4  text-center">
+									<small style="margin-left: 10px;  color:  #f57224;"
+										>Interest Rate</small
+									>
+								</div>
+							</div>
 							<div v-for="duration in single_pack.durations" :key="duration.id">
-								<div class="row mb-1" v-if="duration.package_id == single_pack.id">
+								<div
+									class="row mb-1"
+									v-if="duration.package_id == single_pack.id"
+								>
 									<div class="col-4 text-center">
 										<span style="margin-left: 10px;">
 											<small>Day</small>
@@ -388,10 +387,9 @@
 		</div>
 
 		<!-- Package trigger modal -->
-		<modal-add-pacakge></modal-add-pacakge>
-		<modal-edit-pacakge ref="modalEditPackageRef"></modal-edit-pacakge>
-		<modal-add-pacakge-two ref="modalAddPackage2" ></modal-add-pacakge-two>
 
+		<modal-edit-pacakge ref="modalEditPackageRef"></modal-edit-pacakge>				
+		<modal-add-pacakge-two ref="modalAddPackage2"></modal-add-pacakge-two>
 		<!-- Modal for category acceptance request -->
 
 		<div
@@ -593,6 +591,9 @@ export default {
 			singlePack: []
 		};
 	},
+	mounted() {
+		this.$parent.selectedLi = "profile";
+	},
 	created() {
 		this.getUserData();
 		// this.viewDurations();
@@ -601,12 +602,9 @@ export default {
 		this.viewPawnshopCategories();
 	},
 	methods: {
-		launchPackageModal() {
-        
-			$("#addPackageModal").modal("show");
-		},
+		
 		launchPackageModal2() {
-          	this.$refs.modalAddPackage2.number_of_month = this.profile.monthCofescation;
+			this.$refs.modalAddPackage2.number_of_month = this.profile.monthCofescation;
 			$("#modalAddPackage2").modal("show");
 		},
 
@@ -680,16 +678,11 @@ export default {
 			return false;
 		},
 
-		goBack() {
-			this.$router.push({ path: "/" });
-		},
-
 		async removePackage(id) {
-         
-         let data = {
-				pacakge_id: id,
-         };
-         
+			let data = {
+				pacakge_id: id
+			};
+
 			let _this = this;
 			Swal.fire({
 				title: "Are you sure to remove this Package?",
@@ -702,9 +695,9 @@ export default {
 			}).then(result => {
 				if (result.value) {
 					Swal.fire("Deleted!", "Your file has been deleted.", "success");
-               
+
 					axios
-						.get("/api/removePackage/"+id)
+						.get("/api/removePackage/" + id)
 						.then(res => {
 							console.log(res);
 							_this.viewPackages();

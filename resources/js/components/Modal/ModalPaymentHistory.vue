@@ -5,7 +5,7 @@
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">Item records</h5>
+						<h5 class="modal-title">Oayment History</h5>
 						<button
 							type="button"
 							class="close"
@@ -19,12 +19,11 @@
 						<!-- declineActive == false -->
 						<div class="card" style="width: 100%;">
 							<div class="card-body">
-								<h5
-									class="card-title"
-									style="color: white;padding: 10px; background: #f57224;"
-								>
+								<h5 class="text-center">
 									Item Information
 								</h5>
+								<br />
+
 								<div class="row">
 									<div class="col col-3">
 										<img
@@ -51,13 +50,11 @@
 
 						<div class="card mt-1" style="width: 100%;">
 							<div class="card-body">
-								<h5
-									class="card-title"
-									style="color: white;padding: 10px; background: #f57224;"
-								>
+								<h5 class="text-center">
 									Payment History
 								</h5>
-								 <div
+								<br>
+								<div
 									v-if="history.length == 0"
 									class="alert alert-danger text-center"
 									role="alert"
@@ -69,21 +66,21 @@
 										<div class="col">
 											<small>payment amount</small>
 										</div>
-                                        <div class="col">
+										<div class="col">
 											<small>payment type</small>
 										</div>
 										<div class="col">
 											<small>date of payment</small>
 										</div>
 									</div>
-                                    <br>
+									<br />
 									<div
 										class="row text-center"
 										v-for="payment in history"
 										:key="payment.pawned_item_id"
 									>
 										<div class="col">₱{{ payment.amount }}</div>
-                                        <div class="col">{{ payment.payment_type_desc }}</div>
+										<div class="col">{{ payment.payment_type_desc }}</div>
 										<div class="col">{{ payment.created_at }}</div>
 									</div>
 								</div>
@@ -100,13 +97,13 @@
 export default {
 	data() {
 		return {
-            pawned_item: [],
-            pawned_id:"",
+			pawned_item: [],
+			pawned_id: "",
 			item_photo: "",
 			item_name: "",
 			item_description: "",
-            category_name: "",
-            history:[]
+			category_name: "",
+			history: []
 		};
 	},
 	methods: {
@@ -114,17 +111,17 @@ export default {
 			this.item_photo = item.item.item_photo;
 			this.item_name = item.item.item_name;
 			this.item_description = item.item.item_description;
-            this.category_name = item.item.category.category_name;
-            this.pawned_id = item.id;
-            this.getItemHistory(item.id);
+			this.category_name = item.item.category.category_name;
+			this.pawned_id = item.id;
+			this.getItemHistory(item.id);
 			$("#paymentHistoryModal").modal("show");
 		},
 		async getItemHistory(id) {
 			await axios
-				.get('api/getPaymentHistory/'+this.pawned_id)
+				.get("api/getPaymentHistory/" + this.pawned_id)
 				.then(res => {
-                    console.log(res);
-                    this.history =  res.data;
+					console.log(res);
+					this.history = res.data;
 				})
 				.catch(err => {
 					console.error(err);
