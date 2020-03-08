@@ -21,34 +21,45 @@ class zUserController extends Controller
 
         $uploadDir = "images/";
 
+        $user = tbl_user::find($request->userId);
+        $user->fname = $request->fname;
+        $user->username = $request->fname;
+        $user->address = $request->address;
+        $user->control_num = $request->control_num;
+        $user->contact = $request->contact;
+        $user->monthCofescation = $request->confiscated;
+
         if ($request->file('permit') !== null) {
             $imagePermit = $request->file('permit');
             $imagePermitSanitizedName = time() . $imagePermit->getClientOriginalName();
             $imagePermit->move($uploadDir, $imagePermitSanitizedName);
-        } else {
-            $imagePermitSanitizedName = 'no-image.png';
+            $user->business_permit = $imagePermitSanitizedName;
         }
 
         if ($request->file('profile') !== null) {
             $imageProfile = $request->file('profile');
             $imageProfileSanitizedName = time() . $imageProfile->getClientOriginalName();
             $imageProfile->move($uploadDir, $imageProfileSanitizedName);
-        } else {
-            $imageProfileSanitizedName = 'no-profile.png';
+            $user->image = $imageProfileSanitizedName;
         }
 
-        return DB::table('tbl_users')
-            ->where('user_id', '=', $request->userId)
-            ->update([
-                'fname' => $request->fname,
-                'address' => $request->address,
-                'control_num' => $request->control_num,
-                'business_permit' => $imagePermitSanitizedName,
-                'contact' => $request->contact,
-                'image' => $imageProfileSanitizedName,
-                'monthCofescation' =>  $request->confiscated
-            ]);
+        $user->save();
+        
+        // return DB::table('tbl_users')
+        //     ->where('user_id', '=', $request->userId)
+        //     ->update([
+        //         'fname' => $request->fname,
+        //         'address' => $request->address,
+        //         'control_num' => $request->control_num,
+        //         'business_permit' => $imagePermitSanitizedName,
+        //         'contact' => $request->contact,
+        //         'image' => $imageProfileSanitizedName,
+        //         'monthCofescation' =>  $request->confiscated
+        //     ]);
+
+        
     }
+
 
 
 }

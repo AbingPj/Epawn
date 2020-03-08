@@ -31,7 +31,46 @@
 			/>
 
 			<div class="information-panel">
-				<div class="information-header">Personal Information</div>
+				<div class="information-header">
+					
+					Personal Information
+					<button
+						v-on:click="enableEditing()"
+						v-if="!isEditable"
+						class="btn btn btn-info"
+						style="float: right; cursor: pointer; margin: 1px 10px 0px 10px"
+					>
+						<i class="fa fa-pencil" aria-hidden="true"></i>
+						Edit Personal Informations
+					</button>
+
+					
+
+					<button
+						class="btn btn-danger"
+						v-on:click="enableEditing()"
+						v-if="isEditable"
+						style="float: right; cursor: pointer; margin: 1px 10px 0px 0px"
+					>
+						<i class="fa fa-ban" aria-hidden="true"></i> Cancel
+					</button>
+
+					<button
+						class="btn btn-info"
+						v-if="isEditable"
+						v-on:click="saveChanges()"
+						:style="
+							isValidToBeSaved() ? 'cursor: no-drop;' : 'cursor: pointer;'
+						"
+						style="float: right; cursor: pointer; margin: 1px 10px 0px 10px"
+
+						:disabled="isValidToBeSaved()"
+					>
+						<i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
+					</button>
+
+
+				</div>
 				<div class="information-body">
 					<div class="username">
 						<div class="row">
@@ -156,7 +195,7 @@
 						<div
 							v-for="single_pack in packages"
 							:key="single_pack.package_id"
-							style="width: 90%;border: 2px #f57224 solid; margin-bottom: 10px;"
+							style="border: 2px #f57224 solid; margin: 10px 20px 10px 4px;"
 						>
 							<div style="background-color: #f57224; color: white; ">
 								<span style="margin-left: 10px;">{{
@@ -167,6 +206,14 @@
 									<button
 										class="custom-button"
 										style="background-color: #f57224; border: 2px white solid; color: white; margin-left: 30px; height : 24px; font-size: 12px; line-height: 24px; "
+										@click="showPackageDetails(single_pack)"
+									>
+										<i class="fa fa-info-circle" aria-hidden="true"></i>
+										More Details
+									</button>
+									<button
+										class="custom-button"
+										style="background-color: #f57224; border: 2px white solid; color: white; margin-left: 3px; height : 24px; font-size: 12px; line-height: 24px; "
 										@click="editSinglePackage(single_pack.id)"
 									>
 										<i class="fa fa-pencil" aria-hidden="true"></i>
@@ -174,7 +221,7 @@
 									</button>
 									<button
 										class="custom-button"
-										style="background-color: #f57224; border: 2px white solid; color: white; margin-left: 2.5px;height : 24px; font-size: 12px; line-height: 24px; "
+										style="background-color: #f57224; border: 2px white solid; color: white; margin-left: 3px;height : 24px; font-size: 12px; line-height: 24px; "
 										@click="removePackage(single_pack.id)"
 									>
 										<i class="fa fa-trash" aria-hidden="true"></i>
@@ -183,6 +230,28 @@
 								</div>
 							</div>
 							<div class="row mb-3 mt-4">
+								<div class="col-6">
+									<small style="margin-left: 10px; color:  #f57224;"
+										>Package Description</small
+									>
+									<br />
+									<span style="margin-left: 10px;">{{
+										single_pack.package_description
+									}}</span>
+								</div>
+								<div class="col-6">
+									<small style="margin-left: 10px; color:  #f57224;"
+										>Interest Payment Term</small
+									>
+									<br />
+									<span style="margin-left: 10px;">{{
+										single_pack.if_advance_interest == 1
+											? "With Advance Interest"
+											: "Without Advance Interest"
+									}}</span>
+								</div>
+							</div>
+							<!-- <div class="row mb-3 mt-4">
 								<div class="col-6  text-center">
 									<small style="margin-left: 10px; color:  #f57224;"
 										>Package Description</small
@@ -203,8 +272,8 @@
 											: "Without Advance Interest"
 									}}</span>
 								</div>
-							</div>
-							<div class="row mb-1">
+							</div> -->
+							<!-- <div class="row mb-1">
 								<div class="col-4 text-center">
 									<small style="margin-left: 10px; color:  #f57224;">
 										No. of months to confiscated</small
@@ -232,9 +301,9 @@
 										>{{ single_pack.pinalty_per_month }} %</span
 									>
 								</div>
-							</div>
+							</div> -->
 
-							<h6
+							<!-- <h6
 								v-if="single_pack.durations.length != 0"
 								class="text-center mt-5"
 							>
@@ -279,8 +348,7 @@
 										</span>
 									</div>
 								</div>
-							</div>
-							<br /><br />
+							</div> -->
 						</div>
 						<div
 							:class="packages.length == 0 ? '' : 'd-none'"
@@ -334,7 +402,7 @@
 						</div>
 						<div v-else class="mt-2">
 							<div
-								style="border: #f57224 2px solid; margin: 4px 4px;"
+								style="border: #f57224 2px solid; margin: 4px 20px 4px 4px;"
 								v-for="pawnshop_category in pawnshop_categories"
 								:key="pawnshop_category.category_id"
 							>
@@ -358,7 +426,7 @@
 				</div>
 			</div>
 
-			<div class="button-container">
+			<!-- <div class="button-container">
 				<button
 					class="edit-btn"
 					v-on:click="enableEditing()"
@@ -383,13 +451,14 @@
 				>
 					<i class="fa fa-ban" aria-hidden="true"></i> Cancel
 				</button>
-			</div>
+			</div> -->
 		</div>
 
 		<!-- Package trigger modal -->
 
-		<modal-edit-pacakge ref="modalEditPackageRef"></modal-edit-pacakge>				
+		<modal-edit-pacakge ref="modalEditPackageRef"></modal-edit-pacakge>
 		<modal-add-pacakge-two ref="modalAddPackage2"></modal-add-pacakge-two>
+		<modal-package-details ref="modalPackageDetailsRef"></modal-package-details>
 		<!-- Modal for category acceptance request -->
 
 		<div
@@ -518,7 +587,9 @@ input {
 	display: block;
 	border: orange 2.5px solid;
 	margin: -95px auto 0px auto;
-	height: 240px;
+	width: 265px;
+	height: 265px;
+	object-fit: cover;
 }
 .custom-row {
 	width: 100%;
@@ -602,7 +673,12 @@ export default {
 		this.viewPawnshopCategories();
 	},
 	methods: {
-		
+		showPackageDetails(packageDetails) {
+			this.$refs.modalPackageDetailsRef.packageDetails = packageDetails;
+			this.$refs.modalPackageDetailsRef.durations = packageDetails.durations;
+			$("#modalPackageDetails").modal("show");
+		},
+
 		launchPackageModal2() {
 			this.$refs.modalAddPackage2.number_of_month = this.profile.monthCofescation;
 			$("#modalAddPackage2").modal("show");
@@ -783,6 +859,7 @@ export default {
 				});
 				this.getUserData();
 				this.isEditable = !this.isEditable;
+				this.$parent.getUserData();
 			});
 		},
 		launchRequestModal() {

@@ -69,6 +69,9 @@ Vue.component("modal-payment-history", require("./components/Modal/ModalPaymentH
 import ProfileComponent2 from './components/PawnshopPages/ProfileComponent2.vue';
 Vue.component("modal-add-pacakge-two", require("./components/Modal/ModalAddPackage2.vue").default);
 Vue.component("modal-edit-pacakge", require("./components/Modal/ModalEditPacakge.vue").default);
+Vue.component("modal-package-details", require("./components/Modal/ModalPackageDetails.vue").default);
+
+
 //
 
 //Notification

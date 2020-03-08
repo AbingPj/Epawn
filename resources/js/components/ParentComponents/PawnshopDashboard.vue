@@ -35,6 +35,7 @@
 				<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 					<div class="image">
 						<img
+							style="width: 50px;  height: 50px;  object-fit: cover;"
 							class="img-circle elevation-2"
 							alt="User Image"
 							v-bind:src="
@@ -46,7 +47,7 @@
 						<!-- src="/images/adminlte/user2-160x160.jpg" -->
 					</div>
 					<div class="info">
-						<a class="d-block">{{ profile.username }}</a>
+						<a class="d-block mt-2">{{ profile.username }}</a>
 					</div>
 				</div>
 
@@ -202,7 +203,7 @@ export default {
 				control_num: "",
 				contact: "",
 				monthCofescation: ""
-			}
+			},
 		};
 	},
 	methods: {
@@ -223,7 +224,7 @@ export default {
 				.getUserDetails(window.localStorage.getItem("userId"))
 				.then(res => {
 					this.profile = { ...res[0] };
-					console.info("profile data", this.profile);
+					// console.info("profile data", this.profile);
 				});
 		}
 	}
