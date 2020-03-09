@@ -10,6 +10,8 @@ use App\Events\EpawnEvent;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -81,77 +83,81 @@ class UserController extends Controller
     public function addUser(Request $request)
     {
 
-        // DB::table('tbl_users')->insert([
-        //     'fname' => $request->username,
-        //     'password' => $request->password,
-        //     'email' => $request->email,
-        //     'address' => $request->address,
-        //     'contact' => $request->contact,
-        //     'username' => $request->email,
-        //     'latitude' => $request->lat,
-        //     'longtitude' => $request->long,
-        //     'role_id' => '3'
-        // ]);
-
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'email' => 'bail|required|email',
             'username' => 'required',
             'contact' => 'required|min:10'
         ]);
 
-        $lastTenDigits = substr($request->contact, -10);
-        $newContact = '63' . $lastTenDigits;
-
-        $digits = 5;
-        $confirmation_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
-
-        $user = new tbl_user;
-        $user->fname = $request->username;
-        $user->password = $request->password;
-        $user->email = $request->email;
-        $user->address = $request->address;
-        $user->contact = $newContact;
-        $user->username = $request->username;
-        $user->latitude = $request->lat;
-        $user->longtitude = $request->long;
-        $user->role_id = 3;
-        $user->confirmation_code = $confirmation_code;
-        $user->is_email_verified = 0;
-        $user->save();
-
-        ///Send Email
-        $beautymail = app()->make(\Snowfire\Beautymail\Beautymail::class);
-        $beautymail->send(
-            'emails.verification',
-            ['user' => $user],
-            function ($message) use ($user) {
-                $message
-                    ->from('epawn.online01@gmail.com', 'E-PAWN')
-                    ->to($user->email, $user->fname)
-                    ->subject('E-pawn Email Verification!');
-            }
-        );
-
-         ///Send SMS 
-        if (
-            $user->contact == '639507599270' ||
-            $user->contact == '639068002030' ||
-            $user->contact == '639564510415' ||
-            $user->contact == '639381965306' ||
-            $user->contact == '639666817407' ||
-            $user->contact == '639309008864'
-        ) {
-            $basic  = new \Nexmo\Client\Credentials\Basic('7d5f097e', 'BA5EPguxLE0jbEed');
-            $client = new \Nexmo\Client($basic);
-            $message = "Hi " . $user->username . ", your registration code is: [   " . $user->confirmation_code . "  ]";
-            $client->message()->send([
-                'to' => $user->contact,
-                'from' => 'E-pawn',
-                'text' => $message
+        if ($validator->fails()) {
+            return response()->json([
+                'msg' => 'validation fail',
             ]);
+        }else{
+            $count = tbl_user::all()->where('email', $request->email)->count();
+            if ($count > 0) {
+                return response()->json([
+                    'error' => 'email exist',
+                ]);
+            } else {
+                $lastTenDigits = substr($request->contact, -10);
+                $newContact = '63' . $lastTenDigits;
+
+                $digits = 5;
+                $confirmation_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
+
+                $user = new tbl_user;
+                $user->fname = $request->username;
+                $user->password = $request->password;
+                $user->email = $request->email;
+                $user->address = $request->address;
+                $user->username = $request->username;
+                $user->latitude = $request->lat;
+                $user->longtitude = $request->long;
+                $user->role_id = 3;
+                $user->confirmation_code = $confirmation_code;
+                $user->is_email_verified = 0;
+                $user->contact = $newContact;
+                $user->save();
+
+                ///Send Email
+                $beautymail = app()->make(\Snowfire\Beautymail\Beautymail::class);
+                $beautymail->send(
+                    'emails.verification',
+                    ['user' => $user],
+                    function ($message) use ($user) {
+                        $message
+                            ->from('epawn.online01@gmail.com', 'E-PAWN')
+                            ->to($user->email, $user->fname)
+                            ->subject('E-pawn Email Verification!');
+                    }
+                );
+
+                ///Send SMS 
+                if (
+                    $user->contact == '639507599270' ||
+                    $user->contact == '639068002030' ||
+                    $user->contact == '639564510415' ||
+                    $user->contact == '639381965306' ||
+                    $user->contact == '639666817407' ||
+                    $user->contact == '639309008864'
+                ) {
+                    $basic  = new \Nexmo\Client\Credentials\Basic('7d5f097e', 'BA5EPguxLE0jbEed');
+                    $client = new \Nexmo\Client($basic);
+                    $message = "Hi " . $user->username . ", your registration code is: [   " . $user->confirmation_code . "  ]";
+                    $client->message()->send([
+                        'to' => $user->contact,
+                        'from' => 'E-pawn',
+                        'text' => $message
+                    ]);
+                }
+
+                return response()->json([
+                    'msg' => 'success',
+                ]);
+            }
         }
 
-        
     }
 
     public function addStore(Request $request)
