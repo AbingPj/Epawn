@@ -19,8 +19,9 @@
             img {
                height: 180px;
                width: 180px;
-               border: #f57224 3px solid;
+               object-fit: cover;
                margin-left: 20px;
+               border: #f57224 3px solid;
             }
          }
          .item-desc {
@@ -33,7 +34,7 @@
             }
             .item-description {
                font-size: 15px;
-               height: 170px;
+               height: 100px;
                width: 100%;
                overflow-y: scroll;
             }
@@ -92,15 +93,15 @@
       <div class="container">
          <div class="row details">
             <div class="col-md-3 item-image">
-               <img v-bind:src="`../../../images/${itemDetails[0].item_photo}`" />
+               <img v-bind:src="'../../../images/'+itemProfilePicture" />
             </div>
             <div class="col-md-9 item-desc">
                <div class="item-name">
-                  <h2>{{ itemDetails[0].item_name }}</h2>
+                  <h2>{{ itemName }}</h2>
                </div>
 							 <h4>Pawner: {{ user.username }}</h4>
-               <h6>Category: {{ itemDetails[0].category_name }}</h6>
-               <div class="item-description">Item Description: {{ itemDetails[0].item_description }}</div>
+               <h6>Category: {{ itemCategoryName }}</h6>
+               <div class="item-description">Item Description: {{ itemDescription }}</div>
             </div>
          </div>
 
@@ -306,6 +307,7 @@ export default {
    },
    data: () => {
       return {
+         itemProfilePicture: "",
          itemDetails: [],
          placements: [],
          bidamount: "",
@@ -315,7 +317,12 @@ export default {
          },
          picked: "range",
          timer: Object,
-         user: {}
+         user: {},
+         itemProfilePicture:"",
+         itemName:"",
+         itemCategoryName: "",
+         itemDescription: "",
+
       };
    },
 
@@ -340,10 +347,17 @@ export default {
       // this.timerClose();
    },
 
+   events: {
+		getChatEvent(data) {
+			console.log("from SingleBidItem:" + data);
+			this.displayBidPlacement();
+		}
+	},
+
    methods: {
       timerStart() {
          this.timer = setInterval(() => {
-            this.displayBidPlacement();
+            // this.displayBidPlacement();
          }, 25000);
       },
       timerClose() {
@@ -382,6 +396,10 @@ export default {
                .getSingleItem(this.$route.query.itemId)
                .then(res => {
                   this.itemDetails = [...res];
+                  this.itemProfilePicture = this.itemDetails[0].item_photo
+                  this.itemName = this.itemDetails[0].item_name
+                  this.itemCategoryName = this.itemDetails[0].category_name
+                  this.itemDescription = this.itemDetails[0].item_description
                   resolve(this.itemDetails);
                });
          });

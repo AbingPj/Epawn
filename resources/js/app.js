@@ -20,9 +20,12 @@ window.Echo = new Echo({
 
 
 import Vue from 'vue'
-import VueRouter from 'vue-router'
 
+import VueRouter from 'vue-router'
 Vue.use(VueRouter)
+
+import VueEvents from "vue-events";
+Vue.use(VueEvents);
 
 import LoginComponent from './components/LoginComponent.vue';
 import Signup from './components/Signup.vue';
@@ -66,6 +69,9 @@ Vue.component("modal-payment-history", require("./components/Modal/ModalPaymentH
 import ProfileComponent2 from './components/PawnshopPages/ProfileComponent2.vue';
 Vue.component("modal-add-pacakge-two", require("./components/Modal/ModalAddPackage2.vue").default);
 Vue.component("modal-edit-pacakge", require("./components/Modal/ModalEditPacakge.vue").default);
+Vue.component("modal-package-details", require("./components/Modal/ModalPackageDetails.vue").default);
+
+
 //
 
 //Notification

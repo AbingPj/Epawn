@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use App\tbl_user;
 use Nexmo\Laravel\Facade\Nexmo;
+use App\Events\EpawnEvent;
+
 
 use Illuminate\Http\Request;
 
@@ -184,6 +186,7 @@ class UserController extends Controller
 
     public function updateSatus(Request $request)
     {
+        broadcast(new EpawnEvent('adminNotif'));
         return DB::table('tbl_users')
             ->where('user_id', $request->userId)
             ->update([

@@ -19,3 +19,17 @@
 .text-red {
     color: #f57224 ;
 }
+
+.modal-dialog{
+    // background-color: #f57224 !important;
+    border: 2px solid #f57224 !important;
+    border-radius: 0;
+    .modal-content{
+           border: 2px solid #f57224 !important;
+           border-radius: 0;
+    }
+}
+
+
+// <div class="modal-dialog modal-lg" role="document">
+//          <div class="modal-content">

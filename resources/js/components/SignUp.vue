@@ -184,35 +184,32 @@ import UserService from "../services/User.controller";
 import Swal from "sweetalert2";
 export default {
 	mounted() {
-		var apiGeolocationSuccess = function(position) {
-			alert(
-				"API geolocation success!\n\nlat = " +
-					position.coords.latitude +
-					"\nlng = " +
-					position.coords.longitude
-			);
-		};
-
-		var tryAPIGeolocation = function() {
-			jQuery
-				.post(
-					"https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCa1LUe1vOczX1hO_iGYgyo8p_jYuGOPU",
-					function(success) {
-						apiGeolocationSuccess({
-							coords: {
-								latitude: success.location.lat,
-								longitude: success.location.lng
-							}
-						});
-					}
-				)
-				.fail(function(err) {
-					alert("API Geolocation error! \n\n" + err);
-				});
-    };
-    
-    tryAPIGeolocation();
-
+		// var apiGeolocationSuccess = function(position) {
+		// 	alert(
+		// 		"API geolocation success!\n\nlat = " +
+		// 			position.coords.latitude +
+		// 			"\nlng = " +
+		// 			position.coords.longitude
+		// 	);
+		// };
+		// var tryAPIGeolocation = function() {
+		// 	jQuery
+		// 		.post(
+		// 			"https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCa1LUe1vOczX1hO_iGYgyo8p_jYuGOPU",
+		// 			function(success) {
+		// 				apiGeolocationSuccess({
+		// 					coords: {
+		// 						latitude: success.location.lat,
+		// 						longitude: success.location.lng
+		// 					}
+		// 				});
+		// 			}
+		// 		)
+		// 		.fail(function(err) {
+		// 			alert("API Geolocation error! \n\n" + err);
+		// 		});
+		// };
+		// tryAPIGeolocation();
 		// var browserGeolocationSuccess = function(position) {
 		// 	alert(
 		// 		"Browser geolocation success!\n\nlat = " +
@@ -221,7 +218,6 @@ export default {
 		// 			position.coords.longitude
 		// 	);
 		// };
-
 		// var browserGeolocationFail = function(error) {
 		// 	switch (error.code) {
 		// 		case error.TIMEOUT:
@@ -237,7 +233,6 @@ export default {
 		// 			break;
 		// 	}
 		// };
-
 		// var tryGeolocation = function() {
 		// 	if (navigator.geolocation) {
 		// 		navigator.geolocation.getCurrentPosition(
@@ -247,13 +242,13 @@ export default {
 		// 		);
 		// 	}
 		// };
-
 		// tryGeolocation();
 	},
 	created() {
 		setTimeout(() => {
-			console.info(this.getUserLocation());
-		}, 500);
+			// console.info(this.getUserLocation());
+			this.getLocationsFromIpStack();
+		}, 1000);
 	},
 	data: () => {
 		return {
@@ -362,6 +357,36 @@ export default {
 				vm.permitImg = e.target.result;
 			};
 			reader.readAsDataURL(file);
+		},
+		getLocationsFromIpStack() {
+			let that = this;
+			axios
+				.get(
+					"http://api.ipstack.com/check?access_key=383589390dc31cd39bf407135d851c21",
+					{ headers: { "Access-Control-Allow-Origin": "*" } }
+				)
+				.then(res => {
+					console.log(res);
+					that.position.lat = res.latitude;
+					that.position.long = res.longitude;
+				})
+				.catch(err => {
+					console.error(err);
+				});
+
+			
+
+			$.ajax({
+				url:
+					"http://api.ipstack.com/check?access_key=383589390dc31cd39bf407135d851c21",
+				success: function(result) {
+					console.log(result);
+					console.log(result.latitude);
+					console.log(result.longitude);
+					that.position.lat = result.latitude;
+					that.position.long = result.longitude;
+				}
+			});
 		},
 		getUserLocation() {
 			if (window.navigator.geolocation) {

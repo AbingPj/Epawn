@@ -26,7 +26,7 @@
 		<aside class="main-sidebar sidebar-light-primary elevation-4">
 			<!-- Brand Logo -->
 			<a class="brand-link">
-				<img src="icon.png" style="height: 150px;" />
+				<img src="/icon.png" style="height: 150px;" />
 			</a>
 
 			<!-- Sidebar -->
@@ -35,7 +35,7 @@
 				<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 					<div class="image">
 						<img
-							
+							style="width: 50px;  height: 50px;  object-fit: cover;"
 							class="img-circle elevation-2"
 							alt="User Image"
 							v-bind:src="
@@ -43,12 +43,11 @@
 									? '/images/adminlte/avatar04.jpg'
 									: `../../images/${profile.image}`
 							"
-							
 						/>
 						<!-- src="/images/adminlte/user2-160x160.jpg" -->
 					</div>
 					<div class="info">
-						<a class="d-block">{{ profile.username }}</a>
+						<a class="d-block mt-2">{{ profile.username }}</a>
 					</div>
 				</div>
 
@@ -180,7 +179,15 @@ export default {
 		Echo.channel("EpawnChannel").listen("EpawnEvent", data => {
 			console.log(data.updateType);
 			if (data.updateType == "getItems") {
-				
+				this.$events.fire("getItemsEvent", data.updateType);
+			} else if (data.updateType == "bid") {
+				this.$events.fire("getChatEvent", data.updateType);
+			}else if (data.updateType == "catNotif") {
+				this.$events.fire("getCatNotif", data.updateType);
+			}else if (data.updateType == "adminNotif") {
+				this.$events.fire("getAdminNotif", data.updateType);
+			} else {
+				console.log("nothing to update");
 			}
 		});
 	},
@@ -196,7 +203,7 @@ export default {
 				control_num: "",
 				contact: "",
 				monthCofescation: ""
-			}
+			},
 		};
 	},
 	methods: {
@@ -217,7 +224,7 @@ export default {
 				.getUserDetails(window.localStorage.getItem("userId"))
 				.then(res => {
 					this.profile = { ...res[0] };
-					console.info("profile data", this.profile);
+					// console.info("profile data", this.profile);
 				});
 		}
 	}

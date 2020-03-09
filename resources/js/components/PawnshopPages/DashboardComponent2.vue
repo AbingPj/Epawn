@@ -73,7 +73,7 @@
 			</div>
 		</div>
 
-      <api-api-api></api-api-api>
+		<api-api-api></api-api-api>
 	</div>
 </template>
 
@@ -118,6 +118,12 @@ export default {
 		// 	}
 		// });
 	},
+	events: {
+		getItemsEvent(data) {
+			console.log("from Dashboard:" + data);
+			this.loadItems();
+		}
+	},
 	created() {
 		AuthService.methods
 			.isLogedIn()
@@ -126,8 +132,8 @@ export default {
 			})
 			.catch(e => {
 				this.$router.push({ path: "/Login" });
-         });
-         
+			});
+
 		if (AuthService.methods.getUid() == 1) {
 			this.$router.push({ path: "/SuperAdmin/Categories" });
 		}
@@ -168,9 +174,9 @@ export default {
 				.catch(err => {
 					console.error(err);
 				});
-      },
+		},
 
-      async search() {
+		async search() {
 			let pawnshop_id = AuthService.methods.getUid();
 			await axios
 				.get("/api/getCategoriesByPawnshop/" + pawnshop_id)
@@ -198,7 +204,7 @@ export default {
 				path: `/Singleitem/${itemId}`,
 				query: { itemId: itemId }
 			});
-      },
+		},
 		logOut() {
 			clearInterval(this.timer);
 			AuthService.methods.Logout();
