@@ -1,5 +1,5 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 // Variables
 @import 'variables';
@@ -7,6 +7,29 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+
+//Font Awesome
+@import "node_modules/font-awesome/scss/font-awesome";
+
+@import "~admin-lte/dist/css/adminlte.css";
+// @import "~admin-lte/dist/css/skins/_all-skins.css";
+
+@import '~admin-lte/plugins/fontawesome-free/css/all.css';
+
 .text-red {
     color: #f57224 ;
 }
+
+.modal-dialog{
+    // background-color: #f57224 !important;
+    border: 2px solid #f57224 !important;
+    border-radius: 0;
+    .modal-content{
+           border: 2px solid #f57224 !important;
+           border-radius: 0;
+    }
+}
+
+
+// <div class="modal-dialog modal-lg" role="document">
+//          <div class="modal-content">

@@ -24,7 +24,7 @@ export default {
         },
         getAllItems(data){
             return new Promise((resolve , reject) =>{
-                axios.post("/api/getItems", data).then(res => {
+                axios.post("/api/getItems2", data).then(res => {
                     resolve(res.data);
                   }, err =>{
                       reject(err);

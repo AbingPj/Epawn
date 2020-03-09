@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //getIP
-Route::get('/getIp','GetIpController@getIp');;
+//Route::get('/getIp','GetIpController@getIp');;
 
 //Item
 Route::post('/getItems','ItemPost@getItemPosts');;
@@ -109,7 +109,7 @@ Route::post('/mobile/getActiveBiddings','BidController@getActiveBiddings');;
 Route::post('/mobile/getUserBiddingRecords','BidController@getUserBiddingRecords');;
 Route::post('/mobile/userSendBid','BidController@placeBid');;
 Route::get('/mobile/getBidPlacements/{itemId}/bidder/{bidderId}/pawnshop/{pawnshopId}', 'BidController@getBidPlacements');;
-Route::post('/mobile/userSendBid','BidController@placeBid');;
+// Route::post('/mobile/userSendBid','BidController@placeBid');;
 
 Route::post('/mobile/getPawnshopPackages','PackageController@getPawnshopPackages');;
 Route::post('/mobile/viewDurations','PackageController@viewDurations');;
@@ -120,25 +120,78 @@ Route::post('/mobile/getPawnshopsOnBid','BidController@getPawnshopsOnBid');;
 
 
 
-
+// added by abing
+Route::post('/mobile2/getUserBiddingRecords2', 'mobileApiController@getUserBiddingRecords2');;
+Route::post('/mobile2/getUserBiddings2', 'mobileApiController@getUserBiddings2');;
+///
 
 
 
 
 
 ///////////////////////routes added by abing////////////////////////////////
-Route::post('/getPawnshopPackages2','zPackageController@getPawnshopPackages2');;
+// Route::post('/getPawnshopPackages2','zPackageController@getPawnshopPackages2');;
 Route::post('/viewPawnshopCategories2','zPackageController@viewPawnshopCategories2');;
-Route::post('/addPackageToPawnshop','zPackageController@addPackageToPawnshop');;
-Route::post('/editPackageOfPawnshop','zPackageController@editPackageOfPawnshop');;
+
+
+// to save package and durations
+Route::post('/zSavePackage', 'zPackageController@zSavePackage' );;
+// to get packages by pawnshop id  with durations
+Route::get('/zGetPackages/{pawnshop_id}', 'zPackageController@zGetPackages' );;
+Route::get('/package/{id}', 'zPackageController@package' );;
+Route::post('/updatePackage', 'zPackageController@updatePackage');;
+Route::get('/removePackage/{id}', 'zPackageController@removePackage');;
+
+Route::post('/acceptCategoryRequest', 'PackageController@acceptCategoryRequest' );;
 
 Route::get('/getReports', 'zUserReportsController@getReports' );;
 Route::get('/getReports2', 'zUserReportsController@getReports2' );;
 Route::post('/sendReport', 'zUserReportsController@sendReport' );;
 Route::get('/sendReport2/{userId}/{pawnshopId}/{situation}/{isFromPawnshop}', 'zUserReportsController@sendReport2' );;
 Route::get('/getUserInfo/{id}', 'zUserController@getUserInfo' );;
-Route::post('/acceptCategoryRequest', 'PackageController@acceptCategoryRequest' );;
-
 Route::get('/getCategoriesByPawnshop/{id}', 'zCategoriesController@getCategoriesByPawnshop' );;
+
+
+////////////////////////////////////////////////
+
+//get the the calculations
+Route::get('/getPawnedItemCalculations/{package_id}/{amount}', 'zClarifyController@getPawnedItemCalculations' );;
+
+// get the current renewal or claim payments and calculations
+Route::get('/getPawnedItemPaymentDetails/{package_id}/{amount}/{date}', 'zClarifyController@getPawnedItemPaymentDetails' );;
+
+// to save pawned item
+Route::post('/zSavePawnedItem', 'zClarifyController@zSavePawnedItem' );;
+
+Route::post('/zRejectPendingItem', 'zClarifyController@zRejectPendingItem' );;
+Route::post('/zConfiscateItem', 'zClarifyController@zConfiscateItem' );;
+
+
+//get Pending Items
+Route::get('/getPendingItems/{pawnshop_id}', 'zItemsController@getPendingItems');;
+
+//get Pawned Items
+Route::get('/getPawenedItems/{pawnshop_id}', 'zItemsController@getPawenedItems');;
+
+Route::post('/changeProfile2', 'zUserController@changeProfile2');;
+
+
+Route::post('/sendRenewPayment', 'zPaymentController@sendRenewPayment');;
+Route::post('/sendClaimPayment', 'zPaymentController@sendClaimPayment');;
+Route::get('/getPaymentHistory/{pawned_id}', 'zPaymentController@getPaymentHistory');;
+
+
+Route::post('/triggerPusher','zUserReportsController@triggerPusher');
+Route::get('/triggerPusher2','zUserReportsController@triggerPusher2');
+
+Route::get('/getIps','zGetIpController@getIp');;
+Route::get('/getClientIps','zGetIpController@getClientIps');;
+Route::get('/getClientIps2','zGetIpController@getClientIps2');;
+
+Route::post('/sendBlockUser', 'zUserReportsController@sendBlockUser');;
+Route::get('/getAllPostedItems', 'zItemsController@getAllPostedItems');;
+Route::post('/getItems2', 'zItemsController@getItemPosts2');;
+
+Route::get('/test/email', 'zEmailController@test');;
 
 ////////////////////////////////////////////////////////////////////////////

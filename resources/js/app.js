@@ -6,32 +6,80 @@
 
 require('./bootstrap');
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
 
+
+
+import Echo from "laravel-echo";
+window.Pusher = require("pusher-js");
+window.Echo = new Echo({
+    broadcaster: "pusher",
+    key: "daac01c5e5a1237f4168",
+    cluster: "ap1",
+    forceTLS: true
+});
+
+
+import Vue from 'vue'
+
+import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
+import VueEvents from "vue-events";
+Vue.use(VueEvents);
+
 import LoginComponent from './components/LoginComponent.vue';
-import DashboardComponent from './components/DashboardComponent.vue';
-import BiddingDashboard from './components/BiddingDashboard.vue';
-import ProfileComponent from './components/ProfileComponent.vue';
-import SingleItem from './components/SingleItem.vue';
-import SingleBiddedItem from './components/SingleBiddedItem.vue';
-import SuperAdminDashboard from './components/SuperAdminDashboard.vue';
-import AdminNotification from './components/AdminNotification.vue';
 import Signup from './components/Signup.vue';
 
-//////////////   Added By Abing    //////////
-import ProfileComponent2 from './components/NewComponents/ProfileComponent2.vue';
-import SingleItem2 from './components/NewComponents/SingleItem2.vue';
-import SingleBiddedItem2 from './components/NewComponents/SingleBiddedItem2.vue';
-import DashboardComponent2 from './components/NewComponents/DashboardComponent2.vue';
-Vue.component("modal-edit-pacakge", require("./components/Modal/ModalEditPacakge.vue").default);
-Vue.component("modal-add-pacakge", require("./components/Modal/ModalAddPacakge.vue").default);
+
+//Parent Components(Main)
+import PawnshopDashboard from './components/ParentComponents/PawnshopDashboard.vue';
+import SuperAdminDashboard from './components/ParentComponents/SuperAdminDashboard.vue';
+//
+
+
+////////////// ADMIN  PAGES /////////////
+import SuperAdminDashboardOld from './components/SuperAdminDashboard.vue'; 
+import ReportedUsers from './components/AdminPages/ReportedUsers.vue'; 
+Vue.component("reported-users", require("./components/AdminPages/ReportedUsers.vue").default);
+Vue.component("api-api-api", require("./components/NewComponents/api.vue").default);
+/////////////////////////////////
+
+
+//////////////   pawnshop pages    //////////////
+//Dashboird
+import DashboardComponent2 from './components/PawnshopPages/DashboardComponent2.vue';
+import SingleItem2 from './components/PawnshopPages/SingleItem2.vue';
+import SingleBiddedItem2 from './components/PawnshopPages/SingleBiddedItem2.vue';
+Vue.component("single-item-pictures", require("./components/PawnshopPages/SingleItemPictures.vue").default);
 Vue.component("modal-report-user", require("./components/Modal/ModalReportUser.vue").default);
-Vue.component("reported-users", require("./components/NewComponents/SuperAdminReportedUsers.vue").default);
-Vue.component("single-item-pictures", require("./components/NewComponents/SingleItemPictures.vue").default);
-////////////////////////////////////////////
+//
+
+//Pending items
+import ListOfPendingItems from './components/PawnshopPages/ListOfPendingItems.vue';
+Vue.component("modal-pawning", require("./components/Modal/ModalPawning.vue").default);
+//
+
+//Pawned Items
+import ListOfPawnedItems from './components/PawnshopPages/ListOfPawnedItems.vue';
+Vue.component("modal-payments", require("./components/Modal/ModalPayments.vue").default);
+Vue.component("modal-payment-history", require("./components/Modal/ModalPaymentHistory.vue").default);
+//
+
+//Profile
+import ProfileComponent2 from './components/PawnshopPages/ProfileComponent2.vue';
+Vue.component("modal-add-pacakge-two", require("./components/Modal/ModalAddPackage2.vue").default);
+Vue.component("modal-edit-pacakge", require("./components/Modal/ModalEditPacakge.vue").default);
+Vue.component("modal-package-details", require("./components/Modal/ModalPackageDetails.vue").default);
+
+
+//
+
+//Notification
+import AdminNotification from './components/PawnshopPages/AdminNotification.vue';
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
 
 const router = new VueRouter({
     mode: 'history',
@@ -40,69 +88,92 @@ const router = new VueRouter({
             path: '/Login',
             name: 'login',
             component: LoginComponent
-        }, {
-            path: '/2',
-            name: 'dashboard',
-            component: DashboardComponent
-        }, {
-            path: '/MyBids',
-            name: 'bidding',
-            component: BiddingDashboard
-        }, {
-            path: '/MyProfile2',
-            name: 'profile2',
-            component: ProfileComponent
-        }, {
-            path: '/Singleitem2/:itemId',
-            name: 'item',
-            component: SingleItem
-        }, {
-            path: '/Bidding2/:itemId/bidderId/:bidderId',
-            name: 'singlebid',
-            component: SingleBiddedItem
-        }, {
-            path: '/SuperAdmin/Board',
-            name: 'superadmin-dashboard',
-            component: SuperAdminDashboard
-        }, {
-            path: '/AdminNotification',
-            name: 'admin-notification',
-            component: AdminNotification
-        }, {
+        },
+        {
             path: '/Signup',
             name: 'signup',
             component: Signup
         },
+        {
+            path: '/SuperAdmin',
+            component: SuperAdminDashboard,
+            children: [
+                {
+                    path: '/SuperAdmin/Categories',
+                    name: 'superadmindashboard',
+                    component: SuperAdminDashboardOld
+                },
+                {
+                    path: '/SuperAdmin/ReportedUsers',
+                    name: 'reported-users',
+                    components: {
+                        helper: ReportedUsers
+                    }
 
-        //////// New Routes Components Added By Abing
-        {
-            path: '/MyProfile',
-            name: 'profile',
-            component: ProfileComponent2
-        },
-        {
-            path: '/Singleitem/:itemId',
-            name: 'item2',
-            component: SingleItem2
-        }, 
-        {
-            path: '/Bidding/:itemId/bidderId/:bidderId',
-            name: 'singlebid2',
-            component: SingleBiddedItem2
+                },
+            ]
         },
         {
             path: '/',
-            name: 'dashboard2',
-            component: DashboardComponent2
-        },
+            component: PawnshopDashboard,
+            children: [
+                {
+                    path: '',
+                    name: 'dashboard',
+                    component: DashboardComponent2
+                },
+                {
+                    path: '/AdminNotification',
+                    name: 'admin-notification',
+                    components: {
+                        helper: AdminNotification
+                    }
 
-        
-        /////////////////////////////////////
-    ],
-});
+                },
+                {
+                    path: '/MyProfile',
+                    name: 'profile',
+                    components: {
+                        helper: ProfileComponent2
+                    }
+
+                },
+                {
+                    path: '/Singleitem/:itemId',
+                    name: 'item2',
+                    components: {
+                        helper: SingleItem2
+                    }
+                },
+                {
+                    path: '/Bidding/:itemId/bidderId/:bidderId',
+                    name: 'singlebid2',
+                    components: {
+                        helper: SingleBiddedItem2
+                    }
+                },
+
+                {
+                    path: '/PendingItems',
+                    name: 'pending-items',
+                    components: {
+                        helper: ListOfPendingItems
+                    }
+                },
+                {
+                    path: '/PawnedItems',
+                    name: 'pawned-items',
+                    components: {
+                        helper: ListOfPawnedItems
+                    }
+                },
+            ]
+        }
+    ]
+})
+
 
 const app = new Vue({
     el: '#app',
-    components: { LoginComponent },
     router,
 });
