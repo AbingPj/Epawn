@@ -82,7 +82,6 @@ class UserController extends Controller
     /// modified by abing (March 8, 2020)
     public function addUser(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'email' => 'bail|required|email',
             'username' => 'required',
@@ -93,11 +92,12 @@ class UserController extends Controller
             return response()->json([
                 'msg' => 'validation fail',
             ]);
-        }else{
+        } else {
             $count = tbl_user::all()->where('email', $request->email)->count();
             if ($count > 0) {
+                $exist = tbl_user::all()->where('email', $request->email)->first();
                 return response()->json([
-                    'error' => 'email exist',
+                    'user' =>  $exist,
                 ]);
             } else {
                 $lastTenDigits = substr($request->contact, -10);

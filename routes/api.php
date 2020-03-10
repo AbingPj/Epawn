@@ -194,4 +194,12 @@ Route::post('/getItems2', 'zItemsController@getItemPosts2');;
 
 Route::get('/test/email', 'zEmailController@test');;
 
+
+Route::get('/getBlockUsers', 'zUserReportsController@getBlockUsers');;
+Route::post('/unBlockUser', 'zUserReportsController@unBlockUser');;
+Route::get('/getReportOfPawnshops', 'zUserReportsController@getReportOfPawnshops');;
+Route::get('/getBlockPawnshops', 'zUserReportsController@getBlockPawnshops');;
+Route::post('/unBlockPawnshop', 'zUserReportsController@unBlockPawnshop');;
+
+
 ////////////////////////////////////////////////////////////////////////////
