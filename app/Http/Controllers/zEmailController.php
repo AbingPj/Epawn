@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use PharIo\Manifest\Email;
-use Nexmo\Laravel\Facade\Nexmo;
-
 
 class zEmailController extends Controller
 {
@@ -17,7 +15,7 @@ class zEmailController extends Controller
     public function test()
     {
 
-        
+          
         // $contact = '09068002030';
         // $newstring = substr($contact, -10);
         // return '63'.$newstring;

@@ -56,10 +56,7 @@ class zUserController extends Controller
         //         'image' => $imageProfileSanitizedName,
         //         'monthCofescation' =>  $request->confiscated
         //     ]);
-
-        
     }
-
 
 
 }

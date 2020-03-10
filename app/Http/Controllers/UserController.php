@@ -8,7 +8,6 @@ use App\tbl_user;
 use Nexmo\Laravel\Facade\Nexmo;
 use App\Events\EpawnEvent;
 
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,6 +35,12 @@ class UserController extends Controller
         } else {
             $imageProfileSanitizedName = 'no-profile.png';
         }
+    }
+    public function verifyUserCode(Request $request)
+    {
+        return  DB::table('tbl_users')->where('email', '=', $request->email)
+            ->where('confirmation_code', '=', $request->code)
+            ->update(['is_email_verified' => 1]);
     }
     public function changeProfile(Request $request)
     {
@@ -79,9 +84,11 @@ class UserController extends Controller
             ]);
     }
 
+
     /// modified by abing (March 8, 2020)
     public function addUser(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'email' => 'bail|required|email',
             'username' => 'required',
@@ -134,32 +141,30 @@ class UserController extends Controller
                 );
 
                 ///Send SMS 
-                if (
-                    $user->contact == '639507599270' ||
-                    $user->contact == '639068002030' ||
-                    $user->contact == '639564510415' ||
-                    $user->contact == '639381965306' ||
-                    $user->contact == '639666817407' ||
-                    $user->contact == '639309008864'
-                ) {
-                    $basic  = new \Nexmo\Client\Credentials\Basic('7d5f097e', 'BA5EPguxLE0jbEed');
-                    $client = new \Nexmo\Client($basic);
-                    $message = "Hi " . $user->username . ", your registration code is: [   " . $user->confirmation_code . "  ]";
-                    $client->message()->send([
-                        'to' => $user->contact,
-                        'from' => 'E-pawn',
-                        'text' => $message
-                    ]);
-                }
+                //if (
+                //    $user->contact == '639507599270' ||
+                //    $user->contact == '639068002030' ||
+                //    $user->contact == '639564510415' ||
+                //    $user->contact == '639381965306' ||
+                //    $user->contact == '639666817407' ||
+                //    $user->contact == '639309008864'
+                //) {
+                //    $basic  = new \Nexmo\Client\Credentials\Basic('7d5f097e', 'BA5EPguxLE0jbEed');
+                //    $client = new \Nexmo\Client($basic);
+                //    $message = "Hi " . $user->username . ", your registration code is: [   " . $user->confirmation_code . "  ]";
+                //    $client->message()->send([
+                //        'to' => $user->contact,
+                //        'from' => 'E-pawn',
+                //        'text' => $message
+                //    ]);
+                //}
 
                 return response()->json([
                     'msg' => 'success',
                 ]);
             }
         }
-
     }
-
     public function addStore(Request $request)
     {
 
@@ -192,7 +197,10 @@ class UserController extends Controller
 
     public function updateSatus(Request $request)
     {
+
+        //added by abing 3/8/2020 10:43PM
         broadcast(new EpawnEvent('adminNotif'));
+
         return DB::table('tbl_users')
             ->where('user_id', $request->userId)
             ->update([
