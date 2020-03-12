@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\tbl_user;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -10,9 +11,41 @@ use Illuminate\Support\Facades\DB;
 class zUserController extends Controller
 {
     public function getUserInfo($id){
+        $user = tbl_user::find($id);
+        return response()->json($user);
+    }
+
+    public function getPawnshopInfo($id)
+    {
+
+
 
         $user = tbl_user::find($id);
-        
+
+        if($user->role_id == 2){
+            $dateNow =  Carbon::now('Asia/Manila');
+            // $dateNow->addDays(32);
+            $expirationDate = Carbon::parse($user->expiration);
+            $expirationSub7days = Carbon::parse($user->expiration);
+            $expirationSub7days->subDays(7);
+
+
+            if ($dateNow <  $expirationDate) {
+                $user->showWarning = 0;
+                $user->dateNow = $dateNow;
+                if ($dateNow >= $expirationSub7days) {
+                    $user->showWarning = 1;
+                    $user->dateNow = $dateNow;
+                }
+            } else {
+                $user->isValid = 3;
+                $user->save();
+                $user->showWarning = 2;
+                $user->dateNow = $dateNow;
+            }
+        }
+
+       
         return response()->json($user);
     }
 
@@ -56,10 +89,7 @@ class zUserController extends Controller
         //         'image' => $imageProfileSanitizedName,
         //         'monthCofescation' =>  $request->confiscated
         //     ]);
-
-        
     }
-
 
 
 }

@@ -21,22 +21,23 @@ class mobileApiController extends Controller
 
     public function getUserBiddings2(Request $request)
     {
-        // return  DB::table('tbl_user_itempost')
-        //     ->join('tbl_item_category', 'tbl_item_category.category_id', '=', 'tbl_user_itempost.category_id')
-        //     ->join('tbl_users', 'tbl_users.user_id', '=', 'tbl_user_itempost.pawnshop_id')
-        //     ->where('tbl_user_itempost.user_id', $request->userId)
-        //     ->where('tbl_user_itempost.status', 1)
-        //     ->get();
-        
+         return  DB::table('tbl_user_itempost')
+             ->join('tbl_item_category', 'tbl_item_category.category_id', '=', 'tbl_user_itempost.category_id')
+             ->join('tbl_users', 'tbl_users.user_id', '=', 'tbl_user_itempost.pawnshop_id')
+             ->where('tbl_user_itempost.user_id', $request->userId)
+             ->where('tbl_user_itempost.status', 1)
+             ->get();
+             
+     
 
-        $data = tbl_user_itempost::all()->where('user_id', $request->userId)->where('status', 1);
-
-        foreach ($data as $key => $item) {
-            $item->user = $item->user;
-            $item->category = $item->category;
-        }
-       
-        return response()->json($data);
+        //$data = tbl_user_itempost::all()->where('user_id', $request->userId)->where('status', 1);
+ 
+        //foreach ($data as $key => $item) {
+          //  $item->user = $item->user;
+          //  $item->category = $item->category;
+        //}
+      
+       // return response()->json($data);
     }
 
     public function getUserBiddingRecords2(Request $request)
@@ -54,7 +55,6 @@ class mobileApiController extends Controller
             $this->getPawnedItemPaymentDetails($pawned_item->package_id, $pawned_item->pawn_amount, $pawned_item->date_renew);
             $pawned_item->payment_claimed = $this->claim_payment;
             $pawned_item->payment_renew = $this->renew_payment;
-           
         }
         return response()->json($pawned_items);
     }

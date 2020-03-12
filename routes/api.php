@@ -100,16 +100,25 @@ Route::post('/mobile/getPawnshopsBid','PawnshopController@getPawnshops');;
 Route::get('/mobile/getAllPawnshops','PawnshopController@getAllPawnshops');;
 Route::post('/mobile/getSinglePawnshop','PawnshopController@getSinglePawnshops');;
 
-Route::post('/mobile/getPaymentHistory','PawningController@getPaymentHistory');;
 Route::post('/mobile/getPayable','PawningController@getPayable');;
 
 
 Route::post('/mobile/getUserBiddings','BidController@getUserBiddings');;
 Route::post('/mobile/getActiveBiddings','BidController@getActiveBiddings');;
 Route::post('/mobile/getUserBiddingRecords','BidController@getUserBiddingRecords');;
-Route::post('/mobile/userSendBid','BidController@placeBid');;
+// modified by abing Comment out cuz duplicate route,  03/08/2020  8:30PM
+//Route::post('/mobile/userSendBid','BidController@placeBid');;
 Route::get('/mobile/getBidPlacements/{itemId}/bidder/{bidderId}/pawnshop/{pawnshopId}', 'BidController@getBidPlacements');;
-// Route::post('/mobile/userSendBid','BidController@placeBid');;
+Route::post('/mobile/userSendBid','BidController@placeBid');;
+
+// added by lim 03/08/2020
+Route::post('/mobile/sendReport', 'zUserReportsController@sendReport' );;
+// added by lim 03/08/2020
+Route::get('/mobile/getPaymentHistory/{pawned_id}', 'zPaymentController@getPaymentHistory');;
+Route::get('/mobile/getPawnedItemPaymentDetails/{package_id}/{amount}/{date}', 'zClarifyController@getPawnedItemPaymentDetails' );;
+//added by lim 03/10/2020
+Route::post('/mobile/removeItem', 'ItemPost@removeItem' );;
+Route::post('/mobile/verifyUserCode', 'UserController@verifyUserCode' );;
 
 Route::post('/mobile/getPawnshopPackages','PackageController@getPawnshopPackages');;
 Route::post('/mobile/viewDurations','PackageController@viewDurations');;
@@ -188,10 +197,23 @@ Route::get('/getIps','zGetIpController@getIp');;
 Route::get('/getClientIps','zGetIpController@getClientIps');;
 Route::get('/getClientIps2','zGetIpController@getClientIps2');;
 
+
+// added by abing 03/08/2020
 Route::post('/sendBlockUser', 'zUserReportsController@sendBlockUser');;
 Route::get('/getAllPostedItems', 'zItemsController@getAllPostedItems');;
 Route::post('/getItems2', 'zItemsController@getItemPosts2');;
 
+// added by aning march 8, 2020
 Route::get('/test/email', 'zEmailController@test');;
+
+
+Route::get('/getBlockUsers', 'zUserReportsController@getBlockUsers');;
+Route::post('/unBlockUser', 'zUserReportsController@unBlockUser');;
+Route::get('/getReportOfPawnshops', 'zUserReportsController@getReportOfPawnshops');;
+Route::get('/getBlockPawnshops', 'zUserReportsController@getBlockPawnshops');;
+Route::post('/unBlockPawnshop', 'zUserReportsController@unBlockPawnshop');;
+
+
+Route::get('/getPawnshopInfo/{id}', 'zUserController@getPawnshopInfo');;
 
 ////////////////////////////////////////////////////////////////////////////

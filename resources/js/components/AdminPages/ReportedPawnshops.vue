@@ -10,13 +10,13 @@
       <div class="container">
          <div class="card">
             <div class="card-header">
-               <h5>Reported Users</h5>
+               <h5>Reported Pawnshops</h5>
             </div>
             <div class="card-body">
 
                <div class="row mb-3">
                   <div class="col">
-                     <button class="btn btn-block btn-danger">Reported Users</button>
+                     <button class="btn btn-block btn-danger">Reported Pawnshops</button>
                   </div>
                   <div class="col">
                      <!-- <button class="btn btn-block btn-light">Blocked Users</button> -->
@@ -89,7 +89,7 @@ export default {
    methods: {
       async getReports() {
          await axios
-            .get("/api/getReports2")
+            .get("/api/getReportOfPawnshops")
             .then(res => {
                this.reportedUsers = res.data;
             })
