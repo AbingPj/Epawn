@@ -214,4 +214,6 @@ Route::get('/getBlockPawnshops', 'zUserReportsController@getBlockPawnshops');;
 Route::post('/unBlockPawnshop', 'zUserReportsController@unBlockPawnshop');;
 
 
+Route::get('/getPawnshopInfo/{id}', 'zUserController@getPawnshopInfo');;
+
 ////////////////////////////////////////////////////////////////////////////

@@ -9,6 +9,7 @@ use Nexmo\Laravel\Facade\Nexmo;
 use App\Events\EpawnEvent;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -201,13 +202,24 @@ class UserController extends Controller
         //added by abing 3/8/2020 10:43PM
         broadcast(new EpawnEvent('adminNotif'));
 
+        //added by abing 3/12/2020 10:43PM
+        $dateNow =  Carbon::now('Asia/Manila');
+        if ($request->status == 1) {
+            $nextMonth =  Carbon::now('Asia/Manila');
+            $nextMonth->addMonth();
+        } else {
+            $nextMonth = "";
+        }
+
         return DB::table('tbl_users')
             ->where('user_id', $request->userId)
             ->update([
                 'isValid' => $request->status,
                 'noticed' => date("Y-m-d H:i:s"),
+                'expiration' => $nextMonth,
                 'reason' => $request->reason
             ]);
+            
     }
     public function changePassword(Request $request)
     {

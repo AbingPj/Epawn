@@ -4525,16 +4525,33 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _services_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../services/auth */ "./resources/js/services/auth.js");
-/* harmony import */ var _services_User_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/User.controller */ "./resources/js/services/User.controller.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/auth */ "./resources/js/services/auth.js");
+/* harmony import */ var _services_User_controller__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/User.controller */ "./resources/js/services/User.controller.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_3__);
+
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4731,27 +4748,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
   },
   created: function created() {
-    this.getUserData();
+    this.getPawnshopInfo();
   },
   data: function data() {
     return {
       selectedLi: "items",
-      profile: {
-        username: "",
-        address: "",
-        control_num: "",
-        contact: "",
-        monthCofescation: ""
-      }
+      // profile: {
+      // 	username: "",
+      // 	address: "",
+      // 	control_num: "",
+      // 	contact: "",
+      // 	monthCofescation: "",
+      // 	isValid: "",
+      // 	expiration: ""
+      // }
+      profile: []
     };
   },
   methods: {
     logout: function logout() {
-      _services_auth__WEBPACK_IMPORTED_MODULE_0__["default"].methods.Logout();
+      _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].methods.Logout();
       this.$router.push({
         path: "/Login"
       });
-      sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a.fire({
+      sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire({
         toast: true,
         text: "Succesfully logged Out",
         position: "top-right",
@@ -4763,8 +4783,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getUserData: function getUserData() {
       var _this2 = this;
 
-      _services_User_controller__WEBPACK_IMPORTED_MODULE_1__["default"].methods.getUserDetails(window.localStorage.getItem("userId")).then(function (res) {
-        _this2.profile = _objectSpread({}, res[0]); // console.info("profile data", this.profile);
+      _services_User_controller__WEBPACK_IMPORTED_MODULE_2__["default"].methods.getUserDetails(window.localStorage.getItem("userId")).then(function (res) {
+        _this2.profile = _objectSpread({}, res[0]);
+        _this2.profile.expiration; // console.info("profile data", this.profile);
+      });
+    },
+    getPawnshopInfo: function getPawnshopInfo() {
+      var _this3 = this;
+
+      var id;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function getPawnshopInfo$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              id = window.localStorage.getItem("userId");
+              _context.next = 3;
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(axios.get("/api/getPawnshopInfo/" + id).then(function (res) {
+                _this3.profile = res.data;
+
+                if (_this3.profile.showWarning == 1) {
+                  var information = "Your subcription will end on: " + _this3.profile.expiration;
+                  sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire({
+                    title: "Warning",
+                    text: information,
+                    icon: "warning"
+                  });
+                } else if (_this3.profile.showWarning == 2) {
+                  var _information = "Your subcription has been expired. Expiration date was: " + _this3.profile.expiration;
+
+                  sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire({
+                    title: "Warning",
+                    text: _information,
+                    icon: "danger"
+                  });
+                }
+              })["catch"](function (err) {
+                console.error(err);
+              }));
+
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
       });
     }
   }
@@ -7445,6 +7506,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7457,7 +7529,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         path: "/Login"
       });
     });
-    this.viewSingleItem(); // setTimeout(() => {
+    this.viewSingleItem();
+    this.getPawnshopData(); // setTimeout(() => {
     // 	this.getUserDetails();
     // }, 1500);
   },
@@ -7468,10 +7541,19 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       itemMainPicture: "",
       userProfilePicture: "",
       itemProfilePicture: "",
-      userId: ""
+      userId: "",
+      pawnshop: []
     };
   },
   methods: {
+    getPawnshopData: function getPawnshopData() {
+      this.pawnshop = this.$parent.profile; // UserService.methods
+      // 	.getUserDetails(window.localStorage.getItem("userId"))
+      // 	.then(res => {
+      // 		this.pawnshop = { ...res[0] };
+      // 		// console.info("profile data", this.profile);
+      // 	});
+    },
     report: function report() {
       this.$refs.reportModal.username = this.userDetails.username;
       this.$refs.reportModal.item_name = this.data.item_name;
@@ -62554,6 +62636,54 @@ var render = function() {
       [
         _vm._m(0),
         _vm._v(" "),
+        _vm.profile.isValid == 0
+          ? _c(
+              "div",
+              { staticStyle: { width: "100%" } },
+              [
+                _c(
+                  "marquee",
+                  {
+                    attrs: {
+                      scrollamount: "5",
+                      direction: "left",
+                      behavior: "scroll"
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n\t\t\t\tYour subcribtion status is UNSUBCRIBE! please contact E-pawn admin.\n\t\t\t"
+                    )
+                  ]
+                )
+              ],
+              1
+            )
+          : _vm.profile.isValid == 3
+          ? _c(
+              "div",
+              { staticStyle: { width: "100%" } },
+              [
+                _c(
+                  "marquee",
+                  {
+                    attrs: {
+                      scrollamount: "5",
+                      direction: "left",
+                      behavior: "scroll"
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n\t\t\t\tYour subcribtion status has been EXPIRED! please contact E-pawn admin.\n\t\t\t"
+                    )
+                  ]
+                )
+              ],
+              1
+            )
+          : _c("div"),
+        _vm._v(" "),
         _c("ul", { staticClass: "navbar-nav ml-auto" }, [
           _c("li", { staticClass: "nav-item" }, [
             _c("i", {
@@ -65468,6 +65598,12 @@ var render = function() {
                 "button",
                 {
                   staticClass: "bid-button",
+                  attrs: {
+                    disabled:
+                      _vm.pawnshop.isValid == 0 ||
+                      _vm.pawnshop.isValid == 3 ||
+                      _vm.pawnshop.isValid == 1
+                  },
                   on: {
                     click: function($event) {
                       return _vm.placeBid()
@@ -65480,6 +65616,44 @@ var render = function() {
                     attrs: { "aria-hidden": "true" }
                   }),
                   _vm._v(" Appraise\n\t\t\t\t")
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "col",
+                  class: _vm.pawnshop.isValid == 0 ? "" : "d-none"
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "alert alert-warning text-center" },
+                    [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t*** NOTE: You can`t APPRAISE items if your validation status is UNSCUBCRIBE or EXPIRED ***\n\t\t\t\t\t"
+                      )
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "col",
+                  class: _vm.pawnshop.isValid == 3 ? "" : "d-none"
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "alert alert-warning text-center" },
+                    [
+                      _vm._v(
+                        "\n\t\t\t\t\t\t*** NOTE: You can`t APPRAISE items if your validation status is UNSCUBCRIBE or EXPIRED ***\n\t\t\t\t\t"
+                      )
+                    ]
+                  )
                 ]
               )
             ])
