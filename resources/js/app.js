@@ -27,6 +27,11 @@ Vue.use(VueRouter)
 import VueEvents from "vue-events";
 Vue.use(VueEvents);
 
+window.moment = require('moment');
+// import moment from 'moment';
+// Vue.use(moment);
+
+
 import LoginComponent from './components/LoginComponent.vue';
 import Signup from './components/Signup.vue';
 

@@ -6,10 +6,14 @@ use App\Events\EpawnEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\zNotifiction;
+use Carbon\Carbon;
+
 class BidController extends Controller
 {
     public function placeBid(Request $request)
     {
+
         DB::table('tbl_bid_item')
             ->insert([
                 'item_id' => $request->itemId,
@@ -21,6 +25,22 @@ class BidController extends Controller
                 'bid_to' => $request->bid_to,
                 'isFromPawnshop' => $request->isFromPawnshop 
             ]);
+
+        if ($request->isFromPawnshop == 1) {
+            $notif = new zNotifiction();
+            $notif->item_id = $request->itemId;
+            $notif->pawnshop_id = $request->pawnshopId;
+            $notif->user_id = $request->userId;
+            // $link =   $link =  url('/') . "/Bidding/" . $request->itemId . "/bidderId/" . $request->userId . "?itemId=" . $request->itemId . "&biderId=" . $request->userId;
+            $link = "/Bidding/" . $request->itemId . "/bidderId/" . $request->userId . "?itemId=" . $request->itemId . "&biderId=" . $request->userId;
+            $notif->link = $link;
+            $notif->title = "New Bid";
+            $notif->description = "";
+            $notif->type = "bid";
+            $notif->date =  Carbon::now('Asia/Manila');
+            $notif->save();
+        }
+        //
          broadcast(new EpawnEvent('bid'));
     }
     public function getBidPlacements($itemId, $bidderId, $pawnshopId)
@@ -123,8 +143,8 @@ class BidController extends Controller
             ->leftJoin('tbl_users', 'tbl_users.user_id', '=', 'tbl_bid_item.pawnshop_id')
             ->where('tbl_bid_item.user_id', $request->userId)
             ->where('tbl_user_itempost.status', $request->status)
-            ->groupBy('tbl_bid_item.pawnshop_id','tbl_bid_item.item_id')
-            ->select('*',DB::raw('MAX(tbl_bid_item.bid_to) as bid_max_value'))
+            ->groupBy('tbl_bid_item.pawnshop_id', 'tbl_bid_item.item_id')
+            ->select('*', DB::raw('MAX(tbl_bid_item.bid_to) as bid_max_value'))
             ->get();
     }
 
@@ -140,25 +160,24 @@ class BidController extends Controller
             ->get();
     }
 
-//    public function getPawnshopsOnBid(Request $request)
-//    {
-//        return DB::table('tbl_bid_item')
-//        ->join('tbl_users','tbl_users.user_id','=','tbl_bid_item.pawnshop_id')
-//        ->where('tbl_bid_item.item_id',$request->itemId)
-//        ->where('tbl_bid_item.user_id', $request->userId)
-//        ->groupBy('tbl_users.fname')
-//        ->get();
-//    }
-    
+    //    public function getPawnshopsOnBid(Request $request)
+    //    {
+    //        return DB::table('tbl_bid_item')
+    //        ->join('tbl_users','tbl_users.user_id','=','tbl_bid_item.pawnshop_id')
+    //        ->where('tbl_bid_item.item_id',$request->itemId)
+    //        ->where('tbl_bid_item.user_id', $request->userId)
+    //        ->groupBy('tbl_users.fname')
+    //        ->get();
+    //    }
+
     public function getPawnshopsOnBid(Request $request)
     {
         return DB::table('tbl_bid_item')
-        ->join('tbl_users','tbl_users.user_id','=','tbl_bid_item.pawnshop_id')
-        ->where('tbl_bid_item.item_id',$request->itemId)
-        ->where('tbl_bid_item.user_id', $request->userId)
-        ->groupBy('tbl_users.fname')
-        ->select('*', DB::raw('MAX(tbl_bid_item.bid_to) as bid_max_value'))
-        ->get();
+            ->join('tbl_users', 'tbl_users.user_id', '=', 'tbl_bid_item.pawnshop_id')
+            ->where('tbl_bid_item.item_id', $request->itemId)
+            ->where('tbl_bid_item.user_id', $request->userId)
+            ->groupBy('tbl_users.fname')
+            ->select('*', DB::raw('MAX(tbl_bid_item.bid_to) as bid_max_value'))
+            ->get();
     }
-    
 }

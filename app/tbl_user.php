@@ -20,4 +20,9 @@ class tbl_user extends Model
         return $this->hasMany('App\tbl_user_report', 'pawnshopId', 'user_id');
     }
 
+    public function pawnshop_notifications()
+    {
+        return $this->hasMany('App\zNotification', 'pawnshop_id', 'user_id');
+    }
+
 }

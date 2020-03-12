@@ -23,6 +23,56 @@
 			<div v-else></div>
 
 			<ul class="navbar-nav ml-auto">
+				<li class="nav-item dropdown">
+					<a class="nav-link" data-toggle="dropdown" href="#">
+						<i class="fa fa-bell-o bell-icon"></i>
+						<span
+							class="badge badge-warning navbar-badge "
+							style="margin-right:12px; padding:5px;"
+							>{{ badge }}</span
+						>
+					</a>
+					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+						<span class="dropdown-header">Notifications</span>
+						<div class="ex3">
+							<div v-for="notif in notifications" :key="notif.id" >
+								<!-- <router-link :to="notif.link" replace="true"> -->
+								<div @click="redirect(notif.link, notif.id)" class="dropdown-item" :class="notif.seen == 0? 'unseen':''">
+									<div class="media">
+										<img
+											style="width: 40px;  height: 40px;  object-fit: cover;"
+											:src="'/images/' + notif.user.image"
+											alt="User Avatar"
+											class=" mr-3 img-circle"
+										/>
+										<div class="media-body">
+											<h3 class="dropdown-item-title">
+												{{ notif.user.username }}
+												<span class="float-right text-sm epawn-color"
+													><i class="fa fa-handshake-o mr-3"></i
+													>
+												</span>
+											</h3>
+											<p class="text-sm">
+												Has response bid!<br>
+												<span class="text-sm epawn-color">
+												<i class="far fa-clock mr-1"></i>	{{ getMoment(notif.date) }}
+												</span>
+											</p>
+										</div>
+									</div>
+								</div>
+								<!-- </router-link> -->
+								<div class="dropdown-divider"></div>
+							</div>
+							
+						</div>
+						<!-- <div class="dropdown-divider"></div>
+						<a href="#" class="dropdown-item dropdown-footer"
+							>See All Notifications</a
+						> -->
+					</div>
+				</li>
 				<li class="nav-item">
 					<i
 						class="fa fa-sign-out logout-icon nav-link"
@@ -205,6 +255,7 @@ export default {
 		});
 	},
 	created() {
+		this.getPawnshopBidNotifications();
 		this.getPawnshopInfo();
 	},
 	data() {
@@ -219,10 +270,47 @@ export default {
 			// 	isValid: "",
 			// 	expiration: ""
 			// }
-			profile: []
+			profile: [],
+			notifications: [],
+			badge: ""
 		};
 	},
 	methods: {
+		redirect(link, id){
+
+			console.log("shit1");
+			// this.$events.fire("getNotificationsLink", link);
+			// this.$router.push(link);
+			window.location.href = link;
+			// let obj = {
+			// 	itemId: item_id,
+			// 	biderId: user_id
+			// };
+			// const path = `/Bidding/${item_id}/bidderId/${user_id}`;
+			// console.log(path);
+			// console.log(this.$route.path);
+			// if (this.$route.path !== path) this.$router.push({path:path,query: obj});
+		
+		},
+		getMoment(time) {
+			var a = moment(time);
+			return moment(a).fromNow();
+		},
+		async getPawnshopBidNotifications() {
+			let id = window.localStorage.getItem("userId");
+			await axios
+				.get("/api/getPawnshopBidNotifications/" + id)
+				.then(res => {
+					console.log(res.data);
+					let data = res.data;
+					this.notifications = data.notifications;
+					this.badge = data.badge;
+				})
+				.catch(err => {
+					console.error(err);
+				});
+		},
+		
 		logout() {
 			AuthService.methods.Logout();
 			this.$router.push({ path: "/Login" });
@@ -241,7 +329,7 @@ export default {
 				.then(res => {
 					this.profile = { ...res[0] };
 					this.profile.expiration;
-					 
+
 					// console.info("profile data", this.profile);
 				});
 		},
@@ -259,9 +347,10 @@ export default {
 							text: information,
 							icon: "warning"
 						});
-					}else if(this.profile.showWarning == 2){
+					} else if (this.profile.showWarning == 2) {
 						let information =
-							"Your subcription has been expired. Expiration date was: " + this.profile.expiration;
+							"Your subcription has been expired. Expiration date was: " +
+							this.profile.expiration;
 						Swal.fire({
 							title: "Warning",
 							text: information,
@@ -312,5 +401,28 @@ export default {
 	// cursor: pointer;
 	// top: 0;
 	// right: -50px;
+}
+
+.bell-icon {
+	font-size: 40px;
+	margin-right: 20px;
+}
+.dropdown-menu-lg {
+	max-width: 320px;
+	min-width: 280px !important;
+	padding: 0;
+}
+.unseen {
+	background-color: #fcf3dc;
+}
+.epawn-color{
+	color: #f57224;
+}
+
+.ex3 {
+	background-color: white;
+	//   width: 110px;
+	max-height: 350px;
+	overflow: auto;
 }
 </style>

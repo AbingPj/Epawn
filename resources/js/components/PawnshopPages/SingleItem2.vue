@@ -26,7 +26,7 @@
 
 			<div class="row mt-3">
 				<div class="col-12">
-					<button :disabled="pawnshop.isValid == 0 || pawnshop.isValid == 3 || pawnshop.isValid == 1" class="bid-button" v-on:click="placeBid()">
+					<button :disabled="pawnshop.isValid == 0 || pawnshop.isValid == 3 || pawnshop.isValid == 2" class="bid-button" v-on:click="placeBid()">
 						<i class="fa fa-money mr-2" aria-hidden="true"></i> Appraise
 					</button>
 					<div class="col" :class="pawnshop.isValid == 0 ? '' : 'd-none'">
