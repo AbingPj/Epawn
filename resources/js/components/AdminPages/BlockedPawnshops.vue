@@ -10,13 +10,13 @@
       <div class="container">
          <div class="card">
             <div class="card-header">
-               <h5>Reported Users</h5>
+               <h5>Blocked Pawnshops</h5>
             </div>
             <div class="card-body">
 
                <div class="row mb-3">
                   <div class="col">
-                     <button class="btn btn-block btn-danger">Reported Users</button>
+                     <button class="btn btn-block btn-dark">Blocked Pawnshops</button>
                   </div>
                   <div class="col">
                      <!-- <button class="btn btn-block btn-light">Blocked Users</button> -->
@@ -26,7 +26,7 @@
                <div
                   v-for="(user, index) in reportedUsers"
                   :key="index"
-                  class="row alert alert-primary alert-warning"
+                  class="row alert alert-primary alert-dark"
                   role="alert"
                   report
                >
@@ -40,33 +40,13 @@
                      <br />
                      <h6>{{ user.number_of_reports }}</h6>
                   </div>
-                  <div class="col">
-                     <b>Reported By:</b>
-                     <div v-for="report in user.reports_by" :key="report.id">
-                        <br />
-                        - {{ report.pawnshop_name }}
-                     </div>
-                  </div>
-                  <div class="col">
-                     <b>Situation:</b>
-                     <div v-for="report in user.reports_by" :key="report.id">
-                        <br />
-                        - {{ report.situation }}
-                     </div>
-                  </div>
-                  <div class="col">
-                     <b>Date Reported</b>
-                     <div v-for="report in user.reports_by" :key="report.id">
-                        <br />
-                        - {{ report.dateReported }}
-                     </div>
-                  </div>
+                  
                   <div class="col">
                      <b></b>
                      <button
-                        class="btn btn-dark float-right"
-                        @click="sendBlockUser(user.user_id)"
-                     >BLOCK</button>
+                        class="btn btn-info float-right"
+                        @click="unBlockUser(user.user_id)"
+                     >UNBLOCK</button>
                   </div>
                </div>
 
@@ -89,7 +69,7 @@ export default {
    methods: {
       async getReports() {
          await axios
-            .get("/api/getReports2")
+            .get("/api/getBlockPawnshops")
             .then(res => {
                this.reportedUsers = res.data;
             })
@@ -97,12 +77,12 @@ export default {
                console.error(err);
             });
       },
-      async sendBlockUser(id) {
+      async unBlockUser(id) {
          let data = {
             id: id
          };
          await axios
-            .post("/api/sendBlockUser", data)
+            .post("/api/unBlockPawnshop", data)
             .then(res => {
                console.log(res);
                this.getReports();

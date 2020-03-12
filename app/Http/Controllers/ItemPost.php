@@ -24,6 +24,8 @@ class ItemPost extends Controller
         ->leftJoin('tbl_bid_item','tbl_bid_item.item_id','=','tbl_user_itempost.item_id')
         ->where('tbl_user_itempost.user_id', $request->userId)
         ->groupBy('tbl_user_itempost.item_id')
+        ->orderBy('tbl_user_itempost.date','desc')
+        ->select('*','tbl_user_itempost.item_id as real_itemId')
         ->get();
 
         
@@ -110,6 +112,12 @@ class ItemPost extends Controller
             'item_photo' => $imageMainPictureSanitizedName
         ]); */
 
+    }
+    public function removeItem(Request $request){
+       return DB::table('tbl_user_itempost')
+       ->where('item_id','=',$request->itemId)
+       ->delete();
+    
     }
     public function addItemPostImage(Request $req){
         $uploadDir = "images/";

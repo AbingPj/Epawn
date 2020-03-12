@@ -65,18 +65,18 @@
 							<router-link to="/SuperAdmin/Categories" class="nav-link">
 								<i class="nav-icon far fa-object-ungroup"></i>
 								<p>
-									Item Categories
+									Categories & Pawnshops
 								</p>
 							</router-link>
 						</li>
-						<li class="nav-item">
+						<!-- <li class="nav-item">
 							<router-link to="/SuperAdmin/PawnShops" class="nav-link">
 								<i class="nav-icon fas fa-store"></i>
 								<p>
 									PawnShops
 								</p>
 							</router-link>
-						</li>
+						</li> -->
 						<li class="nav-item">
 							<router-link to="/SuperAdmin/ReportedUsers" class="nav-link">
 								<i class="nav-icon fa fa-flag"></i>
@@ -85,6 +85,19 @@
 								</p>
 							</router-link>
 						</li>
+
+							<li class="nav-item">
+							<router-link to="/SuperAdmin/BlockedUsers" class="nav-link">
+								<i class="nav-icon fa fa-ban" aria-hidden="true"></i>
+								<p>
+									Blocked Users
+								</p>
+							</router-link>
+						</li>
+
+
+
+
 						<li class="nav-item">
 							<router-link to="/SuperAdmin/ReportedPawnshops" class="nav-link">
 								<i class="nav-icon fa fa-flag-checkered"></i>
@@ -93,6 +106,24 @@
 								</p>
 							</router-link>
 						</li>
+
+
+							<li class="nav-item">
+							<router-link to="/SuperAdmin/BlockedPawnshops" class="nav-link">
+								<i class="nav-icon fa fa-ban" aria-hidden="true"></i>
+								<p>
+									Blocked Pawnshops
+								</p>
+							</router-link>
+						</li>
+
+
+
+					
+
+
+						
+
 					</ul>
 				</nav>
 				<!-- /.sidebar-menu -->

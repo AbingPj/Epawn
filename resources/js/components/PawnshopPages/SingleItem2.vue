@@ -26,9 +26,20 @@
 
 			<div class="row mt-3">
 				<div class="col-12">
-					<button class="bid-button" v-on:click="placeBid()">
+					<button :disabled="pawnshop.isValid == 0 || pawnshop.isValid == 3 || pawnshop.isValid == 1" class="bid-button" v-on:click="placeBid()">
 						<i class="fa fa-money mr-2" aria-hidden="true"></i> Appraise
 					</button>
+					<div class="col" :class="pawnshop.isValid == 0 ? '' : 'd-none'">
+						<div class="alert alert-warning text-center">
+							*** NOTE: You can`t APPRAISE items if your validation status is UNSCUBCRIBE or EXPIRED ***
+						</div>
+					</div>
+					<div class="col" :class="pawnshop.isValid == 3 ? '' : 'd-none'">
+						<div class="alert alert-warning text-center">
+							*** NOTE: You can`t APPRAISE items if your validation status is UNSCUBCRIBE or EXPIRED ***
+						</div>
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -91,6 +102,7 @@ export default {
 				this.$router.push({ path: "/Login" });
 			});
 		this.viewSingleItem();
+		this.getPawnshopData();
 		// setTimeout(() => {
 		// 	this.getUserDetails();
 		// }, 1500);
@@ -102,10 +114,23 @@ export default {
 			itemMainPicture: "",
 			userProfilePicture: "",
 			itemProfilePicture: "",
-			userId: ""
+			userId: "",
+			pawnshop:[]
 		};
 	},
 	methods: {
+
+		getPawnshopData() {
+			this.pawnshop = this.$parent.profile;
+			// UserService.methods
+			// 	.getUserDetails(window.localStorage.getItem("userId"))
+			// 	.then(res => {
+			// 		this.pawnshop = { ...res[0] };
+			// 		// console.info("profile data", this.profile);
+			// 	});
+		},
+
+
 		report() {
 			this.$refs.reportModal.username = this.userDetails.username;
 			this.$refs.reportModal.item_name = this.data.item_name;

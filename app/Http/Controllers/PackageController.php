@@ -111,8 +111,9 @@ class PackageController extends Controller
         ->update([
             'valid' => '1'
         ]);
-        broadcast(new EpawnEvent('catNotif'));
-
+        
+         //added by abing 3/8/2020 10:46PM
+         broadcast(new EpawnEvent('catNotif'));
     }
     public function declineCategoryRequest(Request $request){
         DB::table('tbl_item_category')
@@ -121,7 +122,9 @@ class PackageController extends Controller
             'valid' => '3',
             'category_reason' => $request->reason
         ]);
-        broadcast(new EpawnEvent('catNotif'));
+        
+        //added by abing 3/8/2020 10:46PM
+         broadcast(new EpawnEvent('catNotif'));
     }
     public function removeItemCategory(Request $request){
         DB::table('tbl_pawnshop_itemcategory')

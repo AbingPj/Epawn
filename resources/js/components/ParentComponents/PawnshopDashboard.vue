@@ -9,6 +9,19 @@
 					></a>
 				</li>
 			</ul>
+
+			<div v-if="profile.isValid == 0" style="width:100%;">
+				<marquee scrollamount="5" direction="left" behavior="scroll">
+					Your subcribtion status is UNSUBCRIBE! please contact E-pawn admin.
+				</marquee>
+			</div>
+			<div v-else-if="profile.isValid == 3" style="width:100%;">
+				<marquee scrollamount="5" direction="left" behavior="scroll">
+					Your subcribtion status has been EXPIRED! please contact E-pawn admin.
+				</marquee>
+			</div>
+			<div v-else></div>
+
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
 					<i
@@ -182,9 +195,9 @@ export default {
 				this.$events.fire("getItemsEvent", data.updateType);
 			} else if (data.updateType == "bid") {
 				this.$events.fire("getChatEvent", data.updateType);
-			}else if (data.updateType == "catNotif") {
+			} else if (data.updateType == "catNotif") {
 				this.$events.fire("getCatNotif", data.updateType);
-			}else if (data.updateType == "adminNotif") {
+			} else if (data.updateType == "adminNotif") {
 				this.$events.fire("getAdminNotif", data.updateType);
 			} else {
 				console.log("nothing to update");
@@ -192,18 +205,21 @@ export default {
 		});
 	},
 	created() {
-		this.getUserData();
+		this.getPawnshopInfo();
 	},
 	data() {
 		return {
 			selectedLi: "items",
-			profile: {
-				username: "",
-				address: "",
-				control_num: "",
-				contact: "",
-				monthCofescation: ""
-			},
+			// profile: {
+			// 	username: "",
+			// 	address: "",
+			// 	control_num: "",
+			// 	contact: "",
+			// 	monthCofescation: "",
+			// 	isValid: "",
+			// 	expiration: ""
+			// }
+			profile: []
 		};
 	},
 	methods: {
@@ -224,7 +240,37 @@ export default {
 				.getUserDetails(window.localStorage.getItem("userId"))
 				.then(res => {
 					this.profile = { ...res[0] };
+					this.profile.expiration;
+					 
 					// console.info("profile data", this.profile);
+				});
+		},
+		async getPawnshopInfo() {
+			let id = window.localStorage.getItem("userId");
+			await axios
+				.get("/api/getPawnshopInfo/" + id)
+				.then(res => {
+					this.profile = res.data;
+					if (this.profile.showWarning == 1) {
+						let information =
+							"Your subcription will end on: " + this.profile.expiration;
+						Swal.fire({
+							title: "Warning",
+							text: information,
+							icon: "warning"
+						});
+					}else if(this.profile.showWarning == 2){
+						let information =
+							"Your subcription has been expired. Expiration date was: " + this.profile.expiration;
+						Swal.fire({
+							title: "Warning",
+							text: information,
+							icon: "danger"
+						});
+					}
+				})
+				.catch(err => {
+					console.error(err);
 				});
 		}
 	}

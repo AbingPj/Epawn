@@ -40,8 +40,14 @@ import SuperAdminDashboard from './components/ParentComponents/SuperAdminDashboa
 ////////////// ADMIN  PAGES /////////////
 import SuperAdminDashboardOld from './components/SuperAdminDashboard.vue'; 
 import ReportedUsers from './components/AdminPages/ReportedUsers.vue'; 
+import BlockedUsers from './components/AdminPages/BlockedUsers.vue'; 
+import ReportedPawnshops from './components/AdminPages/ReportedPawnshops.vue'; 
+import BlockedPawnshops from './components/AdminPages/BlockedPawnshops.vue'; 
 Vue.component("reported-users", require("./components/AdminPages/ReportedUsers.vue").default);
 Vue.component("api-api-api", require("./components/NewComponents/api.vue").default);
+
+
+
 /////////////////////////////////
 
 
@@ -111,6 +117,39 @@ const router = new VueRouter({
                     }
 
                 },
+                {
+                    path: '/SuperAdmin/BlockedUsers',
+                    name: 'reported-users',
+                    components: {
+                        helper: BlockedUsers
+                    }
+
+                },
+
+                {
+                    path: '/SuperAdmin/ReportedPawnshops',
+                    name: 'reported-users',
+                    components: {
+                        helper: ReportedPawnshops
+                    }
+
+                },
+                {
+                    path: '/SuperAdmin/BlockedPawnshops',
+                    name: 'reported-users',
+                    components: {
+                        helper: BlockedPawnshops
+                    }
+
+                },
+
+                
+
+
+                
+
+
+                
             ]
         },
         {
