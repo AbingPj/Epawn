@@ -8700,6 +8700,15 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -84779,6 +84788,26 @@ var render = function() {
                             }
                           },
                           [_vm._v("Unblock The Pawnshop")]
+                        )
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.pawnshopTab == "expired"
+                  ? _c("div", { staticClass: "row mt-2" }, [
+                      _c("div", { staticClass: "col-12" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-lg btn-block",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.changeStatus(1)
+                              }
+                            }
+                          },
+                          [_vm._v("Resubcribe/Renew Pawnshop")]
                         )
                       ])
                     ])

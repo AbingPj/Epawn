@@ -311,6 +311,15 @@
                 >Unblock The Pawnshop</button>
               </div>
             </div>
+             <div class="row mt-2" v-if="pawnshopTab == 'expired'">
+              <div class="col-12"> 
+                 <button
+                  type="button"
+                  @click="changeStatus(1)"
+                  class="btn btn-info btn-lg btn-block"
+                >Resubcribe/Renew Pawnshop</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
