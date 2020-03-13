@@ -4775,6 +4775,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4787,14 +4799,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (data.updateType == "getItems") {
         _this.$events.fire("getItemsEvent", data.updateType);
+
+        _this.bidHasNotif = true;
       } else if (data.updateType == "bid") {
         _this.$events.fire("getChatEvent", data.updateType);
 
         _this.getPawnshopBidNotifications();
       } else if (data.updateType == "catNotif") {
         _this.$events.fire("getCatNotif", data.updateType);
+
+        _this.catAdminHasNotif = true;
       } else if (data.updateType == "adminNotif") {
         _this.$events.fire("getAdminNotif", data.updateType);
+
+        _this.catAdminHasNotif = true;
       } else {
         console.log("nothing to update");
       }
@@ -4818,7 +4836,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       // }
       profile: [],
       notifications: [],
-      badge: ""
+      badge: "",
+      bidHasNotif: false,
+      catAdminHasNotif: false
     };
   },
   methods: {
@@ -80598,7 +80618,19 @@ var render = function() {
                       [
                         _c("i", { staticClass: "nav-icon fas fa-th" }),
                         _vm._v(" "),
-                        _c("p", [_vm._v("Users Post Items")])
+                        _c("p", [
+                          _vm._v(
+                            "\n                           Users Post Items\n                           "
+                          ),
+                          _c(
+                            "span",
+                            {
+                              staticClass: "right badge badge-danger",
+                              class: _vm.bidHasNotif == false ? "d-none" : ""
+                            },
+                            [_vm._v("  !  ")]
+                          )
+                        ])
                       ]
                     )
                   ],
@@ -80690,7 +80722,20 @@ var render = function() {
                       [
                         _c("i", { staticClass: "nav-icon fa fa-bell" }),
                         _vm._v(" "),
-                        _c("p", [_vm._v("Notifications")])
+                        _c("p", [
+                          _vm._v(
+                            "\n                           Categories/Admin Notif.\n                           "
+                          ),
+                          _c(
+                            "span",
+                            {
+                              staticClass: "right badge badge-danger",
+                              class:
+                                _vm.catAdminHasNotif == false ? "d-none" : ""
+                            },
+                            [_vm._v("  !  ")]
+                          )
+                        ])
                       ]
                     )
                   ],

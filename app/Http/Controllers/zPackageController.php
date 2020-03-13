@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\tbl_package_duration;
 use App\zPackage;
 use App\tbl_pawnshop_package;
+use App\tbl_user;
 
 class zPackageController extends Controller
 {
@@ -141,6 +142,22 @@ class zPackageController extends Controller
     // }
 
 
+
+    public function get_packages_of_pawnshop($pawnshop_id){
+
+        $packages = tbl_user::find($pawnshop_id)->packages;
+        foreach ($packages as $key => $value) {
+            $value->durations = $value->durations;
+        }
+        return response()->json($packages);
+    }
+
+    public function get_package($package_id){
+        $package = zPackage::find($package_id);
+        $package->durations = $package->durations;
+         return response()->json($package);
+    }
+    
 
 
 

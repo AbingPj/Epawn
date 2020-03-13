@@ -138,7 +138,13 @@
                         :class="selectedLi == 'items' ? 'active' : ''"
                      >
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Users Post Items</p>
+                        <p>
+                           Users Post Items
+                           <span
+                              class="right badge badge-danger"
+                              :class="bidHasNotif == false? 'd-none':''"
+                           >&nbsp;&nbsp;!&nbsp;&nbsp;</span>
+                        </p>
                      </router-link>
                   </li>
                   <li class="nav-item has-treeview menu-open">
@@ -191,7 +197,13 @@
                         :class="selectedLi == 'notif' ? 'active' : ''"
                      >
                         <i class="nav-icon fa fa-bell"></i>
-                        <p>Notifications</p>
+                        <p>
+                           Categories/Admin Notif.
+                           <span
+                              class="right badge badge-danger"
+                              :class="catAdminHasNotif == false? 'd-none' : ''"
+                           >&nbsp;&nbsp;!&nbsp;&nbsp;</span>
+                        </p>
                      </router-link>
                   </li>
                </ul>
@@ -244,13 +256,16 @@ export default {
          console.log(data.updateType);
          if (data.updateType == "getItems") {
             this.$events.fire("getItemsEvent", data.updateType);
+            this.bidHasNotif = true;
          } else if (data.updateType == "bid") {
             this.$events.fire("getChatEvent", data.updateType);
             this.getPawnshopBidNotifications();
          } else if (data.updateType == "catNotif") {
             this.$events.fire("getCatNotif", data.updateType);
+            this.catAdminHasNotif = true;
          } else if (data.updateType == "adminNotif") {
             this.$events.fire("getAdminNotif", data.updateType);
+              this.catAdminHasNotif = true;
          } else {
             console.log("nothing to update");
          }
@@ -274,7 +289,9 @@ export default {
          // }
          profile: [],
          notifications: [],
-         badge: ""
+         badge: "",
+         bidHasNotif: false,
+         catAdminHasNotif: false
       };
    },
    methods: {

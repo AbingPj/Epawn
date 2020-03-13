@@ -223,6 +223,8 @@ Route::get(
 
 Route::post('updateSeen', 'zNotificationController@updateSeen');;
 
-
+//  API for Mobile
+Route::get('/mobile/get_packages_of_pawnshop/{pawnshop_id}', 'zPackageController@get_packages_of_pawnshop');;
+Route::get('/mobile/get_package/{package_id}', 'zPackageController@get_package');;
 
 ////////////////////////////////////////////////////////////////////////////
