@@ -145,7 +145,7 @@ class zPackageController extends Controller
 
     public function get_packages_of_pawnshop($pawnshop_id){
 
-        $packages = tbl_user::find($pawnshop_id)->packages;
+        $packages = tbl_user::findOrFail($pawnshop_id)->packages;
         foreach ($packages as $key => $value) {
             $value->durations = $value->durations;
         }
@@ -153,7 +153,7 @@ class zPackageController extends Controller
     }
 
     public function get_package($package_id){
-        $package = zPackage::find($package_id);
+        $package = zPackage::findOrFail($package_id);
         $package->durations = $package->durations;
          return response()->json($package);
     }
