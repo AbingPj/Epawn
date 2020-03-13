@@ -26,7 +26,7 @@ class BidController extends Controller
                 'isFromPawnshop' => $request->isFromPawnshop 
             ]);
 
-        if ($request->isFromPawnshop == 1) {
+        if ($request->isFromPawnshop == 0) {
             $notif = new zNotifiction();
             $notif->item_id = $request->itemId;
             $notif->pawnshop_id = $request->pawnshopId;
