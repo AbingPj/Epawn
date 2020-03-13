@@ -32,4 +32,10 @@ class zNotificationController extends Controller
 
         return response()->json(['badge' => $badge, 'notifications' => $all]);
     }
+    public function updateSeen(Request $request){
+        $id = $request->notify_id;
+        $notif = zNotifiction::find($id);
+        $notif->seen = 1;
+        $notif->save();
+    }
 }

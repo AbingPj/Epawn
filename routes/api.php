@@ -221,6 +221,8 @@ Route::get(
     'zNotificationController@getPawnshopBidNotifications'
 );;
 
+Route::post('updateSeen', 'zNotificationController@updateSeen');;
+
 
 
 ////////////////////////////////////////////////////////////////////////////
