@@ -326,6 +326,9 @@ export default {
       };
    },
 
+   mounted() {
+      
+   },
    created() {
       AuthService.methods
          .isLogedIn()
@@ -351,10 +354,19 @@ export default {
 		getChatEvent(data) {
 			console.log("from SingleBidItem:" + data);
 			this.displayBidPlacement();
-		}
+      },
+      
+      // getNotificationsLink(link) {
+      //    console.log("shit");
+		// 	this.pushLink(link);
+		// }
 	},
 
    methods: {
+      // pushLink(link){
+      //    console.log("shit "+link);
+	   //    this.$router.push(link);
+      // },
       timerStart() {
          this.timer = setInterval(() => {
             // this.displayBidPlacement();
